@@ -10,8 +10,8 @@ public class MainDamageEvent implements Listener {
 
     @EventHandler
     public void HandleDeathEvent(EntityDamageByEntityEvent event){
-        if(!(event.getDamager() instanceof Player) &&
-                !(event.getEntity() instanceof Player)) return;
+
+        Bukkit.broadcastMessage("Attack");
 
         Player attacker = (Player) event.getDamager();
 
