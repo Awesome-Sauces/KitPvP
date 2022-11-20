@@ -1,0 +1,17 @@
+name: KitPvP
+version: 1.0
+author: AwesomeSauce
+main: me.alpha.kitpvp.KitPvP
+api-version: 1.8
+
+depend: [Citizens]
+
+commands:
+  kitpvp:
+    description: Core command for Alpha's KitPvP plugin! Do /kitpvp help for examples
+    usage: /<command>
+    aliases: kitp
+  atest:
+    description: Test command for Alpha's KitPvP plugin!
+    usage: /<command>
+    aliases: atestcmd
