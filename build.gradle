@@ -7,19 +7,23 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 
-    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/'}
+    maven { url "https://hub.spigotmc.org/nexus/content/groups/public/"}
     maven { url "https://repo.codemc.io/repository/maven-public/"}
-    maven {url 'https://hub.spigotmc.org/nexus/content/groups/public/'}
+    maven {url "https://hub.spigotmc.org/nexus/content/groups/public/"}
     maven {url "https://repo.essentialsx.net/snapshots/"}
 
-    mavenLocal()
 }
 
 dependencies {
-    compileOnly files("libs/citizens.jar")
-    compileOnly files("libs/EssentialsX.jar")
     compileOnly files("libs/NametagEdit.jar")
+    compileOnly files("libs/citizens.jar")
+    compileOnly files("libs/hunter.jar")
+    compileOnly files("libs/EssentialsX.jar")
+    compileOnly files("libs/bossbar.jar")
+    compileOnly files("libs/citizensmain.jar")
+    compileOnly files("libs/nbtapi.jar")
 
     compileOnly "org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT"
     compileOnly "com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.9"

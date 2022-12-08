@@ -9,5 +9,7 @@ public class CommandRegistrar {
         KitPvpCommand kitPvpCommand = new KitPvpCommand();
 
         KitPvP.INSTANCE.getCommand("kitpvp").setExecutor(kitPvpCommand);
+
+
     }
 }

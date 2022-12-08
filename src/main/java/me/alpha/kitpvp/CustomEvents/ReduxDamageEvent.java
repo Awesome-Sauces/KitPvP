@@ -1,0 +1,260 @@
+package me.alpha.kitpvp.CustomEvents;
+
+
+import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
+import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
+import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+import static me.alpha.kitpvp.utils.PacketTitles.PacketTitle.sendHealthBar;
+
+public class ReduxDamageEvent extends Event implements Cancellable {
+    private static final HandlerList HANDLERS = new HandlerList();
+    private final ReduxPlayer attacker;
+    private final ReduxPlayer defender;
+    private List<ItemStack> defenderArmor = new ArrayList<>();
+    private List<ItemStack> attackerArmor = new ArrayList<>();
+    private List<String> attackerSwordEnchants = new ArrayList<>();
+    private List<String> attackerPantEnchants = new ArrayList<>();
+
+    private ItemStack attackerSword;
+
+    private List<String> defenderSwordEnchants = new ArrayList<>();
+    private List<String> defenderPantEnchants = new ArrayList<>();
+
+    private double damage = 1;
+    private double damage_additive = 100;
+    private double base_damage = 0;
+    private double trueDamage = 0;
+    private final EntityDamageByEntityEvent event;
+    private boolean isCancelled;
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
+    private void setDefenderArmor(){
+        if(this.defender.getHelmet() != null) defenderArmor.add(this.defender.getChestplate());
+        if(this.defender.getChestplate() != null) defenderArmor.add(this.defender.getChestplate());
+        if(this.defender.getLeggings() != null) defenderArmor.add(this.defender.getChestplate());
+        if(this.defender.getBoots() != null) defenderArmor.add(this.defender.getChestplate());
+    }
+
+    private void setAttackerArmor(){
+        if(this.attacker.getHelmet() != null) attackerArmor.add(this.attacker.getChestplate());
+        if(this.attacker.getChestplate() != null) attackerArmor.add(this.attacker.getChestplate());
+        if(this.attacker.getLeggings() != null) attackerArmor.add(this.attacker.getChestplate());
+        if(this.attacker.getBoots() != null) attackerArmor.add(this.attacker.getChestplate());
+    }
+
+    private void setAttackerEnchants(){
+
+        ItemStack stack = attacker.getLeggings();
+
+        if(stack != null && stack.getItemMeta() != null && stack.getItemMeta().getLore() != null && stack.getType().equals(Material.LEATHER_LEGGINGS)) {
+            this.attackerPantEnchants = loreChecker.CheckEnchantOnPant(stack.getItemMeta().getLore());
+        }
+        if(this.attackerSword.getItemMeta() != null && this.attackerSword.getItemMeta().getLore() != null) this.attackerSwordEnchants = loreChecker.CheckEnchantOnSword(this.attackerSword.getItemMeta().getLore());
+    }
+
+    private void setDefenderEnchants(){
+
+        ItemStack stack = defender.getLeggings();
+
+        if(stack != null && stack.getItemMeta() != null && stack.getItemMeta().getLore() != null && stack.getType().equals(Material.LEATHER_LEGGINGS)) {
+            this.defenderPantEnchants = loreChecker.CheckEnchantOnPant(stack.getItemMeta().getLore());
+        }
+
+    }
+
+    public ReduxDamageEvent(ReduxPlayer attacker, ReduxPlayer defender, double damage, EntityDamageByEntityEvent event) {
+        this.attacker = attacker;
+        this.defender = defender;
+        this.damage = damage;
+        this.event = event;
+        this.isCancelled = false;
+        if(this.attacker.getMainHand() != null) this.attackerSword = this.attacker.getMainHand();
+        setDefenderArmor();
+        setAttackerArmor();
+        setAttackerEnchants();
+        setDefenderEnchants();
+    }
+
+
+    @Override
+    public HandlerList getHandlers() {
+        return HANDLERS;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return this.isCancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public EntityDamageByEntityEvent getBukkitEvent(){
+        return this.event;
+    }
+
+    public ReduxPlayer getAttacker() {
+        return this.attacker;
+    }
+
+    public ReduxPlayer getDefenders() {
+        return this.defender;
+    }
+
+    public List<ItemStack> getDefenderArmor(){return this.defenderArmor;}
+
+    public List<ItemStack> getAttackerArmor(){return this.attackerArmor;}
+
+    public List<String> getAttackerPantEnchants(){return this.attackerPantEnchants;}
+    public List<String> getAttackerSwordEnchants(){return this.attackerSwordEnchants;}
+
+    public List<String> getDefenderPantEnchants(){return this.defenderPantEnchants;}
+    public List<String> getDefenderSwordEnchants(){return this.defenderSwordEnchants;}
+
+    public Double getReduxDamage() {
+        return (this.damage+this.base_damage)*(this.damage_additive/100);
+    }
+
+    public Double getFinalDamage(){
+        return this.event.getFinalDamage();
+    }
+
+    public void setReduxDamage(double damage) {
+        this.event.setDamage(damage);
+        this.damage = damage;
+    }
+
+    public void addReduxDamageMultiplier(double damage) {
+        this.damage_additive += damage;
+    }
+
+    public void subtractReduxDamageMultiplier(double damage){
+        this.damage_additive = Math.max(0, damage_additive-damage);
+    }
+
+    public void subtractBaseDamage(double damage){
+        this.base_damage = Math.max(0, this.base_damage-damage);
+    }
+
+    public void addBaseDamage(double damage){
+        this.base_damage += damage;
+    }
+
+    public Double getReduxTrueDamage() {
+        return this.trueDamage;
+    }
+
+    public void setReduxTrueDamage(double damage) {
+        this.trueDamage = damage;
+    }
+
+    public void addReduxTrueDamage(double damage) {
+        this.trueDamage += damage;
+    }
+
+    public void subtractReduxTrueDamage(double damage){
+        this.trueDamage -= damage;
+    }
+
+    public void run(){
+
+        Player attacker = this.getAttacker().getPlayerObject();
+        Player defender = this.getDefenders().getPlayerObject();
+
+        ReduxPlayer ReduxAttacker = this.getAttacker();
+        ReduxPlayer ReduxDefender = this.getDefenders();
+
+
+        if(CitizensHelper.isNPC(attacker) && CitizensHelper.isNPC(defender)){
+            this.subtractReduxDamageMultiplier(50);
+        }
+
+        if(!CitizensHelper.isNPC(attacker) && CitizensHelper.isNPC(defender)){
+            this.subtractReduxDamageMultiplier(25);
+        }
+
+        if(CitizensHelper.isNPC(attacker)){
+            this.addBaseDamage(2);
+        }
+
+        try {
+
+            if(attacker.getInventory().getItemInHand().getType().equals(Material.DIAMOND_SPADE)){
+
+                this.addBaseDamage(3);
+
+                try {
+                    if(defender.getInventory().getChestplate().getType().equals(Material.DIAMOND_LEGGINGS)){
+                        this.addBaseDamage(1);
+                    }else if(defender.getInventory().getLeggings().getType().equals(Material.DIAMOND_CHESTPLATE)){
+                        this.addBaseDamage(1);
+                    }else if(defender.getInventory().getBoots().getType().equals(Material.DIAMOND_BOOTS)){
+                        this.addBaseDamage(1);
+                    }
+
+
+                }catch (Exception e){
+                    this.addBaseDamage(3);
+                }
+
+            }
+
+            //if (StrengthCheck(attacker) > 0) this.addReduxDamage(this.getReduxDamage() * StrengthCheck(attacker));
+
+        } catch (Exception ignored){}
+
+        // Pant enchants
+
+
+
+        if(defender.getInventory().getLeggings() != null){
+            if(defender.getInventory().getLeggings().getType().equals(Material.LEATHER_LEGGINGS)){
+                subtractReduxDamageMultiplier(10);
+
+            }
+        }
+
+
+        if(defender.getInventory().getHelmet() != null && defender.getInventory().getHelmet().getType().equals(Material.GOLD_HELMET)){
+            subtractReduxDamageMultiplier(5);
+        }
+
+        if(defender.getInventory().getChestplate() != null && defender.getInventory().getChestplate().getType().equals(Material.DIAMOND_CHESTPLATE) &&
+                defender.getInventory().getChestplate().getItemMeta()!=null &&
+        defender.getInventory().getChestplate().getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES)){
+            subtractReduxDamageMultiplier(10);
+        }
+
+
+        if (attacker.getLocation().getY() >= Locations.getSpawnProtection()){
+            this.setCancelled(true);
+            return;
+        }
+
+        this.getBukkitEvent().setDamage(Math.max(getReduxDamage(),1));
+
+
+        sendHealthBar(this.getBukkitEvent());
+
+    }
+}
