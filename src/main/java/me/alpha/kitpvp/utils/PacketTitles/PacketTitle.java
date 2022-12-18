@@ -12,6 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.text.DecimalFormat;
 
+import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
+
 public class PacketTitle {
     public static void sendTitle(Player player, String string){
         PacketPlayOutTitle title = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
@@ -20,7 +22,7 @@ public class PacketTitle {
     }
 
     public static void sendActionBar(Player player, String string){
-        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\""+string+"\"}"), (byte) 2);
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\""+colorCode(string)+"\"}"), (byte) 2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
@@ -44,15 +46,15 @@ public class PacketTitle {
             gray_heart = (int) Math.abs((int) defender.getMaxHealth() - defenderHealth);
         }
         for (int i = 0; i < Math.abs(dark_red_heart); i++) {
-            health.append(ChatColor.translateAlternateColorCodes('&', "&4❤"));
+            health.append(ChatColor.translateAlternateColorCodes('&', "&4\u2764"));
         }
 
         for (int i = 0; i < Math.abs(red_heart); i++) {
-            health.append(ChatColor.translateAlternateColorCodes('&', "&c❤"));
+            health.append(ChatColor.translateAlternateColorCodes('&', "&c\u2764"));
         }
 
         for (int i = 0; i < Math.abs(gray_heart); i++) {
-            health.append(ChatColor.translateAlternateColorCodes('&', "&0❤"));
+            health.append(ChatColor.translateAlternateColorCodes('&', "&0\u2764"));
         }
 
         DecimalFormat df = new DecimalFormat("#.000");
@@ -66,7 +68,7 @@ public class PacketTitle {
     }
 
     public static void sendKillBar(Player player, Player defender){
-        String health = " &a&lKILL!";
+        String health = colorCode(" &a&lKILL!");
         String colorPlayer = RankColor.getNameColor(defender);
 
         if(CitizensHelper.isNPC(defender)){

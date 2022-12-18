@@ -11,8 +11,8 @@ public class StreakData extends DataStore {
         return (int) getValue(uuid, 0);
     }
 
-    public void addStreak(String uuid){
-        addValue(uuid, 1);
+    public void addStreak(String uuid, int streak){
+        addValue(uuid, streak);
     }
 
     public void setStreak(String uuid, int streak){

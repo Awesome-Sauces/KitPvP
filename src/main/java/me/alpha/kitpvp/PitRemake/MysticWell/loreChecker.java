@@ -502,6 +502,20 @@ public class loreChecker {
         }else if (lore.contains(colorCode("&9Arrow Armory")))
             list.add("arrowarmoryI");
 
+        if (lore.contains(colorCode("&9Wasp III"))){
+            list.add("waspIII");
+        }else if (lore.contains(colorCode("&9Wasp II"))){
+            list.add("waspII");
+        }else if (lore.contains(colorCode("&9Wasp")))
+            list.add("waspI");
+
+        if (lore.contains(colorCode("&9Parasite III"))){
+            list.add("parasiteIII");
+        }else if (lore.contains(colorCode("&9Parasite II"))){
+            list.add("parasiteII");
+        }else if (lore.contains(colorCode("&9Parasite")))
+            list.add("parasiteI");
+
         if (lore.contains(colorCode("&9Fletching III"))){
             list.add("fletchingIII");
         }else if (lore.contains(colorCode("&9Fletching II"))){

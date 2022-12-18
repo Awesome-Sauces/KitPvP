@@ -1,60 +1,53 @@
 package me.alpha.kitpvp.PitRemake.MysticWell.GlobalEnchants;
 
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
+import me.alpha.kitpvp.utils.CitizensHelper;
 import me.alpha.kitpvp.utils.IntegerHelper;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GoldboostLore extends PitEnchant {
     @Override
-    public void run(ReduxDamageEvent event, int level) {
+    public void run(ReduxDamageEvent event) {
 
     }
 
     public void run(ReduxDeathEvent event){
 
-        List<String> penchants = new ArrayList<>();
-        List<String> senchants = new ArrayList<>();
+        if (!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
+                event.getAttacker().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getInventory().getLeggings());
 
-        ReduxPlayer player = event.getAttacker();
+            if(item.hasKey("goldboost")) {
+                int level = item.getInteger("goldboost");
 
-        if(player.getPantEnchants() != null) penchants = player.getPantEnchants();
-        if(player.getSwordEnchants() != null) senchants = player.getSwordEnchants();
-
-        String PANT_SWEATY = "";
-        String SWORD_SWEATY = "";
-
-        for(String ench : penchants){
-            if(ench.contains("gb")){
-                PANT_SWEATY = ench;
+                double gold = 15*level;
+                event.addGold((int) (event.getGold()*(gold/100)));
             }
+
         }
 
-        for(String ench : senchants){
-            if(ench.contains("gb")){
-                SWORD_SWEATY = ench;
-            }
-        }
+        if (!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
+                event.getAttacker().getPlayerObject().getItemInHand()!=null &&
+                event.getAttacker().getPlayerObject().getItemInHand().getType()!= Material.AIR){
+            NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
 
-        if(PANT_SWEATY.contains("gb")){
-            int level = PANT_SWEATY.length() - PANT_SWEATY.replaceAll("I", "").length();
+            if(!item.hasKey("goldboost")) return;
+
+            int level = item.getInteger("goldboost");
 
             double gold = 15*level;
             event.addGold((int) (event.getGold()*(gold/100)));
-        }
 
-        if(SWORD_SWEATY.contains("gb")){
-            int level = SWORD_SWEATY.length() - SWORD_SWEATY.replaceAll("I", "").length();
 
-            double gold = (15*level);
-
-            event.addGold((int) (event.getGold()*(gold/100)));
         }
     }
 

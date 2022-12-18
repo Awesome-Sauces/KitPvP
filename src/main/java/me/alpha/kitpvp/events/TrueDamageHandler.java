@@ -1,6 +1,8 @@
 package me.alpha.kitpvp.events;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
+import me.alpha.kitpvp.utils.CitizensHelper;
 
 
 public class TrueDamageHandler {
@@ -19,11 +21,21 @@ public class TrueDamageHandler {
 
     public void run(){
 
+        if (!CitizensHelper.isNPC(defender.getPlayerObject()) &&
+                defender.getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(defender.getPlayerObject().getInventory().getLeggings());
+
+            if(item.hasKey("mirror")){
+                damage=0;
+            }
+
+        }
+
         if(this.damage <= 0) return;
 
         if(this.defender.getPlayerObject().getHealth() - (this.damage + this.finalDamage) <= 2) {
-            defender.getPlayerObject().setHealth(defender.getPlayerObject().getMaxHealth());
-            //defender.killPlayer(attacker.getPlayerObject());
+            //defender.getPlayerObject().setHealth(defender.getPlayerObject().getMaxHealth());
+            defender.killPlayer(attacker.getPlayerObject());
         }
         else this.defender.getPlayerObject().setHealth(Math.max(this.defender.getPlayerObject().getHealth()-damage, 1));
 

@@ -8,6 +8,7 @@ import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler;
+import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.IntegerHelper;
 import me.alpha.kitpvp.utils.PacketScoreboard.FastBoard;
@@ -28,6 +29,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static java.lang.Math.abs;
+import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.twoTimesEvent;
 
 public class ScoreboardCore  implements Listener {
 
@@ -37,7 +39,9 @@ public class ScoreboardCore  implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        /*
+        RefreshCore.refreshInventory(player);
+        
+        
         if (twoTimesEvent == 2) {
             BossBar bossBar = BossBarAPI.addBar(player,
                     new TextComponent(ColorUtil.colorCode("&d&lMINOR EVENT! &e2x in &e&lPit Area")),
@@ -48,7 +52,7 @@ public class ScoreboardCore  implements Listener {
             BossBarAPI.removeAllBars(player);
         }
 
-         */
+
 
         try {
             ReduxPlayerHandler.playerExists(event.getPlayer()).setSpeed(0);
@@ -163,9 +167,13 @@ public class ScoreboardCore  implements Listener {
             lobby = "M6B";
         } else if (player.getWorld().getName().equals("lobby")) {
             lobby = "M14E";
+        } else if(player.getWorld().getName().equals("lobby2")){
+            lobby = "M43B";
+        } else if(player.getWorld().getName().equals("MeteorMap")){
+            lobby = "Meteor";
         }
 
-        String version = ChatColor.GRAY + "v1.5.1 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
+        String version = ChatColor.GRAY + "v1.5.2 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
 
         String spacer1 = " "; //blank space
         String spacer2 = "  "; //blank space
@@ -190,9 +198,9 @@ public class ScoreboardCore  implements Listener {
 
         if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) >= getMegaActiveData(uuid)) {
             statusData = ChatColor.WHITE + "Status: " + ChatColor.RESET + getMegaData(uuid);
-        } else if (KitPvP.combatTag.containsKey(String.valueOf(player.getUniqueId())) &&
-                KitPvP.combatTag.get(String.valueOf(player.getUniqueId())) > System.currentTimeMillis()) {
-            long timeleft = (KitPvP.combatTag.get(String.valueOf(player.getUniqueId())) - System.currentTimeMillis()) / 1000;
+        } else if (ClassInstances.CombatTag.containsKey(String.valueOf(player.getUniqueId())) &&
+                ClassInstances.CombatTag.get(String.valueOf(player.getUniqueId())) > System.currentTimeMillis()) {
+            long timeleft = (ClassInstances.CombatTag.get(String.valueOf(player.getUniqueId())) - System.currentTimeMillis()) / 1000;
             statusData = ChatColor.WHITE + "Status: " + ChatColor.RED + "Fighting " + ChatColor.GRAY + "(" + timeleft + ")";
         } else {
             statusData = ChatColor.WHITE + "Status: " + ChatColor.GREEN + "Idling";

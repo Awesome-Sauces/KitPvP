@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static me.alpha.kitpvp.Data.GoldData.*;
+import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
 
 public class ReduxPlayer {
 
@@ -23,11 +24,17 @@ public class ReduxPlayer {
     int assistantStreakerCount = 0;
     boolean regCD = true;
     boolean vampireCD = true;
+    boolean mlbCD = true;
     boolean booCD = true;
+
+    public int shotCount = 0;
+    public int fShotCount = 0;
+    boolean telebowCD = true;
     boolean GoldenCD = true;
     boolean PitPocketCD = true;
     boolean AttackCD = true;
     boolean perunCD = true;
+    boolean volleyCD = true;
     boolean prickCD = true;
     boolean ComboDamageCD = true;
     boolean gambleCD = true;
@@ -56,15 +63,17 @@ public class ReduxPlayer {
         commandUtils.spawnPlayer(this.player);
     }
 
+ */
+
     public void killPlayer(Player killer){
-        ProccessHit.KillMan(killer, this.player);
+        KillMan(killer, this.player);
     }
 
     public void addStreak(Player victim){
-        ProccessHit.KillMan(this.player, victim);
+        KillMan(this.player, victim);
     }
 
- */
+
 
     public int getPlayerPrestige(){
         return ClassInstances.prestigeData.getPrestige(this.uuid);
@@ -111,6 +120,14 @@ public class ReduxPlayer {
 
     public void resetEscape(){this.escape = true;}
 
+    public void setMlbCD(){this.mlbCD = !this.mlbCD;}
+
+    public boolean getMlbCD(){return this.mlbCD;}
+
+    public void setVolleyCD(){this.volleyCD = !this.volleyCD;}
+
+    public boolean getVolleyCD(){return this.volleyCD;}
+
     public void setVampireCD(){this.vampireCD = !this.vampireCD;}
 
     public boolean getVampireCD(){return this.vampireCD;}
@@ -134,6 +151,10 @@ public class ReduxPlayer {
     public boolean getBooCD(){return this.booCD;}
 
     public void setBooCD(){this.booCD = !this.booCD;}
+
+    public boolean getTelebowCD(){return this.telebowCD;}
+
+    public void setTelebowCD(){this.telebowCD = !this.telebowCD;}
 
     public boolean getGoldenCD(){return this.GoldenCD;}
 

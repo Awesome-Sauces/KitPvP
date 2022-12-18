@@ -1,65 +1,61 @@
 package me.alpha.kitpvp.PitRemake.MysticWell.GlobalEnchants;
 
-import com.alpha.redux.DeathHandler.ReduxDeathEvent;
-import com.alpha.redux.entityHandlers.ReduxPlayer;
-import com.alpha.redux.eventManagers.ReduxDamageEvent;
-import com.alpha.redux.well.enchants.EnchantRarity;
-import com.alpha.redux.well.enchants.PitEnchant;
+import de.tr7zw.nbtapi.NBTItem;
+import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
+import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
+import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
+import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
+import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
+import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alpha.redux.events.boards.integerToRoman;
+import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
+
 
 public class XpboostLore extends PitEnchant {
     @Override
-    public void run(ReduxDamageEvent event, int level) {
+    public void run(ReduxDamageEvent event) {
 
     }
 
     public void run(ReduxDeathEvent event){
 
-        List<String> penchants = new ArrayList<>();
-        List<String> senchants = new ArrayList<>();
+        if (!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
+                event.getAttacker().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getInventory().getLeggings());
 
-        ReduxPlayer player = event.getAttacker();
+            if(item.hasKey("xpboost")) {
+                int level = item.getInteger("xpboost");
 
-        if(player.getPantEnchants() != null) penchants = player.getPantEnchants();
-        if(player.getSwordEnchants() != null) senchants = player.getSwordEnchants();
-
-        String PANT_SWEATY = "";
-        String SWORD_SWEATY = "";
-
-        for(String ench : penchants){
-            if(ench.contains("xp")){
-                PANT_SWEATY = ench;
+                double xp = (10*level);
+                event.addXp(Math.round(event.getXp()*(xp/100)));
             }
+
         }
 
-        for(String ench : senchants){
-            if(ench.contains("xp")){
-                SWORD_SWEATY = ench;
-            }
-        }
+        if (!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
+                event.getAttacker().getPlayerObject().getItemInHand()!=null &&
+                event.getAttacker().getPlayerObject().getItemInHand().getType()!= Material.AIR){
+            NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
 
-        if(PANT_SWEATY.contains("xp")){
-            int level = PANT_SWEATY.length() - PANT_SWEATY.replaceAll("I", "").length();
+            if(!item.hasKey("xpboost")) return;
+
+            int level = item.getInteger("xpboost");
 
             double xp = (10*level);
             event.addXp(Math.round(event.getXp()*(xp/100)));
+
+
         }
 
-        if(SWORD_SWEATY.contains("xp")){
-            int level = SWORD_SWEATY.length() - SWORD_SWEATY.replaceAll("I", "").length();
-
-            double xp = (10*level);
-            event.addXp(Math.round(event.getXp()*(xp/100)));
-        }
     }
 
     @Override
     public void init() {
-        EnchantRarity rarity = EnchantRarity.NORMAL;
+        rarity = EnchantRarity.NORMAL;
     }
 
     @Override

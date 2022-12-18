@@ -5,13 +5,13 @@ import org.bukkit.ChatColor;
 
 public abstract class PitEnchant {
 
-    EnchantRarity rarity;
+    public EnchantRarity rarity;
 
     public String colorCode(String text){
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    public abstract void run(ReduxDamageEvent event, int level);
+    public abstract void run(ReduxDamageEvent event);
 
     public abstract String title(int level);
 

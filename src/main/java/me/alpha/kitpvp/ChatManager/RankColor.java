@@ -30,6 +30,8 @@ public class RankColor {
     public static String getNameColor(Player player){
         String nameColor = ChatColor.GRAY.toString();
 
+        if (player==null) return nameColor;
+
         if (player.isOp()) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("NARDUPE")) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("PETER")) nameColor = String.valueOf(ChatColor.DARK_AQUA);

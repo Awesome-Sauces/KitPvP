@@ -1,9 +1,12 @@
 package me.alpha.kitpvp.PitRemake.MysticWell.enchanters;
 
-import com.alpha.redux.apis.Sounds;
-import com.alpha.redux.apis.chatManager.rank;
-import com.alpha.redux.events.boards;
-import com.alpha.redux.redux;
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTItem;
+import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import me.alpha.kitpvp.utils.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,22 +20,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import static com.alpha.redux.apis.FancyText.compileListToString;
-import static com.alpha.redux.apis.FancyText.hoverText;
-import static com.alpha.redux.apis.chatManager.rank.colorCode;
-import static com.alpha.redux.events.boards.integerToRoman;
-import static com.alpha.redux.playerdata.economy.getEconomy;
-import static com.alpha.redux.playerdata.economy.removeEconomy;
-import static com.alpha.redux.well.loreChecker.CheckEnchantOnSword;
-import static com.alpha.redux.well.mysticWell.*;
+import static me.alpha.kitpvp.Data.GoldData.getEconomy;
+import static me.alpha.kitpvp.Data.GoldData.removeEconomy;
+import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnSword;
+import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
+import static me.alpha.kitpvp.utils.FancyText.compileListToString;
+import static me.alpha.kitpvp.utils.FancyText.hoverText;
+import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 public class MysticSword {
 
     private static boolean removeGold(Player player, String uuid, int amount){
         if(getEconomy(uuid) > amount-1){
             removeEconomy(uuid, amount);
-            boards.CreateScore(player);
+            ScoreboardCore.CreateScore(player);
             return true;
         }else{
             player.sendMessage(colorCode("&l&cERROR! &7You need &6" + (amount-getEconomy(uuid)) + "g &7to afford this!"));
@@ -94,12 +95,11 @@ public class MysticSword {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cTier " + integerToRoman(tier) + " Sword"));
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES);
             meta.spigot().setUnbreakable(true);
-            meta.setLore(enchantSword(player, null, tier));
             //Shaped Recipe
 
             item.setItemMeta(meta);
 
-            return item;
+            return enchantMystic(player, item, tier);
         }else{
             ItemMeta meta = sword.getItemMeta();
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cTier " + integerToRoman(tier) + " Sword"));
@@ -112,11 +112,10 @@ public class MysticSword {
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES);
             meta.spigot().setUnbreakable(true);
             //enchantSword(player, sword, tier)
-            meta.setLore(enchantSword(player, sword, tier));
             sword.setItemMeta(meta);
             //Shaped Recipe
 
-            return sword;
+            return enchantMystic(player, sword, tier);
         }
     }
 
@@ -130,6 +129,101 @@ public class MysticSword {
 
     public static Boolean percentChance(double chance) {
         return Math.random() <= chance;
+    }
+
+    public static ItemStack enchantMystic(Player player, ItemStack itemStack, int tier){
+        NBTItem nbtItem = new NBTItem(itemStack);
+
+        nbtItem.addCompound("enchants");
+
+        NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+
+        List<String> lore = new ArrayList<>();
+        List<String> enchants = new ArrayList<>(nbtCompound.getKeys());
+
+        String ench;
+        int tokens = 0;
+
+        int loopnum = 0;
+
+        String FINAL_ENCHANT = "";
+
+        while(true){
+
+            float tier1 = ((float) (40)/100);
+            float tier2 = ((float) (35)/100);
+            float tier3 = ((float) (25)/100);
+
+            ench = getEnchant(enchants);
+
+            if(percentChance(tier1)){
+
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
+
+                    if(level>=3) continue;
+
+                    nbtCompound.setInteger(ench, Math.min(3, level+1));
+                    break;
+                }else{
+                    nbtCompound.setInteger(ench, 1);
+                    break;
+                }
+            }else if(percentChance(tier2)){
+
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
+
+                    if(level>=3) continue;
+
+                    nbtCompound.setInteger(ench, Math.min(3, level+2));
+                    break;
+                }else{
+                    nbtCompound.setInteger(ench, 2);
+                    break;
+                }
+
+            }else if(percentChance(tier3)){
+
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
+
+                    if(level>=3) continue;
+
+                    nbtCompound.setInteger(ench, Math.min(3, level+3));
+                    break;
+                }else{
+                    nbtCompound.setInteger(ench, 3);
+                    break;
+                }
+            }
+        }
+
+
+        nbtItem.mergeCompound(nbtCompound);
+
+        ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
+
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        lore.add("   ");
+
+        for (String key : nbtItem.getCompound("enchants").getKeys()){
+            int level = nbtItem.getInteger(key);
+
+
+            lore.addAll(Arrays.asList(MysticSword.enchantTier(key, level).split("\n")));
+        }
+
+        lore.add(ChatColor.BLUE + "+6.5 Attack Damage");
+
+        itemMeta.setLore(lore);
+
+        nbtItem.getItem().setItemMeta(itemMeta);
+
+        getRareEnchant(nbtItem.getItem().getItemMeta().getLore(), ench, player, tier);
+
+
+        return nbtItem.getItem();
     }
 
     public static List<String> enchantSword(Player player, ItemStack sword, int tier) {
@@ -302,7 +396,7 @@ public class MysticSword {
             //lore.add(" ");
         }
 
-        //hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! " + rank.getNameColor(player) + player.getDisplayName() + "&7 created &cTier I Sword!"), compileListToString(lore));
+        //hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! " + RankColor.getNameColor(player) + player.getDisplayName() + "&7 created &cTier I Sword!"), compileListToString(lore));
         //player.playSound(player.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
 
         lore.addAll(enchant);
@@ -315,75 +409,75 @@ public class MysticSword {
         if(enchant.contains("billionaire")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
-                    +  rank.getNameColor(player) +
+                    +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
         }else if(enchant.contains("perun")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
-                    +  rank.getNameColor(player) +
+                    +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
         }else if(enchant.contains("executioner")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
-                    +  rank.getNameColor(player) +
+                    +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
         }else if(enchant.contains("gamble")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
-                    +  rank.getNameColor(player) +
+                    +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
         }
     }
 
     public static String getEnchantTitle(String enchant, int tier){
         if (Objects.equals(enchant, "billionaire")) {
-            return colorCode(redux.billionaireLore.title(tier));
+            return colorCode(ClassInstances.billionaireLore.title(tier));
         }else if (Objects.equals(enchant, "perun")) {
-            return colorCode(redux.perunLore.title(tier));
+            return colorCode(ClassInstances.perunLore.title(tier));
         }else if (Objects.equals(enchant, "fancyraider")) {
-            return colorCode(redux.fancyraiderLore.title(tier));
+            return colorCode(ClassInstances.fancyraiderLore.title(tier));
         }else if (Objects.equals(enchant, "executioner")) {
-            return colorCode(redux.executionerLore.title(tier));
+            return colorCode(ClassInstances.executionerLore.title(tier));
         }else if (Objects.equals(enchant, "gamble")) {
-            return colorCode(redux.gambleLore.title(tier));
+            return colorCode(ClassInstances.gambleLore.title(tier));
         }else if (Objects.equals(enchant, "painfocus")) {
-            return colorCode(redux.painFocusLore.title(tier));
+            return colorCode(ClassInstances.painFocusLore.title(tier));
         }else if (Objects.equals(enchant, "lifesteal")) {
-            return colorCode(redux.lifestealLore.title(tier));
+            return colorCode(ClassInstances.lifestealLore.title(tier));
         }else if (Objects.equals(enchant, "sharp")) {
-            return colorCode(redux.sharpLore.title(tier));
+            return colorCode(ClassInstances.sharpLore.title(tier));
         }else if (Objects.equals(enchant, "shark")) {
-            return colorCode(redux.sharkLore.title(tier));
+            return colorCode(ClassInstances.sharkLore.title(tier));
         }else if (Objects.equals(enchant, "diamondstomp")) {
-            return colorCode(redux.diamondStompLore.title(tier));
+            return colorCode(ClassInstances.diamondStompLore.title(tier));
         }else if (Objects.equals(enchant, "combodamage")) {
-            return colorCode(redux.combodamageLore.title(tier));
+            return colorCode(ClassInstances.combodamageLore.title(tier));
         }else if (Objects.equals(enchant, "kingbuster")) {
-            return colorCode(redux.kingBusterLore.title(tier));
+            return colorCode(ClassInstances.kingBusterLore.title(tier));
         }else if (Objects.equals(enchant, "punisher")) {
-            return colorCode(redux.punisherLore.title(tier));
+            return colorCode(ClassInstances.punisherLore.title(tier));
         }else if (Objects.equals(enchant, "grasshopper")) {
-            return colorCode(redux.grasshopperLore.title(tier));
+            return colorCode(ClassInstances.grasshopperLore.title(tier));
         }else if (Objects.equals(enchant, "goldandboosted")) {
-            return colorCode(redux.goldBoostedLore.title(tier));
+            return colorCode(ClassInstances.goldBoostedLore.title(tier));
         }else if (Objects.equals(enchant, "pitpocket")) {
-            return colorCode(redux.pitPocketLore.title(tier));
+            return colorCode(ClassInstances.pitPocketLore.title(tier));
         }else if (Objects.equals(enchant, "berserker")) {
-            return colorCode(redux.berserkerLore.title(tier));
+            return colorCode(ClassInstances.berserkerLore.title(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
-            return colorCode(redux.moctezumaLore.title(tier));
+            return colorCode(ClassInstances.moctezumaLore.title(tier));
         }else if (Objects.equals(enchant, "goldbump")){
-            return colorCode(redux.goldbumpLore.title(tier));
+            return colorCode(ClassInstances.goldbumpLore.title(tier));
         }else if (Objects.equals(enchant, "goldboost")){
-            return colorCode(redux.goldboostLore.title(tier));
+            return colorCode(ClassInstances.goldboostLore.title(tier));
         }else if (Objects.equals(enchant, "pantsradar")){
-            return colorCode(redux.pantsRadarLore.title(tier));
+            return colorCode(ClassInstances.pantsRadarLore.title(tier));
         }else if (Objects.equals(enchant, "sweaty")){
-            return colorCode(redux.sweatyLore.title(tier));
+            return colorCode(ClassInstances.sweatyLore.title(tier));
         }else if (Objects.equals(enchant, "xpbump")){
-            return colorCode(redux.xpbumpLore.title(tier));
+            return colorCode(ClassInstances.xpbumpLore.title(tier));
         }else if (Objects.equals(enchant, "xpboost")){
-            return colorCode(redux.xpboostLore.title(tier));
+            return colorCode(ClassInstances.xpboostLore.title(tier));
         }else{
             return "ERROR";
         }
@@ -439,53 +533,53 @@ public class MysticSword {
 
     public static String enchantTier(String enchant, int tier){
         if (Objects.equals(enchant, "billionaire")) {
-            return redux.billionaireLore.lore(tier);
+            return ClassInstances.billionaireLore.lore(tier);
         }else if (Objects.equals(enchant, "perun")) {
-            return redux.perunLore.lore(tier);
+            return ClassInstances.perunLore.lore(tier);
         }else if (Objects.equals(enchant, "executioner")) {
-            return redux.executionerLore.lore(tier);
+            return ClassInstances.executionerLore.lore(tier);
         }else if (Objects.equals(enchant, "gamble")) {
-            return redux.gambleLore.lore(tier);
+            return ClassInstances.gambleLore.lore(tier);
         }else if (Objects.equals(enchant, "painfocus")) {
-            return redux.painFocusLore.lore(tier);
+            return ClassInstances.painFocusLore.lore(tier);
         }else if (Objects.equals(enchant, "lifesteal")) {
-            return redux.lifestealLore.lore(tier);
+            return ClassInstances.lifestealLore.lore(tier);
         }else if (Objects.equals(enchant, "sharp")) {
-            return redux.sharpLore.lore(tier);
+            return ClassInstances.sharpLore.lore(tier);
         }else if (Objects.equals(enchant, "shark")) {
-            return redux.sharkLore.lore(tier);
+            return ClassInstances.sharkLore.lore(tier);
         }else if (Objects.equals(enchant, "diamondstomp")) {
-            return redux.diamondStompLore.lore(tier);
+            return ClassInstances.diamondStompLore.lore(tier);
         }else if (Objects.equals(enchant, "kingbuster")) {
-            return redux.kingBusterLore.lore(tier);
+            return ClassInstances.kingBusterLore.lore(tier);
         }else if (Objects.equals(enchant, "punisher")) {
-            return colorCode(redux.punisherLore.lore(tier));
+            return colorCode(ClassInstances.punisherLore.lore(tier));
         }else if (Objects.equals(enchant, "grasshopper")) {
-            return colorCode(redux.grasshopperLore.lore(tier));
+            return colorCode(ClassInstances.grasshopperLore.lore(tier));
         }else if (Objects.equals(enchant, "goldandboosted")) {
-            return colorCode(redux.goldBoostedLore.lore(tier));
+            return colorCode(ClassInstances.goldBoostedLore.lore(tier));
         }else if (Objects.equals(enchant, "pitpocket")) {
-            return colorCode(redux.pitPocketLore.lore(tier));
+            return colorCode(ClassInstances.pitPocketLore.lore(tier));
         }else if (Objects.equals(enchant, "berserker")) {
-            return colorCode(redux.berserkerLore.lore(tier));
+            return colorCode(ClassInstances.berserkerLore.lore(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
-            return redux.moctezumaLore.lore(tier);
+            return ClassInstances.moctezumaLore.lore(tier);
         }else if (Objects.equals(enchant, "goldbump")){
-            return redux.goldbumpLore.lore(tier);
+            return ClassInstances.goldbumpLore.lore(tier);
         }else if (Objects.equals(enchant, "pantsradar")){
-            return colorCode(redux.pantsRadarLore.lore(tier));
+            return colorCode(ClassInstances.pantsRadarLore.lore(tier));
         }else if (Objects.equals(enchant, "goldboost")){
-            return redux.goldboostLore.lore(tier);
+            return ClassInstances.goldboostLore.lore(tier);
         }else if (Objects.equals(enchant, "combodamage")){
-            return redux.combodamageLore.lore(tier);
+            return ClassInstances.combodamageLore.lore(tier);
         }else if (Objects.equals(enchant, "sweaty")){
-            return redux.sweatyLore.lore(tier);
+            return ClassInstances.sweatyLore.lore(tier);
         }else if (Objects.equals(enchant, "xpbump")){
-            return redux.xpbumpLore.lore(tier);
+            return ClassInstances.xpbumpLore.lore(tier);
         }else if (Objects.equals(enchant, "xpboost")){
-            return redux.xpboostLore.lore(tier);
+            return ClassInstances.xpboostLore.lore(tier);
         }else if (Objects.equals(enchant, "fancyraider")){
-            return redux.fancyraiderLore.lore(tier);
+            return ClassInstances.fancyraiderLore.lore(tier);
         } else{
             return "ERROR";
         }

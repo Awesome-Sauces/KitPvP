@@ -1,18 +1,16 @@
 package me.alpha.kitpvp.PitRemake.MysticWell.enchanters;
 
-import com.alpha.redux.apis.Sounds;
-import com.alpha.redux.apis.chatManager.rank;
-import com.alpha.redux.events.boards;
-import com.alpha.redux.redux;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.IntegerHelper;
 import me.alpha.kitpvp.utils.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,6 +26,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
+import static me.alpha.kitpvp.utils.FancyText.compileListToString;
+import static me.alpha.kitpvp.utils.FancyText.hoverText;
 
 public class FreshPants {
 
@@ -98,12 +98,13 @@ public class FreshPants {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cTier " + IntegerHelper.integerToRoman(tier) + " Pants"));
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
             meta.spigot().setUnbreakable(true);
-            meta.setLore(enchantPant(player, pant, tier));
             item.setItemMeta(meta);
             //Shaped Recipe
 
-            return item;
-        }else{
+
+
+            return enchantMystic(player, item, tier);
+        }else if(pant!=null){
             ItemMeta meta = pant.getItemMeta();
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cTier " + IntegerHelper.integerToRoman(tier) + " Pants"));
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -116,12 +117,12 @@ public class FreshPants {
 
             meta.spigot().setUnbreakable(true);
             //enchantpant(player, pant, tier)
-            meta.setLore(enchantPant(player, pant, tier));
             pant.setItemMeta(meta);
             //Shaped Recipe
 
-            return pant;
+            return enchantMystic(player, pant, tier);
         }
+        return null;
     }
 
     public static List<String> translateList(List<String> lore){
@@ -139,107 +140,93 @@ public class FreshPants {
     public static ItemStack enchantMystic(Player player, ItemStack itemStack, int tier){
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        NBTCompound nbtCompound = nbtItem.getCompound("enchants");
+        nbtItem.addCompound("enchants");
+
+        NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
         List<String> lore = new ArrayList<>();
-
-        List<String> enchants = new ArrayList<>();
+        List<String> enchants = new ArrayList<>(nbtCompound.getKeys());
 
         String ench;
         int tokens = 0;
-        boolean looping = true;
 
         int loopnum = 0;
 
         String FINAL_ENCHANT = "";
 
-        while (looping){
-            loopnum++;
+        while(true){
+
+            float tier1 = ((float) (40)/100);
+            float tier2 = ((float) (35)/100);
+            float tier3 = ((float) (25)/100);
+
             ench = getEnchant(enchants);
-            FINAL_ENCHANT=ench;
 
-            for (String str : enchants){
-                tokens += str.length() - str.replaceAll("I", "").length();
-            }
+            if(percentChance(tier1)){
 
-            double d = Math.random();
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
 
-            if (tokens <= 0){
-                tokens = 1;
-            }
+                    if(level>=3) continue;
 
-            float tier1 = ((float) ((tokens) * 35) / 100);
-            float tier2 = ((float) ((tokens) * 34) / 100);
-            float tier3 = ((float) ((tokens) * 33) / 100);
-
-            tokens = 0;
-
-
-            if (percentChance(tier1)){
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null &&
-                nbtItem.getInteger(FINAL_ENCHANT)>=3){
-                    continue;
-                }
-
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null){
-                    nbtItem.setInteger(FINAL_ENCHANT, Math.max(3, nbtItem.getInteger(FINAL_ENCHANT)+1));
+                    nbtCompound.setInteger(ench, Math.min(3, level+1));
+                    break;
                 }else{
-                    nbtItem.setInteger(FINAL_ENCHANT, 1);
+                     nbtCompound.setInteger(ench, 1);
+                    break;
                 }
-            }else if (percentChance(tier2)){
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null &&
-                        nbtItem.getInteger(FINAL_ENCHANT)>=3){
-                    continue;
-                }
+            }else if(percentChance(tier2)){
 
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null){
-                    nbtItem.setInteger(FINAL_ENCHANT, Math.max(3, nbtItem.getInteger(FINAL_ENCHANT)+2));
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
+
+                    if(level>=3) continue;
+
+                    nbtCompound.setInteger(ench, Math.min(3, level+2));
+                    break;
                 }else{
-                    nbtItem.setInteger(FINAL_ENCHANT, 2);
-                }
-            }else if (percentChance(tier3)){
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null &&
-                        nbtItem.getInteger(FINAL_ENCHANT)>=3){
-                    continue;
+                    nbtCompound.setInteger(ench, 2);
+                    break;
                 }
 
-                if(nbtItem.getInteger(FINAL_ENCHANT)!=null){
-                    nbtItem.setInteger(FINAL_ENCHANT, Math.max(3, nbtItem.getInteger(FINAL_ENCHANT)+3));
+            }else if(percentChance(tier3)){
+
+                if(nbtCompound.hasKey(ench)){
+                    int level = nbtCompound.getInteger(ench);
+
+                    if(level>=3) continue;
+
+                    nbtCompound.setInteger(ench, Math.min(3, level+3));
+                    break;
                 }else{
-                    nbtItem.setInteger(FINAL_ENCHANT, 3);
+                    nbtCompound.setInteger(ench, 3);
+                    break;
                 }
-            }/*else{
-
-                lore.addAll(Arrays.asList(enchantTier(ench, 1).split("\n")));
-
-                looping = false;
             }
-            */
         }
+
+
+        nbtItem.mergeCompound(nbtCompound);
+
+        ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
+
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        lore.add("   ");
 
         for (String key : nbtItem.getCompound("enchants").getKeys()){
             int level = nbtItem.getInteger(key);
 
-            StringBuilder enchant = new StringBuilder(key);
 
-            for(int i = 0; i < level; i++){
-                enchant.append("I");
-            }
-
-            enchants.add(String.valueOf(enchant));
-
-        }
-
-        for (String bench : enchants){
-            int ether = bench.length() - bench.replaceAll("I", "").length();
-
-            lore.addAll(Arrays.asList(enchantTier(convertEnchant(bench.replaceAll("I", "")), ether).split("\n")));
-            //lore.add(" ");
+            lore.addAll(Arrays.asList(FreshPants.enchantTier(key, level).split("\n")));
         }
 
         lore.add(ChatColor.RED + "As strong as iron");
 
-        getRareEnchant(lore, FINAL_ENCHANT, player, tier);
+        itemMeta.setLore(lore);
+
+        nbtItem.getItem().setItemMeta(itemMeta);
+
+        getRareEnchant(nbtItem.getItem().getItemMeta().getLore(), ench, player, tier);
 
 
         return nbtItem.getItem();
@@ -300,61 +287,61 @@ public class FreshPants {
 
     public static String getEnchantTitle(String enchant, int tier){
         if (Objects.equals(enchant, "retro-gravitymicrocosm")) {
-            return colorCode(redux.retroGravityMicrocosmLore.title(tier));
+            return colorCode(ClassInstances.retroGravityMicrocosmLore.title(tier));
         }else if (Objects.equals(enchant, "criticallyfunky")) {
-            return colorCode(redux.criticallyFunkyLore.title(tier));
+            return colorCode(ClassInstances.criticallyFunkyLore.title(tier));
         }else if (Objects.equals(enchant, "goldenheart")) {
-            return colorCode(redux.goldenHeartLore.title(tier));
+            return colorCode(ClassInstances.goldenHeartLore.title(tier));
         }else if (Objects.equals(enchant, "regularity")) {
-            return colorCode(redux.regularityLore.title(tier));
+            return colorCode(ClassInstances.regularityLore.title(tier));
         }else if (Objects.equals(enchant, "billy")) {
-            return colorCode(redux.billyLore.title(tier));
+            return colorCode(ClassInstances.billyLore.title(tier));
         }else if (Objects.equals(enchant, "cricket")) {
-            return colorCode(redux.cricketLore.title(tier));
+            return colorCode(ClassInstances.cricketLore.title(tier));
         }else if (Objects.equals(enchant, "pebble")) {
-            return colorCode(redux.pebbleLore.title(tier));
+            return colorCode(ClassInstances.pebbleLore.title(tier));
         }else if (Objects.equals(enchant, "gottagofast")) {
-            return colorCode(redux.gottaGoFastLore.title(tier));
+            return colorCode(ClassInstances.gottaGoFastLore.title(tier));
         }else if (Objects.equals(enchant, "self-checkout")) {
-            return colorCode(redux.selfCheckoutLore.title(tier));
+            return colorCode(ClassInstances.selfCheckoutLore.title(tier));
         }else if (Objects.equals(enchant, "prick")) {
-            return colorCode(redux.prickLore.title(tier));
+            return colorCode(ClassInstances.prickLore.title(tier));
         }else if (Objects.equals(enchant, "protection")) {
-            return colorCode(redux.protectionLore.title(tier));
+            return colorCode(ClassInstances.protectionLore.title(tier));
         }else if (Objects.equals(enchant, "pitblob")) {
-            return colorCode(redux.pitBlobLore.title(tier));
+            return colorCode(ClassInstances.pitBlobLore.title(tier));
         }else if (Objects.equals(enchant, "solitude")) {
-            return colorCode(redux.solitudeLore.title(tier));
+            return colorCode(ClassInstances.solitudeLore.title(tier));
         }else if (Objects.equals(enchant, "diamondallergy")) {
-            return colorCode(redux.diamondAllergyLore.title(tier));
+            return colorCode(ClassInstances.diamondAllergyLore.title(tier));
         }else if (Objects.equals(enchant, "notgladiator")) {
-            return colorCode(redux.notGladiatorLore.title(tier));
+            return colorCode(ClassInstances.notGladiatorLore.title(tier));
         }else if (Objects.equals(enchant, "booboo")) {
-            return colorCode(redux.booBooLore.title(tier));
+            return colorCode(ClassInstances.booBooLore.title(tier));
         }else if (Objects.equals(enchant, "mirror")) {
-            return colorCode(redux.mirrorLore.title(tier));
+            return colorCode(ClassInstances.mirrorLore.title(tier));
         }else if (Objects.equals(enchant, "escapepod")) {
-            return colorCode(redux.escapePodLore.title(tier));
+            return colorCode(ClassInstances.escapePodLore.title(tier));
         }else if (Objects.equals(enchant, "peroxide")) {
-            return colorCode(redux.peroxideLore.title(tier));
+            return colorCode(ClassInstances.peroxideLore.title(tier));
         }else if (Objects.equals(enchant, "fractionalreserve")) {
-            return colorCode(redux.fractionalReserveLore.title(tier));
+            return colorCode(ClassInstances.fractionalReserveLore.title(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
-            return colorCode(redux.moctezumaLore.title(tier));
+            return colorCode(ClassInstances.moctezumaLore.title(tier));
         }else if (Objects.equals(enchant, "goldbump")){
-            return colorCode(redux.goldbumpLore.title(tier));
+            return colorCode(ClassInstances.goldbumpLore.title(tier));
         }else if (Objects.equals(enchant, "pantsradar")){
-            return colorCode(redux.pantsRadarLore.title(tier));
+            return colorCode(ClassInstances.pantsRadarLore.title(tier));
         }else if (Objects.equals(enchant, "davidgoliath")){
-            return colorCode(redux.davidGoliathLore.title(tier));
+            return colorCode(ClassInstances.davidGoliathLore.title(tier));
         }else if (Objects.equals(enchant, "goldboost")){
-            return colorCode(redux.goldboostLore.title(tier));
+            return colorCode(ClassInstances.goldboostLore.title(tier));
         }else if (Objects.equals(enchant, "sweaty")){
-            return colorCode(redux.sweatyLore.title(tier));
+            return colorCode(ClassInstances.sweatyLore.title(tier));
         }else if (Objects.equals(enchant, "xpbump")){
-            return colorCode(redux.xpbumpLore.title(tier));
+            return colorCode(ClassInstances.xpbumpLore.title(tier));
         }else if (Objects.equals(enchant, "xpboost")){
-            return colorCode(redux.xpboostLore.title(tier));
+            return colorCode(ClassInstances.xpboostLore.title(tier));
         }else{
             return "ERROR";
         }
@@ -422,61 +409,61 @@ public class FreshPants {
 
     public static String enchantTier(String enchant, int tier){
         if (Objects.equals(enchant, "retro-gravitymicrocosm")) {
-            return colorCode(redux.retroGravityMicrocosmLore.lore(tier));
+            return colorCode(ClassInstances.retroGravityMicrocosmLore.lore(tier));
         }else if (Objects.equals(enchant, "criticallyfunky")) {
-            return colorCode(redux.criticallyFunkyLore.lore(tier));
+            return colorCode(ClassInstances.criticallyFunkyLore.lore(tier));
         }else if (Objects.equals(enchant, "goldenheart")) {
-            return colorCode(redux.goldenHeartLore.lore(tier));
+            return colorCode(ClassInstances.goldenHeartLore.lore(tier));
         }else if (Objects.equals(enchant, "regularity")) {
-            return colorCode(redux.regularityLore.lore(tier));
+            return colorCode(ClassInstances.regularityLore.lore(tier));
         }else if (Objects.equals(enchant, "protection")) {
-            return colorCode(redux.protectionLore.lore(tier));
+            return colorCode(ClassInstances.protectionLore.lore(tier));
         }else if (Objects.equals(enchant, "solitude")) {
-            return colorCode(redux.solitudeLore.lore(tier));
+            return colorCode(ClassInstances.solitudeLore.lore(tier));
         }else if (Objects.equals(enchant, "billy")) {
-            return colorCode(redux.billyLore.lore(tier));
+            return colorCode(ClassInstances.billyLore.lore(tier));
         }else if (Objects.equals(enchant, "cricket")) {
-            return colorCode(redux.cricketLore.lore(tier));
+            return colorCode(ClassInstances.cricketLore.lore(tier));
         }else if (Objects.equals(enchant, "pebble")) {
-            return colorCode(redux.pebbleLore.lore(tier));
+            return colorCode(ClassInstances.pebbleLore.lore(tier));
         }else if (Objects.equals(enchant, "gottagofast")) {
-            return colorCode(redux.gottaGoFastLore.lore(tier));
+            return colorCode(ClassInstances.gottaGoFastLore.lore(tier));
         }else if (Objects.equals(enchant, "self-checkout")) {
-            return colorCode(redux.selfCheckoutLore.lore(tier));
+            return colorCode(ClassInstances.selfCheckoutLore.lore(tier));
         }else if (Objects.equals(enchant, "prick")) {
-            return colorCode(redux.prickLore.lore(tier));
+            return colorCode(ClassInstances.prickLore.lore(tier));
         }else if (Objects.equals(enchant, "booboo")) {
-            return colorCode(redux.booBooLore.lore(tier));
+            return colorCode(ClassInstances.booBooLore.lore(tier));
         }else if (Objects.equals(enchant, "pitblob")) {
-            return colorCode(redux.pitBlobLore.lore(tier));
+            return colorCode(ClassInstances.pitBlobLore.lore(tier));
         }else if (Objects.equals(enchant, "notgladiator")) {
-            return colorCode(redux.notGladiatorLore.lore(tier));
+            return colorCode(ClassInstances.notGladiatorLore.lore(tier));
         }else if (Objects.equals(enchant, "pantsradar")){
-            return colorCode(redux.pantsRadarLore.lore(tier));
+            return colorCode(ClassInstances.pantsRadarLore.lore(tier));
         }else if (Objects.equals(enchant, "mirror")) {
-            return colorCode(redux.mirrorLore.lore(tier));
+            return colorCode(ClassInstances.mirrorLore.lore(tier));
         }else if (Objects.equals(enchant, "escapepod")) {
-            return colorCode(redux.escapePodLore.lore(tier));
+            return colorCode(ClassInstances.escapePodLore.lore(tier));
         }else if (Objects.equals(enchant, "peroxide")) {
-            return colorCode(redux.peroxideLore.lore(tier));
+            return colorCode(ClassInstances.peroxideLore.lore(tier));
         }else if (Objects.equals(enchant, "diamondallergy")) {
-            return colorCode(redux.diamondAllergyLore.lore(tier));
+            return colorCode(ClassInstances.diamondAllergyLore.lore(tier));
         }else if (Objects.equals(enchant, "fractionalreserve")) {
-            return colorCode(redux.fractionalReserveLore.lore(tier));
+            return colorCode(ClassInstances.fractionalReserveLore.lore(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
-            return colorCode(redux.moctezumaLore.lore(tier));
+            return colorCode(ClassInstances.moctezumaLore.lore(tier));
         }else if (Objects.equals(enchant, "goldbump")){
-            return colorCode(redux.goldbumpLore.lore(tier));
+            return colorCode(ClassInstances.goldbumpLore.lore(tier));
         }else if (Objects.equals(enchant, "davidgoliath")){
-            return colorCode(redux.davidGoliathLore.lore(tier));
+            return colorCode(ClassInstances.davidGoliathLore.lore(tier));
         }else if (Objects.equals(enchant, "goldboost")){
-            return colorCode(redux.goldboostLore.lore(tier));
+            return colorCode(ClassInstances.goldboostLore.lore(tier));
         }else if (Objects.equals(enchant, "sweaty")){
-            return colorCode(redux.sweatyLore.lore(tier));
+            return colorCode(ClassInstances.sweatyLore.lore(tier));
         }else if (Objects.equals(enchant, "xpbump")){
-            return colorCode(redux.xpbumpLore.lore(tier));
+            return colorCode(ClassInstances.xpbumpLore.lore(tier));
         }else if (Objects.equals(enchant, "xpboost")){
-            return colorCode(redux.xpboostLore.lore(tier));
+            return colorCode(ClassInstances.xpboostLore.lore(tier));
         }else{
             return "ERROR";
         }

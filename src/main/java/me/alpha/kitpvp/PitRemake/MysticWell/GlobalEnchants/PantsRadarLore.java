@@ -1,20 +1,19 @@
 package me.alpha.kitpvp.PitRemake.MysticWell.GlobalEnchants;
 
-import com.alpha.redux.eventManagers.ReduxDamageEvent;
-import com.alpha.redux.well.enchants.EnchantRarity;
-import com.alpha.redux.well.enchants.PitEnchant;
-
-import static com.alpha.redux.events.boards.integerToRoman;
+import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
+import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
+import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
+import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 public class PantsRadarLore extends PitEnchant {
     @Override
-    public void run(ReduxDamageEvent event, int level) {
+    public void run(ReduxDamageEvent event) {
 
     }
 
     @Override
     public void init() {
-        EnchantRarity rarity = EnchantRarity.NORMAL;
+        rarity = EnchantRarity.NORMAL;
     }
 
     @Override
