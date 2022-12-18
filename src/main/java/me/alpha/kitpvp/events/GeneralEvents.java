@@ -171,7 +171,7 @@ public class GeneralEvents implements Listener {
 
             if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 50){
                 if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)<=0) return;
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)/2);
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)/5);
 
                 event.addBaseDamage(counter*.1);
             }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 50){

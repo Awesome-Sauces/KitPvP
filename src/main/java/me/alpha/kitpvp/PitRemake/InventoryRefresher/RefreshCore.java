@@ -42,8 +42,6 @@ public class RefreshCore {
                 for(String enchant : enchants){
                     int tier = enchant.length()-enchant.replaceAll("I", "").length();
 
-                    Bukkit.broadcastMessage(FreshPants.convertEnchant(enchant.replaceAll("I", ""))+":"+tier);
-
                     nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
                 }
 
@@ -81,8 +79,6 @@ public class RefreshCore {
                 for(String enchant : enchants){
                     int tier = enchant.length()-enchant.replaceAll("I", "").length();
 
-                    Bukkit.broadcastMessage(MysticSword.convertEnchant(enchant.replaceAll("I", ""))+":"+tier);
-
                     nbtCompound.setInteger(MysticSword.convertEnchant(enchant.replaceAll("I", "")), tier);
                 }
 
@@ -109,8 +105,6 @@ public class RefreshCore {
 
                 for(String enchant : enchants){
                     int tier = enchant.length()-enchant.replaceAll("I", "").length();
-
-                    Bukkit.broadcastMessage(FreshPants.convertEnchant(enchant.replaceAll("I", ""))+":"+tier);
 
                     nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
                 }

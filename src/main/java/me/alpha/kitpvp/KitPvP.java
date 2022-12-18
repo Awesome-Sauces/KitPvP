@@ -1,10 +1,12 @@
 package me.alpha.kitpvp;
 
+import me.alpha.hunter.api.HunterAPI;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard;
+import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
 import me.alpha.kitpvp.events.MainDamageEvent;
@@ -69,6 +71,13 @@ public class KitPvP extends JavaPlugin {
                         StashCore.reminderMessage(player);
                     }
                 },0,6000);
+
+                getServer().getScheduler().runTaskTimer(INSTANCE, () -> {
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                        player.sendMessage(ColorUtil.colorCode("&a&lREMINDER! &7Remember to do &e/refresh &7to load your items into the new system"));
+                        Sounds.BOOSTER_REMIND.play(player);
+                    }
+                },0,3000);
             }
         }, 200L);
 
@@ -82,6 +91,18 @@ public class KitPvP extends JavaPlugin {
                 for(Player player : Bukkit.getOnlinePlayers()) Sounds.WARNING_LOUD.play(player);
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
+
+        for (int i = 0; i < 30; i++) {
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
+        }
+
+        for (int i = 0; i < 30; i++) {
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false);
+        }
+
+        for (int i = 0; i < 30; i++) {
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
+        }
 
     }
 

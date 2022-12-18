@@ -163,6 +163,7 @@ public class ClassInstances {
         magnumOpus.saveHashMap();
         factionData.saveHashMap();
         factionReward.saveHashMap();
+        renownData.saveHashMap();
 
         botBoosterData.saveHashMap();
         goldBoosterData.saveHashMap();
@@ -173,10 +174,13 @@ public class ClassInstances {
         goldRequirementData.loadHashMap();
         prestigeData.loadHashMap();
         xpData.loadHashMap();
+        renownData.loadHashMap();
 
         botBoosterData.loadHashMap();
         xpBoosterData.loadHashMap();
         goldBoosterData.loadHashMap();
+        factionData.loadHashMap();
+        factionReward.loadHashMap();
 
         megaStreakData.loadHashMap(true);
         perkSlotOne.loadHashMap(true);
