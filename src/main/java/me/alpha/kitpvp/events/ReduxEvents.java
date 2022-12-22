@@ -24,7 +24,7 @@ import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 public class ReduxEvents implements Listener {
     @EventHandler
     public static void InterceptEntityDamage(ReduxDamageEvent event){
-
+        ClassInstances.xpDragon.doPetAbility(event);
     }
 
     @EventHandler
@@ -43,6 +43,8 @@ public class ReduxEvents implements Listener {
 
     @EventHandler
     public static void DeathEventHandler(ReduxDeathEvent event){
+
+        ClassInstances.xpDragon.doPetAbility(event);
 
         MonsterHandler.percentageSpawn(event.getAttacker().getPlayerObject());
 

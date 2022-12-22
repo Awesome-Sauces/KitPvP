@@ -48,13 +48,16 @@ public class GoldenHeadItem implements Listener {
 
 
             if (player.getItemInHand() != null &&
-            player.getItemInHand().getType().equals(enchants.goldenhead.getType())){
+            player.getItemInHand().getType().equals(enchants.goldenhead.getType())
+            && player.getItemInHand().getItemMeta()!=null&&
+            player.getItemInHand().getItemMeta().getDisplayName()!=null&&
+            player.getItemInHand().getItemMeta().getDisplayName().contains("Golden Head")){
                 if (reduxPlayer.getGoldenCD()){
                     reduxPlayer.setGoldenCD();
 
                     int amount = player.getItemInHand().getAmount();
 
-                    player.setItemInHand(null);
+                    player.getInventory().setItemInHand(null);
 
                     if(amount > 2) {
                         player.getInventory().setItemInHand(null);

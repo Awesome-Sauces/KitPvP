@@ -13,7 +13,9 @@ import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotFour;
 import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotOne;
 import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotThree;
 import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotTwo;
+import me.alpha.kitpvp.PitRemake.Pets.PetStore.XpDragon;
 import me.alpha.kitpvp.PitRemake.RenownShop.data.*;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,6 +136,12 @@ public class ClassInstances {
     public static VolleyLore volleyLore = new VolleyLore();
     public static ExplosiveLore explosiveLore = new ExplosiveLore();
 
+    public static PetData petData = new PetData("petData");
+
+    public static XpDragon xpDragon = new XpDragon("xpdragon", "Dragon",
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOThmNjkyMDliMThhZjZkMDZkZjJkZmIzNmFmZTMyYzdhZDFjNmFmYjcxZDJjZDg4NWFjMWQyOGQyZDhmZTdiZCJ9fX0"
+            , 100, ChatColor.AQUA, 75000);
+
     public static void save(){
         goldRequirementData.saveHashMap();
         prestigeData.saveHashMap();
@@ -168,6 +176,8 @@ public class ClassInstances {
         botBoosterData.saveHashMap();
         goldBoosterData.saveHashMap();
         xpBoosterData.saveHashMap();
+
+        petData.saveHashMap();
     }
 
     public static void load(){
@@ -187,6 +197,7 @@ public class ClassInstances {
         perkSlotTwo.loadHashMap(true);
         perkSlotThree.loadHashMap(true);
         perkSlotFour.loadHashMap(true);
+        petData.loadHashMap();
 
         botKills.loadHashMap();
         moonStreak.loadHashMap();

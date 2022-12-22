@@ -92,6 +92,7 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
+        /*
         for (int i = 0; i < 30; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
@@ -103,6 +104,8 @@ public class KitPvP extends JavaPlugin {
         for (int i = 0; i < 30; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
         }
+
+         */
 
     }
 

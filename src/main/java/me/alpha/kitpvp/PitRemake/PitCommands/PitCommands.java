@@ -20,18 +20,23 @@ import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashData;
 import me.alpha.kitpvp.PitRemake.PitCommands.View.ViewCore;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -53,9 +58,12 @@ import static me.alpha.kitpvp.PitRemake.PitCommands.TebexSystem.TebexSystem.onRa
 import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.twoTimesEvent;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler.createMonsterBoss;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
 import static me.alpha.kitpvp.utils.FancyText.hoverText;
+import static me.alpha.kitpvp.utils.advancedInventory.HeadMaker;
 
 public class PitCommands implements CommandExecutor {
     public static HashMap<String, Boolean> KillMessages = new HashMap<>();
@@ -172,15 +180,19 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
-            ItemStack item = player.getItemInHand();
-            ItemMeta itemMeta = item.getItemMeta();
+            if(args[1].contains("remove")){
+                ClassInstances.petData.setPetData(player.getUniqueId().toString(), "none", 1, 1, ClassInstances.xpDragon.getXpPerLevel());
+            }else if(args[1].contains("xp")){
+                ClassInstances.petData.setPetData(player.getUniqueId().toString(), ClassInstances.xpDragon.getRefID(), Integer.parseInt(args[0]), Integer.parseInt(args[2]), ClassInstances.xpDragon.getXpPerLevel());
+                //ClassInstances.petData.getLevelFromXP(player.getUniqueId().toString(), ClassInstances.xpDragon.getXpPerLevel());
+            }else{
+                //ClassInstances.petData.setPetData(player.getUniqueId().toString(), ClassInstances.xpDragon.getRefID(), Integer.parseInt(args[0]), 10);
+                ClassInstances.xpDragon.spawnPet(player);
+                StashCore.safeGive(player,ClassInstances.xpDragon.getPetItem(player));
+            }
 
-            List<String> lore = new ArrayList<>(Arrays.asList(MysticSword.enchantTier(args[0], 3).split("\n")));
 
-            itemMeta.setLore(lore);
-            item.setItemMeta(itemMeta);
-
-            player.setItemInHand(item);
+            Bukkit.broadcastMessage(ClassInstances.petData.getPetData(player.getUniqueId().toString()));
 
             //player.setItemInHand(MysticSword.enchantMystic(player, player.getItemInHand(), 3));
 
