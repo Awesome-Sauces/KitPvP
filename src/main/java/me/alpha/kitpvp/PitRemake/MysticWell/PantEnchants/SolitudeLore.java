@@ -15,23 +15,23 @@ public class SolitudeLore extends PitEnchant {
     @Override
     public void run(ReduxDamageEvent event) {
 
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("solitude")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("solitude");
 
         double damage = 40+((level-1)*10);
 
-        if (solitaryCheck(event.getDefenders())) event.subtractReduxDamageMultiplier(damage);
+        if (solitaryCheck(event.getDefender())) event.subtractReduxDamageMultiplier(damage);
 
     }
 

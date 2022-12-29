@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.events;
 
 import com.nametagedit.plugin.NametagEdit;
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.LevelColor;
 import me.alpha.kitpvp.ChatManager.PrestigeBracketColors;
@@ -9,13 +10,14 @@ import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
+import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.Bounties.Bounty;
 import me.alpha.kitpvp.PitRemake.Factions.ArchAngelFaction;
 import me.alpha.kitpvp.PitRemake.Factions.ArmageddonFaction;
 import me.alpha.kitpvp.PitRemake.Factions.KingFaction;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
-import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PermanentUpgrades;
 import me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
@@ -24,20 +26,20 @@ import me.alpha.kitpvp.PitRemake.PitMenus.NonPermanentItems;
 import me.alpha.kitpvp.PitRemake.QuestMaster.questInventoryManager;
 import me.alpha.kitpvp.PitRemake.RenownShop.RenownItems;
 import me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage;
-import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
+import me.alpha.kitpvp.utils.CitizensHelper;
 import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.advancedInventory;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCCollisionEvent;
 import net.citizensnpcs.api.event.NPCDamageByEntityEvent;
 import net.citizensnpcs.api.event.NPCDamageEntityEvent;
 import net.citizensnpcs.api.npc.NPC;
-import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,11 +51,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -63,7 +63,6 @@ import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
 import static me.alpha.kitpvp.PitRemake.Gems.gemMain.makeGemGUI;
 import static me.alpha.kitpvp.PitRemake.Locations.changeCakeLocation;
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnProtection;
-import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.base;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnPant;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.deleteBlob;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.getPlayerFromBlob;
@@ -150,56 +149,97 @@ public class GeneralEvents implements Listener {
     @EventHandler(priority =  EventPriority.HIGHEST)
     public void HandleBowEvent(EntityShootBowEvent event){
         if(event.getEntity() instanceof Player){
-            ClassInstances.volleyLore.run(event);
-            ClassInstances.megaLongBowLore.run(event);
-            ClassInstances.telebowLore.run(event);
+            ReduxPlayer attacker = playerExists((Player) event.getEntity());
+
+            boolean somberAttacker = false;
+
+            NBTItem attackerPants = null;
+
+            if(!CitizensHelper.isNPC(attacker) && attacker.getLeggings() !=null){
+                attackerPants = new NBTItem(attacker.getLeggings());
+            }
+
+            if(attackerPants != null && attackerPants.hasKey("somber")) {
+                somberAttacker = true;
+            }
+
+            if(!somberAttacker &&
+                    !attacker.getPlayerObject().hasPotionEffect(PotionEffectType.POISON)){
+                ClassInstances.volleyLore.run(event);
+                ClassInstances.megaLongBowLore.run(event);
+                ClassInstances.telebowLore.run(event);
+            }
         }
     }
 
     @EventHandler(priority =  EventPriority.HIGHEST)
     public void HandleBowEvents(ProjectileHitEvent event){
         if(event.getEntity().getShooter() instanceof Player){
-            ClassInstances.telebowLore.runIt(event);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    event.getEntity().remove();
+                }
+            }, 300L);
+
+            ReduxPlayer attacker = playerExists((Player) event.getEntity().getShooter());
+
+            boolean somberAttacker = false;
+
+            NBTItem attackerPants = null;
+
+            if(!CitizensHelper.isNPC(attacker) && attacker.getLeggings() !=null){
+                attackerPants = new NBTItem(attacker.getLeggings());
+            }
+
+            if(attackerPants != null && attackerPants.hasKey("somber")) {
+                somberAttacker = true;
+            }
+
+            if(!somberAttacker &&
+                    !attacker.getPlayerObject().hasPotionEffect(PotionEffectType.POISON)){
+                ClassInstances.telebowLore.runIt(event);
+            }
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public static void HandleMegaStreakDamage(ReduxDamageEvent event){
         // Mega Streak Calculations
-        if(!isNPC(event.getDefenders().getPlayerObject())){
-            String streak = ClassInstances.megaStreakData.getMegaStreak(event.getDefenders().getPlayerUUID());
+        if(!isNPC(event.getDefender().getPlayerObject())){
+            String streak = ClassInstances.megaStreakData.getMegaStreak(event.getDefender().getPlayerUUID());
 
-            if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 50){
-                if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)<=0) return;
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)/5);
-
-                event.addBaseDamage(counter*.1);
-            }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 50){
-                if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)<=0) return;
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)/5);
-
-                event.getDefenders().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
-
-                event.addReduxTrueDamage(counter*.1);
-            }else if(streak.equals("highlander") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 50){
-                if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)<=0) return;
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-50)/15);
-
-                event.getDefenders().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
-
-                event.addBaseDamage(counter*.1);
-            }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 100){
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()))/100);
+            if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/5);
 
                 event.addBaseDamage(counter*.20);
-            }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID()) >= 100){
-                if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-100)<=0) return;
-                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-100)/20);
+            }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/5);
+
+                event.getDefender().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
+
+                event.addReduxTrueDamage(counter*.1);
+            }else if(streak.equals("highlander") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/15);
+
+                event.getDefender().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
+
+                event.addBaseDamage(counter*.20);
+            }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 100){
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()))/100);
+
+                event.addBaseDamage(counter*.50);
+            }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 100){
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-100)<=0) return;
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-100)/20);
 
                 event.addBaseDamage(event.getReduxDamage()*(counter*.10));
 
-                if((ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-200)<=0) return;
-                counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefenders().getPlayerUUID())-200)/20);
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-200)<=0) return;
+                counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-200)/20);
 
                 event.addReduxTrueDamage(counter*.1);
             }
@@ -212,19 +252,19 @@ public class GeneralEvents implements Listener {
             if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 50){
                 event.addBaseDamage(event.getReduxDamage()*.25);
             }else if(streak.equals("highlander") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 50){
-                if(!isNPC(event.getDefenders().getPlayerObject()) &&
-                        Bounty.BountiesMap.containsKey(event.getDefenders().getPlayerUUID()) &&
-                        Bounty.BountiesMap.get(event.getDefenders().getPlayerUUID()) >= 0){
+                if(!isNPC(event.getDefender().getPlayerObject()) &&
+                        Bounty.BountiesMap.containsKey(event.getDefender().getPlayerUUID()) &&
+                        Bounty.BountiesMap.get(event.getDefender().getPlayerUUID()) >= 0){
                     event.addReduxDamageMultiplier(33);
                 }
             }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 100){
-                if(isNPC(event.getDefenders().getPlayerObject())){
-                    event.subtractReduxDamageMultiplier(50);
+                if(isNPC(event.getDefender().getPlayerObject())){
+                    event.subtractReduxDamageMultiplier(100);
                 }
             }
 
             if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 400){
-                new TrueDamageHandler(event.getDefenders(), event.getAttacker(), event.getReduxDamage()/2, 0).run();
+                new TrueDamageHandler(event.getDefender(), event.getAttacker(), event.getReduxDamage()/2, 0).run();
             }
         }
     }
@@ -293,11 +333,29 @@ public class GeneralEvents implements Listener {
 
         }
         if(!(event.getEntity() instanceof Player)) {return;}
+        if((event.getDamager() instanceof FishHook)) {
+            event.setCancelled(true);
+            FishHook arrow = (FishHook) event.getDamager();
+            Player player = (Player) arrow.getShooter();
+            ((Player) event.getEntity()).damage(event.getDamage(), player);
+
+
+            return;
+
+        }
+
         if((event.getDamager() instanceof Arrow)) {
             event.setCancelled(true);
             Arrow arrow = (Arrow) event.getDamager();
             Player player = (Player) arrow.getShooter();
-            ((Player) event.getEntity()).damage(event.getDamage(), player);
+            ((Player) event.getEntity()).damage(event.getDamage()*.25, player);
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    arrow.remove();
+                }
+            }, 300L);
 
             ReduxBowEvent me = new ReduxBowEvent(playerExists(player), playerExists((Player) event.getEntity()), 0, event);
             Bukkit.getPluginManager().callEvent(me);
@@ -321,6 +379,14 @@ public class GeneralEvents implements Listener {
             defender.setAllowFlight(false);
             ClassInstances.CombatTag.put(String.valueOf(event.getDamager().getUniqueId()), System.currentTimeMillis() + (5 * 1000));
             ClassInstances.CombatTag.put(String.valueOf(event.getEntity().getUniqueId()), System.currentTimeMillis() + (5 * 1000));
+
+            if(((Player) event.getDamager()).getItemInHand()!=null &&
+                    ((Player) event.getDamager()).getItemInHand().getType().equals(Material.GOLD_SWORD) &&
+                    ((Player) event.getDamager()).getItemInHand().hasItemMeta() &&
+                    ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)
+            ){
+                event.setDamage(Math.max(0,event.getDamage())-2.5);
+            }
 
             ReduxDamageEvent mainEvent = new ReduxDamageEvent(playerExists(attacker), playerExists(defender), event.getDamage(), event);
             if(mainEvent!=null)Bukkit.getPluginManager().callEvent(mainEvent);
@@ -417,9 +483,10 @@ public class GeneralEvents implements Listener {
         }
 
         if(event.getItem() != null && event.getItem().getType().equals(Material.EMERALD)){
-            player.sendMessage(colorCode("&c&lERROR! &7That item is temporarily disabled!"));
-            Sounds.ERROR.play(player);
-            //player.openInventory(makeGemGUI(player));
+            //player.sendMessage(colorCode("&c&lERROR! &7That item is temporarily disabled!"));
+            //Sounds.ERROR.play(player);
+            Sounds.MYSTIC_WELL_OPEN_1.play(player);
+            player.openInventory(makeGemGUI(player));
             return;
         }
 
@@ -598,7 +665,101 @@ public class GeneralEvents implements Listener {
             if(block == Material.ENCHANTMENT_TABLE){
                 event.setCancelled(true);
                 Sounds.BOOSTER_REMIND.play(event.getPlayer());
-                base(event.getPlayer());
+                MysticWellGUI.openMysticWell(event.getPlayer());
+
+                event.getPlayer().getOpenInventory().getTopInventory().setItem(11, advancedInventory.yGlass());
+
+                new BukkitRunnable(){
+                    @Override
+                    public void run(){
+                        Player player = event.getPlayer();
+
+                        if(player.getOpenInventory().getTopInventory()!=null &&
+                        player.getOpenInventory().getTopInventory().getTitle()!=null &&
+                        !player.getOpenInventory().getTopInventory().getTitle().contains(ChatColor.GRAY + "Mystic Well")) this.cancel();
+
+                        boolean found = false;
+
+                        Inventory inventory = player.getOpenInventory().getTopInventory();
+
+                        int position = 10;
+
+
+                            if(inventory.getItem(position).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                            }else if(inventory.getItem(11).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=11;
+                            }else if(inventory.getItem(12).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=12;
+                            }else if(inventory.getItem(19).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=19;
+                            }else if(inventory.getItem(21).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=21;
+                            }else if(inventory.getItem(28).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=28;
+                            }else if(inventory.getItem(29).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=29;
+                            }else if(inventory.getItem(30).
+                                    getItemMeta().getDisplayName().
+                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                found=true;
+                                position=30;
+                            }
+
+                        inventory.setItem(position, advancedInventory.dGlass());
+
+                        switch (position){
+                            case 10:
+                                position=11;
+                                break;
+                            case 11:
+                                position=12;
+                                break;
+                            case 12:
+                                position=21;
+                                break;
+                            case 19:
+                                position=10;
+                                break;
+                            case 21:
+                                position=30;
+                                break;
+                            case 28:
+                                position=19;
+                                break;
+                            case 29:
+                                position=28;
+                                break;
+                            default:
+                                position=29;
+                                break;
+                        }
+
+                        inventory.setItem(position, advancedInventory.yGlass());
+
+                    }
+                }.runTaskTimer(KitPvP.INSTANCE,  3L, 3L);
+
             }else if(block == Material.CAKE_BLOCK){
                 if(event.getPlayer().getInventory().getItemInHand().equals(RenownStorage.getStickQuest())){
                     event.getPlayer().getInventory().addItem(new ItemStack(Material.CAKE));

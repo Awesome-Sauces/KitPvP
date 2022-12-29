@@ -16,29 +16,29 @@ public class PrickLore extends PitEnchant {
     @Override
     public void run(ReduxDamageEvent event) {
 
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("prick")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("prick");
 
         double damage = (double) ((5+(level*15)))*2;
 
-        if (event.getDefenders().getPrickCD()){
-            event.getDefenders().setPrickCD();
-            new TrueDamageHandler(event.getDefenders(), event.getAttacker(), (damage/100), 0).run();
+        if (event.getDefender().getPrickCD()){
+            event.getDefender().setPrickCD();
+            new TrueDamageHandler(event.getDefender(), event.getAttacker(), (damage/100), 0).run();
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    event.getDefenders().setPrickCD();
+                    event.getDefender().setPrickCD();
                 }
             }.runTaskLater(KitPvP.INSTANCE, 11L);
         }

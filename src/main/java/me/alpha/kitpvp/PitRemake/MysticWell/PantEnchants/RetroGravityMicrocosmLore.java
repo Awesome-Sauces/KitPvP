@@ -21,28 +21,28 @@ public class RetroGravityMicrocosmLore extends PitEnchant {
     @Override
     public void run(ReduxDamageEvent event) {
 
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("retro-gravitymicrocosm")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("retro-gravitymicrocosm");
 
         if(criticalHit(event)){
-            runIt(event.getAttacker().getPlayerObject(), event.getDefenders().getPlayerObject(), .5+((level-1)*.25), .5+((level-1)*.5));
+            runIt(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject(), .5+((level-1)*.25), .5+((level-1)*.5));
         }
 
     }
 
     public boolean criticalHit(ReduxDamageEvent event){
-        Player player = event.getDefenders().getPlayerObject();
+        Player player = event.getDefender().getPlayerObject();
 
         if(!event.getAttacker().getPlayerObject().isOnGround()){
             if(ClassInstances.RgmHitCounter.containsKey(String.valueOf(player.getUniqueId()))){

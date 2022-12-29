@@ -7,10 +7,12 @@ import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
+import me.alpha.kitpvp.Objects.Mobs.CustomZombie;
 import me.alpha.kitpvp.PitRemake.Boosters.Booster;
 import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
+import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
@@ -22,14 +24,15 @@ import me.alpha.kitpvp.PitRemake.PitCommands.View.ViewCore;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -51,13 +54,12 @@ import static me.alpha.kitpvp.PitRemake.ItemStacks.tebexItems.giveDyes;
 import static me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard.RefreshBoard;
 import static me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard.TopPlayers;
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnLocation;
-import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.base;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.deleteBlob;
 import static me.alpha.kitpvp.PitRemake.PitCommands.TebexSystem.TebexSystem.ColorfulBoxers;
 import static me.alpha.kitpvp.PitRemake.PitCommands.TebexSystem.TebexSystem.onRankBuy;
 import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.twoTimesEvent;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
-import static me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler.createMonsterBoss;
+import static me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler.*;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
@@ -180,6 +182,63 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            //Zombie stand = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
+
+            CustomZombie stand = new CustomZombie(((CraftWorld)player.getWorld()).getHandle());
+
+            stand.setPosition(player.getLocation().getX(),player.getLocation().getY(),player.getLocation().getZ());
+
+            NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, ChatColor.GRAY + "ZOMBIE-AI");
+
+            npc.getNavigator().getDefaultParameters()
+                    .attackRange(30)
+                    .speedModifier(2);
+
+            npc.spawn(player.getLocation());
+/*
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+                    if(stand==null || !stand.isValid() || stand.isDead()) this.cancel();
+                    if(stand.getTarget()!=null) return;
+
+                    List<Entity> entities = getNearbyEntity(stand, 10, 10, 10);
+
+                    if(entities!=null && !entities.isEmpty()) stand.setTarget((LivingEntity) entities.get(0));
+
+                }
+            }.runTaskTimer(KitPvP.INSTANCE,  5L, 5L);
+
+ */
+
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+                    if(npc==null||!npc.isSpawned() || !stand.getBukkitEntity().isValid() || stand.getBukkitEntity().isDead()){
+                        this.cancel();
+                    }else{
+                        npc.teleport(stand.getBukkitEntity().getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    }
+
+                }
+            }.runTaskTimer(KitPvP.INSTANCE,  1L, 1L);
+
+            npc.getNavigator().setTarget(stand.getBukkitEntity(), false);
+
+            /*
+            new BukkitRunnable(){
+                @Override
+                public void run(){
+                    if(npc==null || !npc.isSpawned()) this.cancel();
+                    if(npc.getNavigator().isNavigating()) return;
+
+                    npc.getNavigator().setTarget(stand, false);
+
+                }
+            }.runTaskTimer(KitPvP.INSTANCE,  5L, 5L);
+
+
+            /*
             if(args[1].contains("remove")){
                 ClassInstances.petData.setPetData(player.getUniqueId().toString(), "none", 1, 1, ClassInstances.xpDragon.getXpPerLevel());
             }else if(args[1].contains("xp")){
@@ -193,6 +252,8 @@ public class PitCommands implements CommandExecutor {
 
 
             Bukkit.broadcastMessage(ClassInstances.petData.getPetData(player.getUniqueId().toString()));
+
+             */
 
             //player.setItemInHand(MysticSword.enchantMystic(player, player.getItemInHand(), 3));
 
@@ -357,8 +418,6 @@ public class PitCommands implements CommandExecutor {
 
                 for (String key : nbtItem.getCompound("enchants").getKeys()){
                     int level = nbtCompound.getInteger(key);
-
-                    Bukkit.broadcastMessage(key);
 
                     if(player.getItemInHand().getType().equals(Material.LEATHER_LEGGINGS)){
                         lore.addAll(Arrays.asList(FreshPants.enchantTier(key, level).split("\n")));
@@ -588,7 +647,7 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("well")) {
             if(player.isOp()){
                 Sounds.BOOSTER_REMIND.play(player);
-                base(player);
+                MysticWellGUI.openMysticWell(player);
                 return true;
             }
 
@@ -599,7 +658,7 @@ public class PitCommands implements CommandExecutor {
                     player.hasPermission("MVP++")){
 
                 Sounds.BOOSTER_REMIND.play(player);
-                base(player);
+                MysticWellGUI.openMysticWell(player);
                 return true;
 
             }
@@ -702,10 +761,12 @@ public class PitCommands implements CommandExecutor {
                         player.getInventory().addItem(enchants.fresh_sword);
                         player.getInventory().addItem(enchants.jewl_sword);
                         player.getInventory().addItem(enchants.jewl_pant);
+                        player.getInventory().addItem(enchants.fresh_dark);
                         freshPantsCD.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis() + (5 * 1000));
                     }
 
                 }else{
+                    player.getInventory().addItem(enchants.fresh_dark);
                     player.getInventory().addItem(enchants.cactus);
                     player.getInventory().addItem(enchants.fresh_bow);
                     player.getInventory().addItem(enchants.fresh_reds);

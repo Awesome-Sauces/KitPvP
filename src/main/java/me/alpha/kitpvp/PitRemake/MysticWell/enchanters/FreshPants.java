@@ -10,6 +10,7 @@ import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.IntegerHelper;
 import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.getMysticWellItem;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
 import static me.alpha.kitpvp.utils.FancyText.hoverText;
@@ -58,6 +60,82 @@ public class FreshPants {
         Player player = (Player) event.getWhoClicked();
         ItemStack items = event.getClickedInventory().getItem(20);
 
+        NBTItem nbtItem = new NBTItem(items);
+
+        if(nbtItem.hasKey("darkPant")){
+            if(nbtItem.hasKey("darktier") && nbtItem.getInteger("darktier")==1){
+                if(removeGold(player, uuid, 100000)){
+                    NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+                    String enchant = getVenomEnchant();
+
+                    nbtCompound.setInteger(enchant, 1);
+                    nbtItem.setInteger("darktier", 2);
+
+                    nbtItem.mergeCompound(nbtCompound);
+
+                    items = nbtItem.getItem();
+
+                    ItemMeta itemMeta = items.getItemMeta();
+                    List<String> lore = new ArrayList<>();
+
+                    itemMeta.setDisplayName(ColorUtil.colorCode("&5Tier II Dark Pants"));
+
+                    lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+                    lore.add("   ");
+
+                    lore.addAll(Arrays.asList(FreshPants.enchantTier("somber", 1).split("\n")));
+                    lore.addAll(Arrays.asList(FreshPants.enchantTier(enchant, 1).split("\n")));
+
+                    lore.add(ChatColor.DARK_PURPLE + "Enchants require heresy");
+                    lore.add(ChatColor.DARK_PURPLE + "As strong as iron");
+
+                    itemMeta.setLore(lore);
+                    items.setItemMeta(itemMeta);
+
+                    FreshPants.getRareEnchant(lore,enchant,player, 2);
+
+                    event.getClickedInventory().setItem(20, items);
+                    advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+                    return;
+                }
+            }else if(!nbtItem.hasKey("darktier") && removeGold(player, uuid, 50000)){
+
+                NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+
+                nbtCompound.setInteger("somber", 1);
+                nbtItem.setInteger("darktier", 1);
+
+                nbtItem.mergeCompound(nbtCompound);
+
+                items = nbtItem.getItem();
+
+                ItemMeta itemMeta = items.getItemMeta();
+                List<String> lore = new ArrayList<>();
+
+                itemMeta.setDisplayName(ColorUtil.colorCode("&5Tier I Dark Pants"));
+
+                lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+                lore.add("   ");
+
+                for (String key : nbtItem.getCompound("enchants").getKeys()){
+                    int level = nbtItem.getInteger(key);
+                    lore.addAll(Arrays.asList(FreshPants.enchantTier(key, level).split("\n")));
+                }
+
+                lore.add(ChatColor.DARK_PURPLE + "Enchants require heresy");
+                lore.add(ChatColor.DARK_PURPLE + "As strong as iron");
+
+                itemMeta.setLore(lore);
+                items.setItemMeta(itemMeta);
+
+                event.getClickedInventory().setItem(20, items);
+                advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+                return;
+            }
+
+            return;
+        }
+
         int tokens = getTokens(items.getItemMeta().getLore());
 
         if (items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS) && tokens>0){
@@ -84,6 +162,7 @@ public class FreshPants {
             event.getClickedInventory().setItem(20, createPant(player,1, null, event.getClickedInventory().getItem(20)));
         }
 
+        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
 
     }
 
@@ -282,6 +361,11 @@ public class FreshPants {
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
                     +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + IntegerHelper.integerToRoman(level) + " Pants&7, gg!"), compileListToString(lore, colorCode("&cTier " + IntegerHelper.integerToRoman(level) + " Pants"), true));
+        }else if(enchant.contains("venom")){
+            Sounds.PRESTIGE.play(player);
+            hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
+                    +  RankColor.getNameColor(player) +
+                    player.getDisplayName() + ChatColor.GRAY + " created " + "&5Tier " + IntegerHelper.integerToRoman(level) + " Dark Pants&7, gg!"), compileListToString(lore, colorCode("&cTier " + IntegerHelper.integerToRoman(level) + " Pants"), true));
         }
     }
 
@@ -326,6 +410,18 @@ public class FreshPants {
             return colorCode(ClassInstances.peroxideLore.title(tier));
         }else if (Objects.equals(enchant, "fractionalreserve")) {
             return colorCode(ClassInstances.fractionalReserveLore.title(tier));
+        }else if (Objects.equals(enchant, "somber")) {
+            return colorCode(ClassInstances.somberLore.title(tier));
+        }else if (Objects.equals(enchant, "misery")) {
+            return colorCode(ClassInstances.miseryLore.title(tier));
+        }else if (Objects.equals(enchant, "spite")) {
+            return colorCode(ClassInstances.spiteLore.title(tier));
+        }else if (Objects.equals(enchant, "venom")) {
+            return colorCode(ClassInstances.venomLore.title(tier));
+        }else if (Objects.equals(enchant, "suffering")) {
+            return colorCode(ClassInstances.needlessSufferingLore.title(tier));
+        }else if (Objects.equals(enchant, "mind")) {
+            return colorCode(ClassInstances.mindAssaultLore.title(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
             return colorCode(ClassInstances.moctezumaLore.title(tier));
         }else if (Objects.equals(enchant, "goldbump")){
@@ -450,6 +546,18 @@ public class FreshPants {
             return colorCode(ClassInstances.diamondAllergyLore.lore(tier));
         }else if (Objects.equals(enchant, "fractionalreserve")) {
             return colorCode(ClassInstances.fractionalReserveLore.lore(tier));
+        }else if (Objects.equals(enchant, "somber")) {
+            return colorCode(ClassInstances.somberLore.lore(tier));
+        }else if (Objects.equals(enchant, "misery")) {
+            return colorCode(ClassInstances.miseryLore.lore(tier));
+        }else if (Objects.equals(enchant, "spite")) {
+            return colorCode(ClassInstances.spiteLore.lore(tier));
+        }else if (Objects.equals(enchant, "venom")) {
+            return colorCode(ClassInstances.venomLore.lore(tier));
+        }else if (Objects.equals(enchant, "suffering")) {
+            return colorCode(ClassInstances.needlessSufferingLore.lore(tier));
+        }else if (Objects.equals(enchant, "mind")) {
+            return colorCode(ClassInstances.mindAssaultLore.lore(tier));
         }else if (Objects.equals(enchant, "moctezuma")){
             return colorCode(ClassInstances.moctezumaLore.lore(tier));
         }else if (Objects.equals(enchant, "goldbump")){
@@ -474,11 +582,46 @@ public class FreshPants {
         return 1;
     }
 
+    public static String getVenomEnchant(){
+        List<String> lore = new ArrayList<>();
+
+        // Dark Pants
+
+        // Super Rare
+        double venom = .0025 * calcEnchant(lore, "venom");
+
+        // Rare
+        double mindAssault = .0050 * calcEnchant(lore, "mind");
+
+        // Common Normal
+        double needlessSuffering = .0335 * calcEnchant(lore, "suffering");
+
+        // Uncommon Normal
+        double misery = .0325 * calcEnchant(lore , "misery");
+        double spite = .0325 * calcEnchant(lore , "spite");
+
+        while (true) {
+            if(percentChance(needlessSuffering)){
+                return "suffering";
+            }else if(percentChance(spite)){
+                return "spite";
+            }else if(percentChance(misery)){
+                return "misery";
+            }else if(percentChance(mindAssault)){
+                return "mind";
+            }else if(percentChance(venom)){
+                return "venom";
+            }
+        }
+    }
+
     public static String getEnchant(List<String> lore){
 
         for (String ench : lore){
             lore.set(lore.indexOf(ench), convertEnchant(ench.replaceAll("I", "")));
         }
+
+        // Normal Pants
 
         // Super Rare
         double pitBlob = .001 * calcEnchant(lore, "pitblob");
@@ -500,7 +643,7 @@ public class FreshPants {
         // Uncommon Normal
         double criticallyFunky = .0425 * calcEnchant(lore, "criticallyfunky");
         double davidGoliath = .0425 * calcEnchant(lore , "davidgoliath");
-        double goldenHeart = .0125 * calcEnchant(lore, "goldenheart");
+        double goldenHeart = .0325 * calcEnchant(lore, "goldenheart");
         double fractionalReserve = .0425 * calcEnchant(lore, "fractionalreserve");
         double mirror = .0425 * calcEnchant(lore, "mirror");
         double notGladiator = .0425 * calcEnchant(lore, "notgladiator");

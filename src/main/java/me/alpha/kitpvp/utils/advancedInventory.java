@@ -2,16 +2,19 @@ package me.alpha.kitpvp.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -25,6 +28,36 @@ public class advancedInventory {
         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (7));
         ItemMeta null_meta = glass.getItemMeta();
         null_meta.setDisplayName(ChatColor.GRAY + " ");
+        glass.setItemMeta(null_meta);
+        return glass;
+    }
+
+    public static ItemStack dGlass(){
+        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (15));
+        ItemMeta null_meta = glass.getItemMeta();
+        null_meta.setDisplayName(ChatColor.GRAY + "Item in well!");
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY+"Click it to get it back.");
+        null_meta.setLore(lore);
+        glass.setItemMeta(null_meta);
+        return glass;
+    }
+
+    public static ItemStack yGlass(){
+        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (4));
+        ItemMeta null_meta = glass.getItemMeta();
+        null_meta.setDisplayName(ChatColor.YELLOW + "Item in well!");
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW+"Click it to get it back.");
+        null_meta.setLore(lore);
+        glass.setItemMeta(null_meta);
+        return glass;
+    }
+
+    public static ItemStack closeButton(){
+        ItemStack glass = new ItemStack(Material.BARRIER, 1);
+        ItemMeta null_meta = glass.getItemMeta();
+        null_meta.setDisplayName(ChatColor.RED + "Close");
         glass.setItemMeta(null_meta);
         return glass;
     }
@@ -58,6 +91,18 @@ public class advancedInventory {
     public static ItemStack DyeMaker(short dyeColor, String DisplayName, String lore){
         ItemStack dye = new ItemStack(351, 1, dyeColor);
         ItemMeta meta = dye.getItemMeta();
+        meta.setDisplayName(DisplayName);
+        String[] lines = lore.split("\\n");
+        ArrayList<String> dye_lore = new ArrayList<>(Arrays.asList(lines));
+        meta.setLore(dye_lore);
+        dye.setItemMeta(meta);
+        return dye;
+    }
+
+    public static ItemStack LeggingsMaker(Color dyeColor, String DisplayName, String lore){
+        ItemStack dye = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+        LeatherArmorMeta meta = (LeatherArmorMeta) dye.getItemMeta();
+        meta.setColor(dyeColor);
         meta.setDisplayName(DisplayName);
         String[] lines = lore.split("\\n");
         ArrayList<String> dye_lore = new ArrayList<>(Arrays.asList(lines));

@@ -14,30 +14,30 @@ public class BooBooLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("booboo")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("booboo");
 
-        if (event.getDefenders().getBooCD()){
-            event.getDefenders().setBooCD();
+        if (event.getDefender().getBooCD()){
+            event.getDefender().setBooCD();
 
-            event.getDefenders().getPlayerObject().setHealth(Math.min(event.getDefenders().getPlayerObject().getMaxHealth(),
-                    event.getDefenders().getPlayerObject().getHealth()+(.25*level)));
+            event.getDefender().getPlayerObject().setHealth(Math.min(event.getDefender().getPlayerObject().getMaxHealth(),
+                    event.getDefender().getPlayerObject().getHealth()+(.25*level)));
 
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    event.getDefenders().setBooCD();
+                    event.getDefender().setBooCD();
                 }
             }.runTaskLater(KitPvP.INSTANCE, 11L);
         }

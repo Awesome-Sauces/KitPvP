@@ -13,21 +13,21 @@ public class CriticallyFunkyLore extends PitEnchant {
     @Override
     public void run(ReduxDamageEvent event) {
 
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("criticallyfunky")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("criticallyfunky");
       
-        double damage = .0001;
+        double damage = 1;
 
         if (level > 2) {
             damage += (level*7) + 9;
@@ -36,7 +36,7 @@ public class CriticallyFunkyLore extends PitEnchant {
         double dmg = 80-((level-1)*15);
 
         if(criticalHit(event.getAttacker().getPlayerObject().getPlayer())){
-            event.getDefenders().setPlayerIncrease(damage/100);
+            event.getDefender().setPlayerIncrease(damage);
             event.subtractReduxDamageMultiplier(dmg);
         }
     

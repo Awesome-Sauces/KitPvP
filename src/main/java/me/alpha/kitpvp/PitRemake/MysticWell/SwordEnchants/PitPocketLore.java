@@ -33,7 +33,7 @@ public class PitPocketLore extends PitEnchant {
 
             int gold = 10+(level*5);
 
-            event.getAttacker().getPlayerObject().sendMessage(colorCode("&6&lPITPOCKET! &7you stole &6" + gold + "g &7from &6" + event.getDefenders().getPlayerObject().getDisplayName()));
+            event.getAttacker().getPlayerObject().sendMessage(colorCode("&6&lPITPOCKET! &7you stole &6" + gold + "g &7from &6" + event.getDefender().getPlayerObject().getDisplayName()));
 
             event.getAttacker().addPlayerGold(gold);
 

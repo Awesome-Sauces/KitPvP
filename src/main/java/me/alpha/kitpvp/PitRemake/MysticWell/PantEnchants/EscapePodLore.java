@@ -16,22 +16,22 @@ public class EscapePodLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("escapepod")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("escapepod");
 
-        if(event.getDefenders().getEscape() && event.getDefenders().getPlayerObject().getHealth()-event.getReduxDamage() <= 8){
-            giveRegen(event.getDefenders().getPlayerObject(), level+2, 15+((level-1)*15));
+        if(event.getDefender().getEscape() && event.getDefender().getPlayerObject().getHealth()-event.getReduxDamage() <= 8){
+            giveRegen(event.getDefender().getPlayerObject(), level+2, 15+((level-1)*15));
         }
     }
 

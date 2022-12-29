@@ -6,7 +6,6 @@ import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
-import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
 import me.alpha.kitpvp.utils.CitizensHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -20,29 +19,29 @@ import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 public class CricketLore extends PitEnchant {
     @Override
     public void run(ReduxDamageEvent event) {
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("cricket")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("cricket");
 
         if(event.getAttacker().getPlayerObject().getWorld().getBlockAt(event.getAttacker().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS) ||
-                event.getDefenders().getPlayerObject().getWorld().getBlockAt(event.getDefenders().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS)){
+                event.getDefender().getPlayerObject().getWorld().getBlockAt(event.getDefender().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS)){
             double damage = (level*5);
             event.subtractReduxDamageMultiplier(damage);
 
 
-            event.getDefenders().addPotionEffect(PotionEffectType.REGENERATION, 32000, 1);
+            event.getDefender().addPotionEffect(PotionEffectType.REGENERATION, 32000, 1);
         }else{
-            event.getDefenders().removePotionEffect(PotionEffectType.REGENERATION);
+            event.getDefender().removePotionEffect(PotionEffectType.REGENERATION);
         }
     }
 

@@ -2,7 +2,11 @@ package me.alpha.kitpvp.PitRemake;
 
 import org.bukkit.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
 
 public class Locations {
 
@@ -52,34 +56,50 @@ public class Locations {
 
     // Coral Map Locations
     public static Location getSpawnLocation(World world){
-        return new Location(world, 0.5, 95, 10.5);
+
+        if(world.getName().contains("NewMap")){
+            return new Location(world, -1.5, 61, -15.5);
+        }
+
+        while(true){
+            if(percentChance(.25)){
+                return new Location(world, -2.5, 161, 3.5,0.5F,0.5F);
+            }else if(percentChance(.25)){
+                return new Location(world, 5.5, 161, 12.5,90,2.5F);
+            }else if(percentChance(.25)){
+                return new Location(world, 4.5, 161, 20.5,-45,1.5F);
+            }else if(percentChance(.25)){
+                return new Location(world, -9.5, 161, 18.5,40,0.5F);
+            }
+        }
     }
 
     public static Location getEventNotifyLocation(World world){
-        return new Location(world, 0.5, 99, 0.5);
+        return new Location(world, -2.5, 165, 12.5);
     }
     public static Location getPlayPitLocation(World world){
-        return new Location(world, 0.5, 98, 0.5);
+        return new Location(world, -2.5, 163, 12.5);
     }
 
     public static Location getBotSpawnLocation(World world){
-        return new Location(world, 0.5, 90, 0.5);
+        return new Location(world, -2.5, 145, 12.5);
     }
     public static Location getLeaderBoardLocation(World world){
-        return new Location(world, 14.5, 101, 0.5);
+        return new Location(world, -14.5, 167, 12.5);
     }
 
     public static Location getEnderChestLocation(World world){
-        return new Location(world, -10.5, 97.5, 6.5);
+        return new Location(world, 8.5, 164, 7.5);
     }
 
     public static Location getBetterPitLocation(World world){
-        return new Location(world, -5.5,98,11.5);
+        return new Location(world, 1.5, 164, 3.5);
     }
     public static Location getMysticWellLocation(World world){
-        return new Location(world, -13.5, 98.5, 0.5);
+        return new Location(world, 9.5, 165, 12.5);
     }
 
+    // Put These guys back later
     public static Location getKingsQuestLocation(World world){
         return new Location(world, -10.5, 95, -5.5);
     }
@@ -92,7 +112,7 @@ public class Locations {
         return new Location(world, 13.5, 95, 13.5);
     }
 
-    public static int getSpawnProtection() {return 93;}
+    public static int getSpawnProtection() {return 145;}
 
     /*public static Location getCakeLocation(){
         return cake;
@@ -191,29 +211,29 @@ public class Locations {
      */
 
     // Coral Map NPC
-    public static Location perm_upgrades_loc = new Location(Bukkit.getWorld("world"), -1.5, 95, 12.5);
-    public static Location non_perm_upgrades_loc = new Location(Bukkit.getWorld("world"), 2.5, 95, 12.5);
+    public static Location perm_upgrades_loc = new Location(Bukkit.getWorld("world"), -1.5, 161, 1.5, -0, 0);
+    public static Location non_perm_upgrades_loc = new Location(Bukkit.getWorld("world"), -4.5, 161, 1.5, -0, 0);
 
-    public static Location leaderboard_npc_loc = new Location(Bukkit.getWorld("world"), 11.5, 95, 6.5);
-    public static Location quest_npc_loc = new Location(Bukkit.getWorld("world"), 11.5, 95, -5.5);
+    public static Location leaderboard_npc_loc = new Location(Bukkit.getWorld("world"), -12.5, 161, 8.5, -90, 0);
+    public static Location quest_npc_loc = new Location(Bukkit.getWorld("world"), -12.5, 161, 16.5, -90, 0);
 
-    public static Location prestige_npc_loc = new Location(Bukkit.getWorld("world"), 0.5, 96, -12.5);
+    public static Location prestige_npc_loc = new Location(Bukkit.getWorld("world"), -2.5, 162, 23.5, 175, -0);
 
-    public static Location lobby_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby"), -1.5, 95, 12.5);
-    public static Location lobby_non_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby"), 2.5, 95, 12.5);
+    public static Location lobby_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby"), -1.5, 161, 1.5, -0, 0);
+    public static Location lobby_non_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby"), -4.5, 161, 1.5, -0, 0);
 
-    public static Location lobby_leaderboard_npc_loc = new Location(Bukkit.getWorld("lobby"), 11.5, 95, 6.5);
-    public static Location lobby_quest_npc_loc = new Location(Bukkit.getWorld("lobby"), 11.5, 95, -5.5);
+    public static Location lobby_leaderboard_npc_loc = new Location(Bukkit.getWorld("lobby"), -12.5, 161, 8.5, -90, 0);
+    public static Location lobby_quest_npc_loc = new Location(Bukkit.getWorld("lobby"), -12.5, 161, 16.5, -90, 0);
 
-    public static Location lobby_prestige_npc_loc = new Location(Bukkit.getWorld("lobby"), 0.5, 96, -12.5);
+    public static Location lobby_prestige_npc_loc = new Location(Bukkit.getWorld("lobby"), -2.5, 162, 23.5, 175, -0);
 
-    public static Location lobby2_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby2"), -1.5, 95, 12.5);
-    public static Location lobby2_non_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby2"), 2.5, 95, 12.5);
+    public static Location lobby2_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby2"), -1.5, 161, 1.5, -0, 0);
+    public static Location lobby2_non_perm_upgrades_loc = new Location(Bukkit.getWorld("lobby2"), -4.5, 161, 1.5, -0, 0);
 
-    public static Location lobby2_leaderboard_npc_loc = new Location(Bukkit.getWorld("lobby2"), 11.5, 95, 6.5);
-    public static Location lobby2_quest_npc_loc = new Location(Bukkit.getWorld("lobby2"), 11.5, 95, -5.5);
+    public static Location lobby2_leaderboard_npc_loc = new Location(Bukkit.getWorld("lobby2"), -12.5, 161, 8.5, -90, 0);
+    public static Location lobby2_quest_npc_loc = new Location(Bukkit.getWorld("lobby2"), -12.5, 161, 16.5, -90, 0);
 
-    public static Location lobby2_prestige_npc_loc = new Location(Bukkit.getWorld("lobby2"), 0.5, 96, -12.5);
+    public static Location lobby2_prestige_npc_loc = new Location(Bukkit.getWorld("lobby2"), -2.5, 162, 23.5, 175, -0);
 
     public static Location getCakeLocation(){
         return cake;

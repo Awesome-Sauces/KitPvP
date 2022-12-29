@@ -29,21 +29,37 @@ public class RegularityLore extends PitEnchant {
         NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("regularity");
 
-        triggerAttack(event, ((double) (25+((level-1)*15))/100));
+        if(event.getBaseDamage()/6 <= 1.5){
+            triggerAttack(event, level);
+        }
 
     }
 
-    public void triggerAttack(ReduxDamageEvent event, double multiplier){
+    public static double secondHitDamage(int enchantLvl) {
+        return (enchantLvl * 15 + 30);
+    }
+
+    public void triggerAttack(ReduxDamageEvent event, int multiplier){
         if (event.getAttacker().getRegCD()){
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    double damage = event.getBaseDamage()*(secondHitDamage(multiplier)*.01);
+                    event.getDefender().getPlayerObject().setNoDamageTicks(0);
+                    event.getDefender().getPlayerObject().damage(damage, event.getAttacker().getPlayerObject());
+
+                }
+            }.runTaskLater(KitPvP.INSTANCE, 3L);
+
             event.getAttacker().setRegCD();
-            event.getDefenders().getPlayerObject().setNoDamageTicks(0);
-            event.getDefenders().getPlayerObject().damage((event.getReduxDamage()) * multiplier, event.getAttacker().getPlayerObject());
+
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     event.getAttacker().setRegCD();
                 }
-            }.runTaskLater(KitPvP.INSTANCE, 20L);
+            }.runTaskLater(KitPvP.INSTANCE, 4L);
         }
     }
 

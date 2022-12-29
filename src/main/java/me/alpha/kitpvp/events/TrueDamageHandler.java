@@ -37,7 +37,10 @@ public class TrueDamageHandler {
             //defender.getPlayerObject().setHealth(defender.getPlayerObject().getMaxHealth());
             defender.killPlayer(attacker.getPlayerObject());
         }
-        else this.defender.getPlayerObject().setHealth(Math.max(this.defender.getPlayerObject().getHealth()-damage, 1));
+        else {
+            this.defender.getPlayerObject().setHealth(Math.max(this.defender.getPlayerObject().getHealth() - damage, 1));
+            defender.getPlayerObject().damage(0);
+        }
 
     }
 }

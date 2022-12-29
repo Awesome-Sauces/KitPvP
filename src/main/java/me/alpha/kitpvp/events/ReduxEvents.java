@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.events;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.CustomEvents.ArmorEvents.ArmorEquipEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
@@ -9,12 +10,14 @@ import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler;
+import me.alpha.kitpvp.utils.CitizensHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 import static me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler.playerExists;
@@ -35,10 +38,54 @@ public class ReduxEvents implements Listener {
 
     @EventHandler
     public void bowHitEvent(ReduxBowEvent event){
-        ClassInstances.fasterThenTheirShadowLore.bow(event);
-        ClassInstances.sprintDrainLore.bow(event);
-        ClassInstances.waspLore.bow(event);
-        ClassInstances.parasiteLore.bow(event);
+        ReduxPlayer defender = event.getDefender();
+        ReduxPlayer attacker = event.getAttacker();
+
+        boolean somberAttacker = false;
+        boolean somberDefender = false;
+
+        NBTItem attackerPants = null;
+        NBTItem defenderPants = null;
+
+        NBTItem defenderBoots = null;
+        NBTItem attackerBoots = null;
+
+        if(!CitizensHelper.isNPC(defender) && defender.getLeggings() !=null){
+            defenderPants = new NBTItem(defender.getLeggings());
+        }
+
+        if(!CitizensHelper.isNPC(attacker) && attacker.getLeggings() !=null){
+            attackerPants = new NBTItem(attacker.getLeggings());
+        }
+
+        if(!CitizensHelper.isNPC(defender) && defender.getBoots() !=null){
+            defenderBoots = new NBTItem(defender.getBoots());
+        }
+
+        if(!CitizensHelper.isNPC(attacker) && attacker.getBoots() !=null){
+            attackerBoots = new NBTItem(attacker.getBoots());
+        }
+
+        if(attackerPants != null && attackerPants.hasKey("somber")) {
+            somberAttacker = true;
+            somberDefender = true;
+        }
+        if(defenderPants != null && defenderPants.hasKey("somber")) somberDefender=true;
+
+        if(defenderBoots != null && defenderBoots.hasKey("arma")  && !somberDefender) somberDefender=true;
+        if(attackerBoots != null && attackerBoots.hasKey("arma") && !somberAttacker) {
+            somberDefender = false;
+        }
+
+        if(attacker.getPlayerObject().getItemInHand()!=null &&
+                attacker.getPlayerObject().getItemInHand().getType()!=Material.AIR &&
+                !somberAttacker && !somberDefender &&
+                !attacker.getPlayerObject().hasPotionEffect(PotionEffectType.POISON)){
+            ClassInstances.fasterThenTheirShadowLore.bow(event);
+            ClassInstances.sprintDrainLore.bow(event);
+            ClassInstances.waspLore.bow(event);
+            ClassInstances.parasiteLore.bow(event);
+        }
     }
 
     @EventHandler

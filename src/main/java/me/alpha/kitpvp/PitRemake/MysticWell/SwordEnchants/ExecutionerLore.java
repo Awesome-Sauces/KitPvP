@@ -10,7 +10,6 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
-import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 
@@ -34,14 +33,14 @@ public class ExecutionerLore extends PitEnchant {
 
         double tier = item.getInteger("executioner");
 
-        double damage = (event.getReduxDamage()*.5) + event.getReduxTrueDamage();
+        double damage = (event.getReduxDamage()*.75) + event.getReduxTrueDamage();
 
 
-        if(event.getDefenders().getPlayerObject().getHealth() - damage <= tier){
+        if(event.getDefender().getPlayerObject().getHealth() - damage <= tier){
             Sounds.EXE.play(event.getAttacker().getPlayerObject());
-            event.getDefenders().getPlayerObject().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+            event.getDefender().getPlayerObject().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 
-            KillMan(event.getAttacker().getPlayerObject(), event.getDefenders().getPlayerObject());
+            KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
 
             event.setCancelled(true);
             event.getBukkitEvent().setCancelled(true);

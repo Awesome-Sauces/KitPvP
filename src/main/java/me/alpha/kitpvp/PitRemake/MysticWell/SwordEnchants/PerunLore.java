@@ -39,7 +39,7 @@ public class PerunLore extends PitEnchant {
         addCounter(event);
 
         if(trigger(event, count)){
-            event.addReduxTrueDamage(level*2);
+            event.addReduxTrueDamage(level);
         }
     }
 
@@ -69,7 +69,7 @@ public class PerunLore extends PitEnchant {
     private boolean trigger(ReduxDamageEvent event, int count){
         if(ClassInstances.PerunHitCounter.get(event.getAttacker().getPlayerUUID()) >= count){
             ClassInstances.PerunHitCounter.put(event.getAttacker().getPlayerUUID(), 0);
-            strikeLightningForPlayers(event.getDefenders().getPlayerObject().getLocation(), event.getAttacker().getPlayerObject(), event.getDefenders().getPlayerObject());
+            strikeLightningForPlayers(event.getDefender().getPlayerObject().getLocation(), event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
             return true;
         }else return false;
     }

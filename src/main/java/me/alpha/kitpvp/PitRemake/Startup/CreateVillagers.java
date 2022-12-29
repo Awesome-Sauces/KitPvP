@@ -343,11 +343,14 @@ public class CreateVillagers {
         Location temp_perm_upgrades = Locations.perm_upgrades_loc;
         Location temp_non_perm_upgrades = Locations.non_perm_upgrades_loc;
 
+        /*
         quest_npc.faceLocation(temp_quest.add(-1,0,0));
         leaderboard_npc.faceLocation(temp_leaderboard.add(-1,0,0));
         prestige_npc.faceLocation(temp_prestige.add(0,0,1));
         perm_upgrades_npc.faceLocation(temp_perm_upgrades.add(0,0,-1));
         non_perm_upgrades_npc.faceLocation(temp_non_perm_upgrades.add(0,0,-1));
+
+         */
 
         Location lobby_temp_quest = Locations.lobby_quest_npc_loc;
         Location lobby_temp_leaderboard = Locations.lobby_leaderboard_npc_loc;
@@ -355,11 +358,14 @@ public class CreateVillagers {
         Location lobby_temp_perm_upgrades = Locations.lobby_perm_upgrades_loc;
         Location lobby_temp_non_perm_upgrades = Locations.lobby_non_perm_upgrades_loc;
 
+        /*
         lobby_quest_npc.faceLocation(lobby_temp_quest.add(-1,0,0));
         lobby_leaderboard_npc.faceLocation(lobby_temp_leaderboard.add(-1,0,0));
         lobby_prestige_npc.faceLocation(lobby_temp_prestige.add(0,0,1));
         lobby_perm_upgrades_npc.faceLocation(lobby_temp_perm_upgrades.add(0,0,-1));
         lobby_non_perm_upgrades_npc.faceLocation(lobby_temp_non_perm_upgrades.add(0,0,-1));
+
+         */
 
         Location lobby2_temp_quest = Locations.lobby2_quest_npc_loc;
         Location lobby2_temp_leaderboard = Locations.lobby2_leaderboard_npc_loc;
@@ -367,23 +373,26 @@ public class CreateVillagers {
         Location lobby2_temp_perm_upgrades = Locations.lobby2_perm_upgrades_loc;
         Location lobby2_temp_non_perm_upgrades = Locations.lobby2_non_perm_upgrades_loc;
 
+        /*
         lobby2_quest_npc.faceLocation(lobby2_temp_quest.add(-1,0,0));
         lobby2_leaderboard_npc.faceLocation(lobby2_temp_leaderboard.add(-1,0,0));
         lobby2_prestige_npc.faceLocation(lobby2_temp_prestige.add(0,0,1));
         lobby2_perm_upgrades_npc.faceLocation(lobby2_temp_perm_upgrades.add(0,0,-1));
         lobby2_non_perm_upgrades_npc.faceLocation(lobby2_temp_non_perm_upgrades.add(0,0,-1));
+
+         */
     }
 
     private static void makeHolograms(){
-        perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.perm_upgrades_loc.add(0,2.75,1));
+        perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.perm_upgrades_loc.add(0,2.75,0));
         perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
-        non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.non_perm_upgrades_loc.add(0,2.75,1));
+        non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.non_perm_upgrades_loc.add(0,2.75,0));
         non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
-        leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.leaderboard_npc_loc.add(1,2.75,0));
+        leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.leaderboard_npc_loc.add(0,2.75,0));
         leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
-        quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.quest_npc_loc.add(1,2.75,0));
+        quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.quest_npc_loc.add(0,2.75,0));
         quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
-        prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.prestige_npc_loc.add(0,2.75,-1));
+        prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.prestige_npc_loc.add(0,2.75,0));
         prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
 
         ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("world")).add(0,-.75,0));
@@ -398,15 +407,15 @@ public class CreateVillagers {
         mystic_well_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("world")).add(0,-1,0));
         mystic_well_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7item enchants"));
 
-        lobby_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_perm_upgrades_loc.add(0,2.75,1));
+        lobby_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_perm_upgrades_loc.add(0,2.75,0));
         lobby_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
-        lobby_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_non_perm_upgrades_loc.add(0,2.75,1));
+        lobby_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_non_perm_upgrades_loc.add(0,2.75,0));
         lobby_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
-        lobby_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_leaderboard_npc_loc.add(1,2.75,0));
+        lobby_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_leaderboard_npc_loc.add(0,2.75,0));
         lobby_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
-        lobby_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_quest_npc_loc.add(1,2.75,0));
+        lobby_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_quest_npc_loc.add(0,2.75,0));
         lobby_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
-        lobby_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_prestige_npc_loc.add(0,2.75,-1));
+        lobby_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_prestige_npc_loc.add(0,2.75,0));
         lobby_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
 
         lobby_ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby")).add(0,-.75,0));
@@ -422,15 +431,15 @@ public class CreateVillagers {
         lobby_mystic_well_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7item enchants"));
 
 
-        lobby2_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_perm_upgrades_loc.add(0,2.75,1));
+        lobby2_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_perm_upgrades_loc.add(0,2.75,0));
         lobby2_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
-        lobby2_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_non_perm_upgrades_loc.add(0,2.75,1));
+        lobby2_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_non_perm_upgrades_loc.add(0,2.75,0));
         lobby2_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
-        lobby2_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_leaderboard_npc_loc.add(1,2.75,0));
+        lobby2_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_leaderboard_npc_loc.add(0,2.75,0));
         lobby2_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
-        lobby2_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_quest_npc_loc.add(1,2.75,0));
+        lobby2_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_quest_npc_loc.add(0,2.75,0));
         lobby2_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
-        lobby2_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_prestige_npc_loc.add(0,2.75,-1));
+        lobby2_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_prestige_npc_loc.add(0,2.75,0));
         lobby2_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
 
         lobby2_ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby2")).add(0,-.75,0));

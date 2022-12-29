@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.ItemStacks;
 
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -25,6 +26,7 @@ public class enchants {
     public static ItemStack fresh_oranges;
     public static ItemStack fresh_yellows;
     public static ItemStack fresh_sword;
+    public static ItemStack fresh_dark;
     public static ItemStack vile;
     public static ItemStack jewl_pant;
     public static ItemStack jewl_sword;
@@ -47,6 +49,7 @@ public class enchants {
     public static ItemStack kingsHelmet;
     public static ItemStack archAngel;
     public static ItemStack arma;
+    public static ItemStack soup;
 
 
     public static void init(){
@@ -79,10 +82,19 @@ public class enchants {
         createKingsHelmet();
         createArchAngel();
         createArma();
+        createDarks();
+        createSoup();
     }
 
     private static void createArma() {
         ItemStack item = new ItemStack(Material.LEATHER_BOOTS, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("arma", 1);
+
+        item = nbtItem.getItem();
+
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setColor(Color.RED);
         meta.setDisplayName(colorCode("&cArmageddon Boots"));
@@ -98,6 +110,28 @@ public class enchants {
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
         arma = item;
+    }
+
+    private static void createSoup() {
+        ItemStack item = new ItemStack(Material.MUSHROOM_SOUP, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("soup", 1);
+
+        item = nbtItem.getItem();
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(colorCode("&aTasty Soup"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&9Speed I (0:07)"));
+        lore.add(colorCode("&a1.5\u2764 Heal &7+ &61\u2764 Absorption"));
+        lore.add("&cNext melee hit +15% damage");
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
+        meta.spigot().setUnbreakable(true);
+        item.setItemMeta(meta);
+        soup = item;
     }
 
     private static void createArchAngel() {
@@ -353,6 +387,38 @@ public class enchants {
         meta.setLore(lore);
         item.setItemMeta(meta);
         fresh_blues = item;
+        //Shaped Recipe
+        ShapedRecipe sr = new ShapedRecipe(item);
+        sr.shape("S S", "S S", "S S");
+        sr.setIngredient('S', Material.STICK);
+        Bukkit.getServer().addRecipe(sr);
+    }
+
+    private static void createDarks() {
+        ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("darkPant", 1);
+
+        item = nbtItem.getItem();
+
+        LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+        meta.setColor(Color.fromRGB(0, 0, 0));
+        meta.setDisplayName(colorCode("&5Fresh Dark Pants"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&7Kept on death"));
+        lore.add("   ");
+        lore.add(colorCode("&5Enchants require heresy"));
+        lore.add(colorCode("&5Tier I bypasses mysticism"));
+        lore.add(colorCode("&5Edgy fashion"));
+
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+        meta.spigot().setUnbreakable(true);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+
+        fresh_dark = item;
         //Shaped Recipe
         ShapedRecipe sr = new ShapedRecipe(item);
         sr.shape("S S", "S S", "S S");

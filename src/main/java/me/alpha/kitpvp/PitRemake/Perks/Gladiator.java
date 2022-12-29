@@ -29,7 +29,7 @@ public class Gladiator extends PitPerk {
         return new PerkExecute(){
             @Override
             public void run(ReduxDamageEvent event){
-                ReduxPlayer player = event.getDefenders();
+                ReduxPlayer player = event.getDefender();
 
                 if(player.getPerks().contains(ClassInstances.gladiator.getRefID())){
                     event.subtractReduxDamageMultiplier(getGladiator(player.getPlayerObject(), 3));

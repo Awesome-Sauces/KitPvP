@@ -6,6 +6,7 @@ import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
+import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
@@ -31,8 +32,6 @@ import static me.alpha.kitpvp.Data.GoldRequirementData.getGoldRequirement;
 import static me.alpha.kitpvp.Data.PrestigeData.PrestigeXpAmount;
 import static me.alpha.kitpvp.Data.XpData.GetCurrentLevel;
 import static me.alpha.kitpvp.Data.XpData.getLevelXP;
-import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.enchanting;
-import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.enchanting_tierI;
 import static me.alpha.kitpvp.PitRemake.RenownShop.renownAmount.GetByPrestige;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
@@ -81,19 +80,19 @@ public class InventoryClickEvents {
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Fresh") ||
                     event.getCurrentItem().getItemMeta().getDisplayName().contains("Mystic Sword") ||
                     event.getCurrentItem().getItemMeta().getDisplayName().contains("Mystic Bow")){
-                Inventory gui = enchanting(player);
+                Inventory gui = MysticWellGUI.openMysticWell(player,event.getCurrentItem());
 
-                addInv(gui, event.getCurrentItem(), 3, 3, false);
+                player.openInventory(gui);
 
                 player.getInventory().removeItem(event.getCurrentItem());
                 event.setCancelled(true);
 
             }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier I")){
-                enchanting_tierI(player, event.getCurrentItem());
+                player.openInventory(MysticWellGUI.openMysticWell(player, event.getCurrentItem()));
                 player.getInventory().removeItem(event.getCurrentItem());
                 event.setCancelled(true);
             }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier II")){
-                enchanting_tierI(player, event.getClickedInventory().getItem(21));
+                player.openInventory(MysticWellGUI.openMysticWell(player, event.getClickedInventory().getItem(21)));
                 player.getInventory().removeItem(event.getCurrentItem());
                 event.setCancelled(true);
             }

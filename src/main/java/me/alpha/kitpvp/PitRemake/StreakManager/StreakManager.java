@@ -38,20 +38,20 @@ public class StreakManager {
 
     public static void Uber(Player player){
         if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 100){
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c100 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())));
+            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&c&lSTREAK! &7of &c100 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
         }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 200){
             NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 200 ") + RankColor.getNameColor(player), "");
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c200 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())));
+            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&c&lSTREAK! &7of &c200 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
         }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 300) {
             NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 300 ") + RankColor.getNameColor(player), "");
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c300 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())));
+            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&c&lSTREAK! &7of &c300 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
         }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 400) {
             NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 400 ") + RankColor.getNameColor(player), "");
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c400 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())));
+            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&c&lSTREAK! &7of &c400 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
         }
 
         UberRewardClaimDeath(player);

@@ -16,18 +16,25 @@ import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotTwo;
 import me.alpha.kitpvp.PitRemake.Pets.PetStore.XpDragon;
 import me.alpha.kitpvp.PitRemake.RenownShop.data.*;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class ClassInstances {
 
     public static HashMap<String, Integer> ComboDamageHitCounter = new HashMap<>();
     public static HashMap<String, Integer> PerunHitCounter = new HashMap<>();
+    public static HashMap<String, Integer> VenomHitCounter = new HashMap<>();
     public static HashMap<String, Integer> RgmHitCounter = new HashMap<>();
     public static HashMap<String, Long> CombatTag = new HashMap<>();
     public static HashMap<String, Boolean> KillMessages = new HashMap<>();
+    public static HashMap<UUID, Arrow> ArrowStore = new HashMap<>();
+
+    public static HashMap<String, Boolean> NightQuestsToggle = new HashMap<>();
+
 
     public static List<Integer> XpAmounts = new ArrayList<Integer>();
 
@@ -72,6 +79,9 @@ public class ClassInstances {
     public static GoldenHeads goldenHeads = new GoldenHeads();
     public static AssistantStreaker assistantStreaker = new AssistantStreaker();
     public static Dirty dirty = new Dirty();
+    public static FirstStrike firstStrike = new FirstStrike();
+    public static Soup soup = new Soup();
+    public static FishingRod fishingRod = new FishingRod();
 
     public static Gladiator gladiator = new Gladiator();
     public static StrengthChaining strengthChaining = new StrengthChaining();
@@ -136,6 +146,13 @@ public class ClassInstances {
     public static VolleyLore volleyLore = new VolleyLore();
     public static ExplosiveLore explosiveLore = new ExplosiveLore();
 
+    public static SomberLore somberLore = new SomberLore();
+    public static VenomLore venomLore = new VenomLore();
+    public static MindAssaultLore mindAssaultLore = new MindAssaultLore();
+    public static SpiteLore spiteLore = new SpiteLore();
+    public static MiseryLore miseryLore = new MiseryLore();
+    public static NeedlessSufferingLore needlessSufferingLore = new NeedlessSufferingLore();
+
     public static PetData petData = new PetData("petData");
 
     public static XpDragon xpDragon = new XpDragon("xpdragon", "Dragon",
@@ -189,15 +206,15 @@ public class ClassInstances {
         botBoosterData.loadHashMap();
         xpBoosterData.loadHashMap();
         goldBoosterData.loadHashMap();
-        factionData.loadHashMap();
-        factionReward.loadHashMap();
+        factionData.loadHashMap(true);
+        factionReward.loadHashMap(true);
 
         megaStreakData.loadHashMap(true);
         perkSlotOne.loadHashMap(true);
         perkSlotTwo.loadHashMap(true);
         perkSlotThree.loadHashMap(true);
         perkSlotFour.loadHashMap(true);
-        petData.loadHashMap();
+        petData.loadHashMap(true);
 
         botKills.loadHashMap();
         moonStreak.loadHashMap();

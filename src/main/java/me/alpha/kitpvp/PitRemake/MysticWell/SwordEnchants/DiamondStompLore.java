@@ -37,10 +37,10 @@ public class DiamondStompLore extends PitEnchant {
         }else {multiplier += level*6;}
 
 
-        if(event.getDefenders().getHelmet() != null && event.getDefenders().getHelmet().getType().equals(Material.DIAMOND_HELMET)
-                || event.getDefenders().getChestplate() != null &&  event.getDefenders().getChestplate().getType().equals(Material.DIAMOND_CHESTPLATE)
-                || event.getDefenders().getLeggings() != null && event.getDefenders().getLeggings().getType().equals(Material.DIAMOND_LEGGINGS)
-                || event.getDefenders().getBoots() != null && event.getDefenders().getBoots().getType().equals(Material.DIAMOND_BOOTS))
+        if(event.getDefender().getHelmet() != null && event.getDefender().getHelmet().getType().equals(Material.DIAMOND_HELMET)
+                || event.getDefender().getChestplate() != null &&  event.getDefender().getChestplate().getType().equals(Material.DIAMOND_CHESTPLATE)
+                || event.getDefender().getLeggings() != null && event.getDefender().getLeggings().getType().equals(Material.DIAMOND_LEGGINGS)
+                || event.getDefender().getBoots() != null && event.getDefender().getBoots().getType().equals(Material.DIAMOND_BOOTS))
             event.addReduxDamageMultiplier(multiplier);
     }
 

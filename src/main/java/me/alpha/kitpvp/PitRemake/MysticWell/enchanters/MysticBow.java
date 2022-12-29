@@ -6,6 +6,7 @@ import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import static me.alpha.kitpvp.Data.GoldData.getEconomy;
 import static me.alpha.kitpvp.Data.GoldData.removeEconomy;
+import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.getMysticWellItem;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnBow;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
@@ -49,7 +51,7 @@ public class MysticBow {
         ItemStack items = event.getClickedInventory().getItem(20);
 
         if (items.getItemMeta().getDisplayName().contains("Tier III")){
-            player.sendMessage(ChatColor.RED + "This sword is already max tier!");
+            player.sendMessage(ChatColor.RED + "This bow is already max tier!");
             return;
         } else if (items.getItemMeta().getDisplayName().contains("Tier II") && removeGold(player, uuid, 8000)) {
             Sounds.BUTTON.play(player);
@@ -66,6 +68,7 @@ public class MysticBow {
             event.getClickedInventory().setItem(20, createBow(player, 1, null));
         }
 
+        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
 
     }
 

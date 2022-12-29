@@ -18,6 +18,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -46,27 +47,27 @@ public class MonsterHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void MonsterDamageEvent(ReduxDamageEvent event){
-        if(isNPC(event.getDefenders().getPlayerObject()) &&
-                getNPC(event.getDefenders().getPlayerObject()).getName().equals(ChatColor.AQUA + "CookieMonster")){
-            NPC npc = getNPC(event.getDefenders().getPlayerObject());
+        if(isNPC(event.getDefender().getPlayerObject()) &&
+                getNPC(event.getDefender().getPlayerObject()).getName().equals(ChatColor.AQUA + "CookieMonster")){
+            NPC npc = getNPC(event.getDefender().getPlayerObject());
 
             event.subtractReduxDamageMultiplier(100);
 
-            event.getDefenders().getPlayerObject().setHealth(Math.min(event.getDefenders().getPlayerObject().getMaxHealth(),
-                    event.getDefenders().getPlayerObject().getHealth()+2));
+            event.getDefender().getPlayerObject().setHealth(Math.min(event.getDefender().getPlayerObject().getMaxHealth(),
+                    event.getDefender().getPlayerObject().getHealth()+2));
 
             npc.getEntity().setVelocity(new Vector(0,0,0));
 
-            npc.getEntity().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.HEART, 1);
-            npc.getEntity().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.HEART, 1);
-            npc.getEntity().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.HEART, 1);
-            npc.getEntity().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.HEART, 1);
-            npc.getEntity().getWorld().playEffect(event.getDefenders().getPlayerObject().getLocation(), Effect.HEART, 1);
+            npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
+            npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
+            npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
+            npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
+            npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
         }else if(isNPC(event.getAttacker().getPlayerObject()) &&
         getNPC(event.getAttacker().getPlayerObject()).getName().equals(ChatColor.AQUA + "CookieMonster")){
             NPC npc = getNPC(event.getAttacker().getPlayerObject());
 
-            npc.getEntity().getWorld().strikeLightningEffect(event.getDefenders().getPlayerObject().getLocation());
+            npc.getEntity().getWorld().strikeLightningEffect(event.getDefender().getPlayerObject().getLocation());
             event.getAttacker().addPotionEffect(PotionEffectType.POISON, 15, 1);
         }
     }
@@ -174,6 +175,25 @@ public class MonsterHandler implements Listener {
             if (player instanceof Player){
                 if(!isNPC((Player) player)){
                     playerList.add((Player) player);
+                }
+
+            }
+        }
+
+        return playerList;
+    }
+
+    public static List<Entity> getNearbyEntity(Entity hunter, double x, double y, double z){
+
+        List<Entity> playerList = new ArrayList<Entity>();
+
+        for (org.bukkit.entity.Entity player : hunter.getNearbyEntities(x, y, z)){
+
+            if(player instanceof Zombie){
+                playerList.add(player);
+            }else if (player instanceof Player){
+                if(!isNPC((Player) player)){
+                    playerList.add(player);
                 }
 
             }

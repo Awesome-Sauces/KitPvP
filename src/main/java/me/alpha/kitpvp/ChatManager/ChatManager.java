@@ -3,13 +3,16 @@ package me.alpha.kitpvp.ChatManager;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.utils.IntegerHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class ChatManager implements Listener {
     @EventHandler
@@ -17,8 +20,27 @@ public class ChatManager implements Listener {
         if(event==null) return;
 
         String message = event.getMessage();
+        Player player = event.getPlayer();
 
-        event.setFormat(getLevelPrestigeText(event.getPlayer())+RankColor.getRankWithName(event.getPlayer())+RankColor.getChatColor(event.getPlayer())+": " + message);
+        List<Player> players = player.getWorld().getPlayers();
+
+        if(!players.isEmpty()){
+            for(Player messagePlayer : players){
+                messagePlayer.sendMessage(getLevelPrestigeText(event.getPlayer())+RankColor.getRankWithName(event.getPlayer())+RankColor.getChatColor(event.getPlayer())+": " + message);
+            }
+        }
+
+        event.setCancelled(true);
+    }
+
+    public static void broadcastMessage(String message, World world){
+        List<Player> players = world.getPlayers();
+
+        if(!players.isEmpty()){
+            for(Player messagePlayer : players){
+                messagePlayer.sendMessage(message);
+            }
+        }
     }
 
     public static String getPlayerEXP(Player player){
@@ -42,6 +64,10 @@ public class ChatManager implements Listener {
         int neededXP = playerData[0];
 
         String prestigeColor = PrestigeBracketColors.getBracketColor(player);
+
+        if(ClassInstances.prestigeData.getPrestige(player.getUniqueId().toString())<=0){
+            return getBracketsWithLevel(player.getUniqueId().toString(), level);
+        }
 
         return prestigeColor + "[" + ChatColor.YELLOW + String.valueOf(IntegerHelper.integerToRoman(ClassInstances.prestigeData.getPrestige(player.getUniqueId().toString()))) + PrestigeBracketColors.getBracketColor(player) + "-" + LevelColor.getLevelColor(level) + level + prestigeColor + "] ";
     }

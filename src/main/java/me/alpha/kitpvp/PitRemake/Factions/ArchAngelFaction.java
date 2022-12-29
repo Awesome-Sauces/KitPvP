@@ -9,6 +9,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Collections;
 
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.advancedInventory.ClayMaker;
@@ -295,5 +298,15 @@ public class ArchAngelFaction implements Listener {
         LookClose lookClose = npc.getTrait(LookClose.class);
         lookClose.lookClose(true);
     }
+
+    /*
+    public Iterable<Player> getNearbyPlayers(Location base, double dist) {
+        PhTreeF<Player> tree = (PhTreeF)this.worlds.get(base.getWorld().getUID());
+        return (Iterable)(tree == null ? Collections.emptyList() : () -> {
+            return tree.rangeQuery(dist, new double[]{base.getX(), base.getY(), base.getZ()});
+        });
+    }
+
+     */
 
 }

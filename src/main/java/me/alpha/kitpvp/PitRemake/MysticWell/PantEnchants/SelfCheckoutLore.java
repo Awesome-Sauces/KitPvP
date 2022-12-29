@@ -14,33 +14,33 @@ public class SelfCheckoutLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("self-checkout")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("self-checkout");
 
-        if(!Bounty.BountiesMap.containsKey(event.getDefenders().getPlayerUUID())) return;
-        double bounty = Bounty.BountiesMap.get(event.getDefenders().getPlayerUUID());
+        if(!Bounty.BountiesMap.containsKey(event.getDefender().getPlayerUUID())) return;
+        double bounty = Bounty.BountiesMap.get(event.getDefender().getPlayerUUID());
 
         if(bounty < 5000) return;
 
         double amount = ((level-1)*1000L) + (level* 1000L);
         DecimalFormat formatter = new DecimalFormat("#,###");
 
-        event.getDefenders().getPlayerObject().sendMessage(colorCode("&6&lSELF-CHECKOUT! &7you cashed in your bounty for &6" + formatter.format(amount) + "g"));
+        event.getDefender().getPlayerObject().sendMessage(colorCode("&6&lSELF-CHECKOUT! &7you cashed in your bounty for &6" + formatter.format(amount) + "g"));
 
-        event.getDefenders().addPlayerGold((int) amount);
+        event.getDefender().addPlayerGold((int) amount);
 
-        Bounty.BountiesMap.put(event.getDefenders().getPlayerUUID(), 0);
+        Bounty.BountiesMap.put(event.getDefender().getPlayerUUID(), 0);
 
     }
 

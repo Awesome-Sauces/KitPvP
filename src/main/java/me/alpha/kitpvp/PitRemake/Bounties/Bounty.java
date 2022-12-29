@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.Bounties;
 
 import com.nametagedit.plugin.NametagEdit;
+import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
@@ -24,11 +25,11 @@ public class Bounty {
                 if(BountiesMap.get(uuid) >= 20000){
                     BountiesMap.put(uuid, BountiesMap.get(uuid));
                 }else{
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY! &7bump &6&l1000g &7on " + RankColor.getNameColor(player) + player.getDisplayName() + "&7 for high streak"));
+                    ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY! &7bump &6&l1000g &7on " + RankColor.getNameColor(player) + player.getDisplayName() + "&7 for high streak"), player.getWorld());
                     BountiesMap.put(uuid, BountiesMap.get(uuid) + 1000);
                 }
             }else{
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY! &7bump &6&l1000g &7on " + RankColor.getNameColor(player) + player.getDisplayName() + "&7 for high streak"));
+                ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY! &7bump &6&l1000g &7on " + RankColor.getNameColor(player) + player.getDisplayName() + "&7 for high streak"), player.getWorld());
                 BountiesMap.put(uuid, 1000);
             }
 
@@ -44,9 +45,9 @@ public class Bounty {
                 if(BountiesMap.get(uuid) > 0){
                     NametagEdit.getApi().setSuffix(bountied, "");
                     if(CitizensHelper.isNPC(claimer)){
-                        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + CitizensHelper.getNPC(claimer).getName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"));
+                        ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + CitizensHelper.getNPC(claimer).getName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
                     }else{
-                        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + claimer.getDisplayName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"));
+                        ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + claimer.getDisplayName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
                     }
                     BountiesMap.put(uuid, 0);
                     return;
@@ -59,7 +60,7 @@ public class Bounty {
             if(BountiesMap.get(uuid) > 0){
                 GoldData.addEconomy(String.valueOf(claimer.getUniqueId()), BountiesMap.get(uuid));
                 NametagEdit.getApi().setSuffix(bountied, "");
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + claimer.getDisplayName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"));
+                ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + claimer.getDisplayName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
                 BountiesMap.put(uuid, 0);
                 return;
             }

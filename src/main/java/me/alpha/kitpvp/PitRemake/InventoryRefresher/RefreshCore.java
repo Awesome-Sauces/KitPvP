@@ -4,24 +4,37 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
+import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
 import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 
 public class RefreshCore {
     public static void refreshInventory(Player player){
         int refreshCount = 0;
 
         Inventory inventory = player.getInventory();
+
+        if(player.getInventory().getBoots()!=null){
+            if(player.getInventory().getBoots().getType().equals(Material.LEATHER_BOOTS)&&
+            player.getInventory().getBoots().getItemMeta().getDisplayName().contains(ColorUtil.colorCode("&cArmageddon Boots"))){
+                player.getInventory().setBoots(enchants.arma);
+            }
+        }
 
         if(player.getInventory().getLeggings()!=null){
             ItemStack item = player.getInventory().getLeggings();
@@ -60,6 +73,13 @@ public class RefreshCore {
             inventory.getItem(i).getType().equals(Material.AIR)) continue;
 
             ItemStack item = inventory.getItem(i);
+
+            if(item.getType().equals(Material.LEATHER_BOOTS)&&
+                    item.getItemMeta().getDisplayName().contains(ColorUtil.colorCode("&cArmageddon Boots"))){
+                inventory.setItem(i, enchants.arma);
+                refreshCount++;
+                continue;
+            }
 
 
             if(item.getType().equals(Material.GOLD_SWORD)&&
@@ -125,6 +145,35 @@ public class RefreshCore {
                 NBTCompound nbtCompound = nbtItem.getOrCreateCompound("pitdata");
 
                 if(!nbtCompound.hasKey("real")) inventory.setItem(i, enchants.fresh_bow);
+            }else if(item.getType().equals(Material.BOW)&&
+                    item.getItemMeta()!=null){
+                NBTItem nbtItem = new NBTItem(item);
+
+                NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+                ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
+                List<String> lore = new ArrayList<>();
+
+                lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+                lore.add("   ");
+
+                for (String key : nbtItem.getCompound("enchants").getKeys()){
+                    int level = nbtCompound.getInteger(key);
+
+                    if(player.getItemInHand().getType().equals(Material.BOW)){
+                        lore.addAll(Arrays.asList(MysticBow.enchantTier(key, level).split("\n")));
+                    }
+                }
+
+
+                itemMeta.setLore(lore);
+
+                nbtItem.getItem().setItemMeta(itemMeta);
+
+                item=nbtItem.getItem();
+
+                inventory.setItem(i, item);
+                refreshCount++;
+
             }
 
         }

@@ -10,6 +10,7 @@ import me.alpha.kitpvp.PitRemake.Factions.ArchAngelFaction;
 import me.alpha.kitpvp.PitRemake.Factions.ArmageddonFaction;
 import me.alpha.kitpvp.PitRemake.Factions.KingFaction;
 import me.alpha.kitpvp.PitRemake.Gems.gemEvents;
+import me.alpha.kitpvp.PitRemake.Heresy.HeresyMenu;
 import me.alpha.kitpvp.PitRemake.Perks.PerkHandler;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PerkSelectGUI;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PermanentUpgrades;
@@ -51,6 +52,7 @@ public class EventRegistrar {
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new RenownShopKillstreaksGUI(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new PerkSelectGUI(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new gemEvents(), KitPvP.INSTANCE);
+        KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new HeresyMenu(), KitPvP.INSTANCE);
 
     }
 }

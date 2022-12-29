@@ -15,14 +15,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
-import static me.alpha.kitpvp.utils.advancedInventory.HeadMaker;
 
 public class XpDragon extends PitPet {
 
@@ -91,14 +89,14 @@ public class XpDragon extends PitPet {
     @Override
     public void doPetAbility(ReduxDamageEvent event) {
         if(CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
-        !CitizensHelper.isNPC(event.getDefenders().getPlayerObject())){
-            if(ClassInstances.petData.getPet(event.getDefenders().getPlayerUUID()).contains(getRefID())){
+        !CitizensHelper.isNPC(event.getDefender().getPlayerObject())){
+            if(ClassInstances.petData.getPet(event.getDefender().getPlayerUUID()).contains(getRefID())){
                 event.addReduxDamageMultiplier(ClassInstances.petData.getPetLevel(event.getAttacker().getPlayerUUID(), getXpPerLevel()));
             }
         }
 
         if(!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
-                CitizensHelper.isNPC(event.getDefenders().getPlayerObject())){
+                CitizensHelper.isNPC(event.getDefender().getPlayerObject())){
             if(ClassInstances.petData.getPet(event.getAttacker().getPlayerUUID()).contains(getRefID())){
                 event.addReduxDamageMultiplier(ClassInstances.petData.getPetLevel(event.getAttacker().getPlayerUUID(), getXpPerLevel()));
             }

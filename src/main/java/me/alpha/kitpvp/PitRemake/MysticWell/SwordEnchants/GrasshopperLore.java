@@ -28,7 +28,7 @@ public class GrasshopperLore extends PitEnchant {
         int level = item.getInteger("grasshopper");
 
         if(event.getAttacker().getPlayerObject().getWorld().getBlockAt(event.getAttacker().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS) ||
-                event.getDefenders().getPlayerObject().getWorld().getBlockAt(event.getDefenders().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS)){
+                event.getDefender().getPlayerObject().getWorld().getBlockAt(event.getDefender().getPlayerObject().getLocation().add(0,-1,0)).getType().equals(Material.GRASS)){
             double damage = (level*5);
             event.addReduxDamageMultiplier(damage);
         }

@@ -13,25 +13,25 @@ public class BillyLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {
-        if (!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()!=null){
-            NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        if (!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()!=null){
+            NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
 
             if(!item.hasKey("billy")) return;
 
 
-        }else if(!CitizensHelper.isNPC(event.getDefenders().getPlayerObject()) &&
-                event.getDefenders().getPlayerObject().getInventory().getLeggings()==null) return;
-        else if(CitizensHelper.isNPC(event.getDefenders().getPlayerObject())) return;
+        }else if(!CitizensHelper.isNPC(event.getDefender().getPlayerObject()) &&
+                event.getDefender().getPlayerObject().getInventory().getLeggings()==null) return;
+        else if(CitizensHelper.isNPC(event.getDefender().getPlayerObject())) return;
 
-        NBTItem item = new NBTItem(event.getDefenders().getPlayerObject().getInventory().getLeggings());
+        NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("billy");
 
         double damage = (2+level);
 
 
-        if(Bounty.BountiesMap.containsKey(event.getDefenders().getPlayerUUID())){
-            double bounty = (double) Math.min(5000, Bounty.BountiesMap.get(event.getDefenders().getPlayerUUID())) / 1000;
+        if(Bounty.BountiesMap.containsKey(event.getDefender().getPlayerUUID())){
+            double bounty = (double) Math.min(5000, Bounty.BountiesMap.get(event.getDefender().getPlayerUUID())) / 1000;
             event.subtractReduxDamageMultiplier((damage)*bounty);
         }
     }

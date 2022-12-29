@@ -168,6 +168,20 @@ public class loreChecker {
         if (lore.contains(colorCode("&9Misery")))
             list.add("misery");
 
+        if (lore.contains(colorCode("&dRARE! &9Combo: Venom")))
+            list.add("venom");
+
+        if (lore.contains(colorCode("&9Somber")))
+            list.add("somber");
+
+        if (lore.contains(colorCode("&9Spite")))
+            list.add("spite");
+
+        if (lore.contains(colorCode("&9Mind Assault")))
+            list.add("mind");
+
+        if (lore.contains(colorCode("&9Needless Suffering")))
+            list.add("suffering");
 
         if (lore.contains(colorCode("&9Fractional Reserve III"))){
             list.add("fracIII");

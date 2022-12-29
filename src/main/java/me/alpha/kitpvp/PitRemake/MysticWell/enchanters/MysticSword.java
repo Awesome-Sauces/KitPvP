@@ -6,6 +6,7 @@ import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import static me.alpha.kitpvp.Data.GoldData.getEconomy;
 import static me.alpha.kitpvp.Data.GoldData.removeEconomy;
+import static me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI.getMysticWellItem;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnSword;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
@@ -85,6 +87,7 @@ public class MysticSword {
             event.getClickedInventory().setItem(20, createSword(player,3, event.getClickedInventory().getItem(20)));
         }
 
+        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
 
     }
 

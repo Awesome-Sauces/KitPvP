@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.RenownShop.gui;
 
 import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.PitRemake.Heresy.HeresyMenu;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.ChatColor;
@@ -130,7 +131,7 @@ public class RenownShopUpgradesGUI implements Listener {
                 ((Integer)ClassInstances.heresy.getValue(uuid))>=1){
             return ItemMaker(Material.COAL, ChatColor.GREEN + "Heresy",
                     colorCode(ClassInstances.heresy.getLore() + "\n\n" +
-                            "&aMaxed out!"),1, true);
+                            "&eClick to open menu!"),1, true);
         }else{
             return ItemMaker(Material.COAL, ChatColor.YELLOW + "Heresy",
                     colorCode(ClassInstances.heresy.getLore() + "\n\n" +
@@ -470,7 +471,8 @@ public class RenownShopUpgradesGUI implements Listener {
 
             if(ClassInstances.heresy.hasValue(uuid) &&
                     ((Integer)ClassInstances.heresy.getValue(uuid))>=1){
-                Sounds.NO.play(player);
+                player.openInventory(HeresyMenu.getHeresyMenu(player));
+                return;
             }else if(ClassInstances.renownData.getRenown(uuid)>=50 && !ClassInstances.heresy.hasValue(uuid)){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-50);

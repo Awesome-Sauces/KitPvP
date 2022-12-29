@@ -14,6 +14,7 @@ import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.CommandRegistrar;
 import me.alpha.kitpvp.utils.EventRegistrar;
 import me.alpha.kitpvp.utils.Sounds;
+import net.citizensnpcs.nms.v1_12_R1.util.CustomEntityRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ public class KitPvP extends JavaPlugin {
     public void onEnable() {
 
         INSTANCE = this;
+
 
         // Load Data
         ClassInstances.load();
@@ -85,14 +87,14 @@ public class KitPvP extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                RefreshBoard();
-                handleTwoEvent();
                 Bukkit.broadcastMessage(ColorUtil.colorCode("&c&lWARNING! &7The server may lag temporarily as leaderboard refreshes!"));
                 for(Player player : Bukkit.getOnlinePlayers()) Sounds.WARNING_LOUD.play(player);
+                RefreshBoard();
+                handleTwoEvent();
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
-        /*
+/*
         for (int i = 0; i < 30; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
@@ -105,7 +107,9 @@ public class KitPvP extends JavaPlugin {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
         }
 
-         */
+ */
+
+
 
     }
 

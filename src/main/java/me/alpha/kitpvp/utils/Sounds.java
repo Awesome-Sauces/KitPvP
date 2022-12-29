@@ -15,6 +15,8 @@ public class Sounds {
     public static final SoundEffect SUCCESS = new SoundEffect(Sound.NOTE_PLING, 1, 2);
     public static final SoundEffect ERROR = new SoundEffect(Sound.ENDERMAN_TELEPORT, 1, 0.5);
     public static final SoundEffect NO = new SoundEffect(Sound.VILLAGER_NO, 1, 1);
+    public static final SoundEffect NO_MONEY = new SoundEffect(Sound.ENDERMAN_SCREAM, 1, 1);
+    public static final SoundEffect HERESY = new SoundEffect(Sound.ENDERMAN_STARE, 2, 2);
     public static final SoundEffect WARNING_LOUD = new SoundEffect(Sound.NOTE_PLING, 1000, 1);
 
     public static final SoundEffect MYSTIC_DROP_1 = new SoundEffect(Sound.NOTE_PIANO, 1000, 1);
@@ -70,7 +72,7 @@ public class Sounds {
     public static final SoundEffect PIN_DOWN = new SoundEffect(Sound.BURP, 1, 1);
     public static final SoundEffect RGM = new SoundEffect(Sound.ENDERMAN_HIT, 1, 1);
     public static final SoundEffect TELEBOW = new SoundEffect(Sound.ENDERMAN_TELEPORT, 1, 2);
-    public static final SoundEffect VENOM = new SoundEffect(Sound.SPIDER_IDLE, 1, 1);
+    public static final SoundEffect VENOM = new SoundEffect(Sound.SPIDER_IDLE, 1, 2);
     public static final SoundEffect VOLLEY = new SoundEffect(Sound.SHOOT_ARROW, 1, 1);
 
     //	Megastreaks

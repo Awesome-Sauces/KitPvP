@@ -3,11 +3,13 @@ package me.alpha.kitpvp.PitRemake.MysticWell.BowEnchants;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
+import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -49,12 +51,27 @@ public class TelebowLore extends PitEnchant {
 
             int level = item.getInteger("telebow");
 
+            double multiplier = Math.round((double) (90/level)/2);
+
             if(shooter.isSneaking()) {
+
+                if(!getCooldown(playerExists(shooter), multiplier)){
+                    Sounds.NO.play(shooter);
+                    shooter.sendMessage(ColorUtil.colorCode("&c&lERROR! &7Telebow is still on cooldown!"));
+                    return;
+                }
+
+                ClassInstances.ArrowStore.put(player.getPlayerObject().getUniqueId(), arrow);
+
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if(arrow==null||arrow.isOnGround()||arrow.isDead()) this.cancel();
-                        else for(int j = 0; j < 10; j++) arrow.getWorld().playEffect(arrow.getLocation(), Effect.POTION_SWIRL, 0, 30);
+                        if(!ClassInstances.ArrowStore.containsKey(player.getPlayerObject().getUniqueId())) return;
+
+                        Arrow temp_arrow = ClassInstances.ArrowStore.get(player.getPlayerObject().getUniqueId());
+
+                        if(temp_arrow==null||temp_arrow.isOnGround()||temp_arrow.isDead()) this.cancel();
+                        else for(int j = 0; j < 10; j++) temp_arrow.getWorld().playEffect(temp_arrow.getLocation(), Effect.POTION_SWIRL, 0, 30);
                     }
                 }.runTaskTimer(KitPvP.INSTANCE, 0L, 1L);
             }
@@ -70,29 +87,20 @@ public class TelebowLore extends PitEnchant {
         Player shooter = (Player) event.getEntity().getShooter();
         ReduxPlayer player = playerExists(shooter);
 
-        if (!CitizensHelper.isNPC(shooter) &&
-                shooter.getItemInHand()!=null &&
-                shooter.getItemInHand().getType()!= Material.AIR){
-            NBTItem item = new NBTItem(shooter.getItemInHand());
+        if(!ClassInstances.ArrowStore.containsKey(player.getPlayerObject().getUniqueId())) return;
+        if(!ClassInstances.ArrowStore.get(player.getPlayerObject().getUniqueId()).getUniqueId().equals(arrow.getUniqueId())) return;
 
-            if(!item.hasKey("telebow")) return;
+        Location teleportLoc = arrow.getLocation().clone();
+        teleportLoc.setYaw(-arrow.getLocation().getYaw());
+        teleportLoc.setPitch(-arrow.getLocation().getPitch());
 
-            if(!shooter.isSneaking()) return;
+        player.getPlayerObject().teleport(teleportLoc);
 
-            if(!getCooldown(playerExists(shooter))){
-                Sounds.NO.play(shooter);
-                return;
-            }
-
-            Location teleportLoc = arrow.getLocation().clone();
-            teleportLoc.setYaw(-arrow.getLocation().getYaw());
-            teleportLoc.setPitch(-arrow.getLocation().getPitch());
-
-            player.getPlayerObject().teleport(teleportLoc);
-        }
+        Sounds.TELEBOW.play(player.getPlayerObject());
+        ClassInstances.ArrowStore.remove(player.getPlayerObject().getUniqueId());
     }
 
-    private boolean getCooldown(ReduxPlayer owner){
+    private boolean getCooldown(ReduxPlayer owner, double multiplier){
         if (owner.getTelebowCD()){
             owner.setTelebowCD();
             new BukkitRunnable() {
@@ -100,7 +108,7 @@ public class TelebowLore extends PitEnchant {
                 public void run() {
                     owner.setTelebowCD();
                 }
-            }.runTaskLater(KitPvP.INSTANCE, 600L);
+            }.runTaskLater(KitPvP.INSTANCE, (long) (multiplier*20));
             return true;
         }
 
@@ -125,10 +133,10 @@ public class TelebowLore extends PitEnchant {
         String tier = "";
         if (level > 1){tier += " " + integerToRoman(level);}
 
-        String multiplier = String.valueOf(90/level);
+        String multiplier = String.valueOf((90/level)/2);
 
         String lore = "&dRARE! &9Telebow" + tier + "\n" +
-                "&7Shoot a teleportation\n" +
+                "&7Sneak to shoot a teleportation\n" +
                 "&7arrow ("+multiplier+"s cooldown)" + "\n&7";
 
         return colorCode(lore);
