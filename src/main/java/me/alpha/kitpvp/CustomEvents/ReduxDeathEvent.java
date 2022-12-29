@@ -523,7 +523,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         if(isNPC(defender.getPlayerObject()) && percentChance(.005) &&
         ClassInstances.heresy.hasValue(attacker.getPlayerUUID())){
             StashCore.safeGive(attacker.getPlayerObject(), enchants.vile);
-            attacker.getPlayerObject().sendMessage(ColorUtil.colorCode("&9&lDONE! &7(Kill reward) &b+"+Math.min(xp_cap, xp)+"XP!&5+1 Chunk of Vile"));
+            attacker.getPlayerObject().sendMessage(ColorUtil.colorCode("&9&lDONE! &7(Kill reward) &b+"+Math.min(xp_cap, xp)+"XP! &5+1 Chunk of Vile"));
             Sounds.MEGA_RNGESUS.play(attacker.getPlayerObject());
             attacker.addPlayerEXP((int) Math.min(xp_cap, xp));
             attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);

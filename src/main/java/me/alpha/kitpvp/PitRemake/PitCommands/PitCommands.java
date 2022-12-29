@@ -6,6 +6,8 @@ import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.DataSave.Converter64;
+import me.alpha.kitpvp.DataSave.PlayerData;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.Mobs.CustomZombie;
 import me.alpha.kitpvp.PitRemake.Boosters.Booster;
@@ -42,6 +44,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.io.IOException;
 import java.util.*;
 
 import static me.alpha.kitpvp.Data.ClassInstances.CombatTag;
@@ -69,6 +72,8 @@ import static me.alpha.kitpvp.utils.advancedInventory.HeadMaker;
 
 public class PitCommands implements CommandExecutor {
     public static HashMap<String, Boolean> KillMessages = new HashMap<>();
+
+    public static HashMap<String, String> PlayerDataSave = new HashMap<>();
 
     public static Map<String, Long> freshPantsCD = new HashMap<String, Long>();
 
@@ -182,7 +187,36 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            if(args.length>=1 && args[0].equalsIgnoreCase("save")){
+                PlayerData playerData = new PlayerData(player.getUniqueId().toString());
+
+                playerData.saveData(player);
+
+                PlayerDataSave.put(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData));
+
+                player.sendMessage(ColorUtil.colorCode("&aSuccessfully saved and serialized player data"));
+                Sounds.SUCCESS.play(player);
+            }
+
+            if(args.length>=1 && args[0].equalsIgnoreCase("load")){
+                if(PlayerDataSave.containsKey(player.getUniqueId().toString())){
+                    try {
+                        Converter64.playerDataFrom64(PlayerDataSave.get(player.getUniqueId().toString())).loadData(player);
+
+                        player.sendMessage(ColorUtil.colorCode("&aSuccessfully deserialized and loaded player data"));
+                        Sounds.SUCCESS.play(player);
+                    } catch (IOException e) {
+                        player.sendMessage(ColorUtil.colorCode("&cFailed to deserialize player data"));
+                        Sounds.ERROR.play(player);
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+
+
             //Zombie stand = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
+            /*
 
             CustomZombie stand = new CustomZombie(((CraftWorld)player.getWorld()).getHandle());
 
@@ -195,6 +229,8 @@ public class PitCommands implements CommandExecutor {
                     .speedModifier(2);
 
             npc.spawn(player.getLocation());
+
+             */
 /*
             new BukkitRunnable(){
                 @Override
@@ -210,6 +246,7 @@ public class PitCommands implements CommandExecutor {
             }.runTaskTimer(KitPvP.INSTANCE,  5L, 5L);
 
  */
+            /*
 
             new BukkitRunnable(){
                 @Override
