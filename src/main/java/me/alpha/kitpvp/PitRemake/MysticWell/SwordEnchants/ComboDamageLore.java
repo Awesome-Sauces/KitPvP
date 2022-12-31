@@ -35,7 +35,7 @@ public class ComboDamageLore extends PitEnchant {
 
         int count = 4;
 
-        double damage = (double) ((10*level)+10);
+        double damage = getDamage(level);
 
         if (ComboDamageCooldown(event.getAttacker()) && level > 1){count = 3;}
 
@@ -44,6 +44,11 @@ public class ComboDamageLore extends PitEnchant {
         if(trigger(event, count)){
             event.addReduxDamageMultiplier(damage);
         }
+    }
+
+    public int getDamage(int enchantLvl) {
+
+        return (int) (Math.floor(Math.pow(enchantLvl, 1.75)) * 5 + 25);
     }
 
     private boolean ComboDamageCooldown(ReduxPlayer owner){

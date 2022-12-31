@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.ItemStacks;
 
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -729,6 +730,13 @@ public class itemManager {
 
     private static void createFeather() {
         ItemStack item = new ItemStack(Material.FEATHER, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("feather", 1);
+
+        item=nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&3Funky Feather"));
         List<String> lore = new ArrayList<>();

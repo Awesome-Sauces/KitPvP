@@ -52,7 +52,6 @@ public class Leaderboard {
         Player player9 = null;
         Player player10 = null;
 
-
             if (topPlayers.get(9).getKey() != null){
                 top1 = getName(topPlayers.get(9).getKey());
                 Player tempPlayer = Bukkit.getPlayer(top1);
@@ -173,6 +172,16 @@ public class Leaderboard {
                 player10=tempPlayer;
             }
 
+            if(player1==null) return;
+            if(player2==null) return;
+            if(player3==null) return;
+            if(player4==null) return;
+            if(player5==null) return;
+            if(player6==null) return;
+            if(player7==null) return;
+            if(player8==null) return;
+            if(player9==null) return;
+            if(player10==null) return;
 
             //For every player, add their name to gui
             hologram.appendTextLine(ChatColor.AQUA + ChatColor.translateAlternateColorCodes('&', "&lTOP ACTIVE PLAYERS"));

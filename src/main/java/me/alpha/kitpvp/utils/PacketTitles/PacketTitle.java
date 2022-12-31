@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.utils.PacketTitles;
 
+import me.alpha.hunter.api.HunterAPI;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.utils.CitizensHelper;
@@ -143,7 +144,7 @@ public class PacketTitle {
             output.append(CitizensHelper.getNPC(defender).getName()).append(" ");
         }else{
             String colorPlayer = RankColor.getNameColor(defender);
-            output.append(colorPlayer).append(ChatColor.stripColor(defender.getDisplayName())).append(" ");
+            output.append(colorPlayer).append(defender.getDisplayName()).append(" ");
         }
 
         for(int i = 0; i < Math.max(originalHealth - roundedDamageTaken, 0); i++) {

@@ -66,7 +66,7 @@ public class RankColor {
         else if(player.hasPermission("VIP+")) rankPrefix = ChatColor.GREEN + "[VIP" + ChatColor.WHITE + "+" + ChatColor.GREEN + "] ";
         else if(player.hasPermission("VIP")) rankPrefix = ChatColor.GREEN + "[VIP] ";
         else if(player.hasPermission("HELPER")) rankPrefix = ChatColor.BLUE + "[HELPER] ";
-        else if(player.hasPermission("MOD")) rankPrefix = ChatColor.DARK_GREEN + "[MODERATOR] ";
+        else if(player.hasPermission("MOD")) rankPrefix = ChatColor.DARK_GREEN + "[MOD] ";
         else if(player.hasPermission("ADMIN")) rankPrefix = ChatColor.RED + "[ADMIN] ";
         else if(player.hasPermission("YOUTUBE")) rankPrefix = ChatColor.RED + "[" + ChatColor.WHITE + "YOUTUBE" + ChatColor.RED + "] ";
         else if(player.hasPermission("SALMON")) rankPrefix = ChatColor.translateAlternateColorCodes('&', "&4[&fS&4A&fL&4M&fO&4N&f]&4+&f+ ");

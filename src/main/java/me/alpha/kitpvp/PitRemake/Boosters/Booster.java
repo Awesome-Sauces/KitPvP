@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.Boosters;
 
 import me.alpha.hunter.api.HunterAPI;
+import me.alpha.hunter.bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.Locations;
@@ -8,6 +9,7 @@ import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -27,7 +29,7 @@ public class Booster {
     public static ItemStack XpBoosterItem(String uuid){
         return ItemMaker(Material.EXP_BOTTLE, ChatColor.RED + "XP Booster",
                 ChatColor.GRAY + "All players on the server gain\n" + ChatColor.AQUA +
-                "2x XP " + ChatColor.GRAY + " and " + ChatColor.AQUA + "2x map XP\n\n" +
+                "2x XP " + ChatColor.GRAY + " and " + ChatColor.AQUA + "2x cap XP\n\n" +
                 ChatColor.GRAY + "Active: " + ChatColor.YELLOW + xpActive + "!\n" +
                 ChatColor.GRAY + "Use a booster to activate\n\n" + ChatColor.GRAY +
                 "You have: " + ChatColor.YELLOW + ClassInstances.xpBoosterData.getBooster(uuid) + "\n\n" + ChatColor.YELLOW +
@@ -45,7 +47,7 @@ public class Booster {
 
     public static ItemStack BotBoosterItem(String uuid){
         return ItemMaker(Material.IRON_SWORD, ChatColor.RED + "Bot Booster",
-                ChatColor.GRAY + "Spawns in +30 more bots for\n" + ChatColor.GRAY +
+                ChatColor.GRAY + "Spawns in +15 more bots for\n" + ChatColor.GRAY +
                         "the whole server to enjoy\n\n" +
                         ChatColor.GRAY + "Active: " + ChatColor.YELLOW + botActive + "!\n" +
                         ChatColor.GRAY + "Use a booster to activate\n\n" + ChatColor.GRAY +
@@ -167,10 +169,10 @@ public class Booster {
                 Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&e&lBOOSTER! &7There is currently an " +
                         "&7active &e&l+30 &cbot &7booster!"));
 
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 15; i++) {
                     HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 3600, false);
-                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 3600, false);
                     HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 3600, false);
+                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 3600, false);
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {

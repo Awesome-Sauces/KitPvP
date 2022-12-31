@@ -297,6 +297,9 @@ public class PerkSelectGUI implements Listener {
 
     @EventHandler
     public void HandlePerkSelectEvent(InventoryClickEvent event) {
+        if(event==null ||
+                event.getClickedInventory()==null ||
+                event.getClickedInventory().getTitle()==null) return;
         if (event.getClickedInventory() != null &&
                 event.getClickedInventory().getTitle() != null &&
                 !event.getClickedInventory().getTitle().contains(ChatColor.GRAY + "Choose a perk")) return;

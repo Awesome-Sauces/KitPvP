@@ -497,6 +497,13 @@ public class enchants {
 
     private static void createCactus() {
         ItemStack item = new ItemStack(Material.CACTUS, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("cactus", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                 "&aPhilosopher's Cactus"));
@@ -554,6 +561,13 @@ public class enchants {
 
     private static void createFULLPantPB() {
         ItemStack item = new ItemStack(Material.STORAGE_MINECART, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("pb", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                 "&bPants Bundle"));
@@ -608,6 +622,13 @@ public class enchants {
 
     private static void createFULLSwordPB() {
         ItemStack item = new ItemStack(Material.STORAGE_MINECART, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("sb", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
                 "&bSword Bundle"));
@@ -801,6 +822,13 @@ public class enchants {
 
     private static void createPlayerSoul() {
         ItemStack item = new ItemStack(Material.GHAST_TEAR, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("soul", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&3Player Soul"));
         List<String> lore = new ArrayList<>();
@@ -822,6 +850,13 @@ public class enchants {
 
     private static void createVile() {
         ItemStack item = new ItemStack(Material.COAL, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("vile", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&5Chunk of Vile"));
         List<String> lore = new ArrayList<>();
@@ -894,6 +929,13 @@ public class enchants {
 
     private static void createGem() {
         ItemStack item = new ItemStack(Material.EMERALD, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("gem", 1);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&aTotally Legit Gem"));
         List<String> lore = new ArrayList<>();

@@ -101,15 +101,19 @@ public class Locations {
 
     // Put These guys back later
     public static Location getKingsQuestLocation(World world){
-        return new Location(world, -10.5, 95, -5.5);
+        return new Location(world, 37.5, 132, 45.5);
     }
 
     public static Location getArmageddonLocation(World world){
-        return new Location(world, 13.5,95, -12.5);
+        return new Location(world, -9.5, 161, 22.5);
     }
 
     public static Location getArchAngelLocation(World world){
-        return new Location(world, 13.5, 95, 13.5);
+        return new Location(world, -12.5, 161, 19.5);
+    }
+
+    public static Location getMidLocation(World world){
+        return new Location(world, -2.5, 124, 12.5);
     }
 
     public static int getSpawnProtection() {return 145;}

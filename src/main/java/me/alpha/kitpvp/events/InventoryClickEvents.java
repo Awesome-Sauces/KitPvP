@@ -42,6 +42,10 @@ public class InventoryClickEvents {
 
     public static void main(InventoryClickEvent event) {
 
+        if(event==null ||
+                event.getClickedInventory()==null ||
+                event.getClickedInventory().getTitle()==null) return;
+
         Player player = (Player) event.getWhoClicked();
         String uuid = String.valueOf(player.getUniqueId());
 

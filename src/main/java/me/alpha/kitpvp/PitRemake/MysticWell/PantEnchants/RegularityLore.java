@@ -29,10 +29,15 @@ public class RegularityLore extends PitEnchant {
         NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("regularity");
 
-        if(event.getBaseDamage()/6 <= 1.5){
-            triggerAttack(event, level);
-        }
+        if(event.getBukkitEvent().getFinalDamage()>=maxFinalDamage(level)) return;
 
+        triggerAttack(event, level);
+
+
+    }
+
+    public static double maxFinalDamage(int enchantLvl) {
+        return enchantLvl * 0.4 + 1.2;
     }
 
     public static double secondHitDamage(int enchantLvl) {
@@ -59,7 +64,7 @@ public class RegularityLore extends PitEnchant {
                 public void run() {
                     event.getAttacker().setRegCD();
                 }
-            }.runTaskLater(KitPvP.INSTANCE, 4L);
+            }.runTaskLater(KitPvP.INSTANCE, 5L);
         }
     }
 

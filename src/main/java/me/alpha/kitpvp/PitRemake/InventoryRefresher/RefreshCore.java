@@ -2,7 +2,9 @@ package me.alpha.kitpvp.PitRemake.InventoryRefresher;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
+import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
@@ -20,7 +22,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
+import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 
 public class RefreshCore {
@@ -50,20 +54,20 @@ public class RefreshCore {
 
                 enchants= loreChecker.CheckEnchantOnPant(item.getItemMeta().getLore());
 
-                if(enchants.isEmpty()) return;
+                if(!enchants.isEmpty()){
+                    for(String enchant : enchants){
+                        int tier = enchant.length()-enchant.replaceAll("I", "").length();
 
-                for(String enchant : enchants){
-                    int tier = enchant.length()-enchant.replaceAll("I", "").length();
+                        nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
+                    }
 
-                    nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
+                    nbtItem.mergeCompound(nbtCompound);
+
+                    item=nbtItem.getItem();
+
+                    player.getInventory().setLeggings(item);
+                    refreshCount++;
                 }
-
-                nbtItem.mergeCompound(nbtCompound);
-
-                item=nbtItem.getItem();
-
-                player.getInventory().setLeggings(item);
-                refreshCount++;
 
             }
         }
@@ -81,6 +85,63 @@ public class RefreshCore {
                 continue;
             }
 
+            if(item.getType().equals(Material.FEATHER)){
+
+                    ItemStack stack = itemManager.feather;
+
+                    stack.setAmount(item.getAmount());
+
+                    inventory.setItem(i, stack);
+                    refreshCount++;
+
+            }
+
+            if(item.getType().equals(Material.COAL)){
+                if(item.getItemMeta()!=null&&
+                        !item.getItemMeta().getDisplayName().equals(enchants.vile.getItemMeta().getDisplayName())){
+                    inventory.setItem(i, new ItemStack(Material.AIR));
+                }else{
+                    ItemStack stack = enchants.vile;
+
+                    stack.setAmount(item.getAmount());
+
+                    inventory.setItem(i, stack);
+                    refreshCount++;
+                }
+            }
+
+            if(item.getType().equals(Material.EMERALD)){
+                if(item.getItemMeta()!=null&&
+                        !item.getItemMeta().getDisplayName().equals(enchants.gem.getItemMeta().getDisplayName())){
+                    inventory.setItem(i, new ItemStack(Material.AIR));
+                    player.sendMessage(ColorUtil.colorCode("&5&lDUPE DETECTION! &7A duped item was detected in your inventory."));
+                    Sounds.MEGA_RNGESUS.play(player);
+                }else {
+                    ItemStack stack = enchants.gem;
+
+                    stack.setAmount(item.getAmount());
+
+                    inventory.setItem(i, stack);
+                    refreshCount++;
+                }
+            }
+
+            if(item.getType().equals(Material.ENDER_CHEST)){
+                if(item.getItemMeta()!=null&&
+                        !item.getItemMeta().getDisplayName().equals(getUberDrop().getItemMeta().getDisplayName())){
+                    inventory.setItem(i, new ItemStack(Material.AIR));
+                    player.sendMessage(ColorUtil.colorCode("&5&lDUPE DETECTION! &7A duped item was detected in your inventory."));
+                    Sounds.MEGA_RNGESUS.play(player);
+                }else {
+                    ItemStack stack = getUberDrop();
+
+                    stack.setAmount(item.getAmount());
+
+                    inventory.setItem(i, stack);
+                    refreshCount++;
+                }
+
+            }
 
             if(item.getType().equals(Material.GOLD_SWORD)&&
             item.getItemMeta()!=null){
@@ -147,36 +208,40 @@ public class RefreshCore {
                 if(!nbtCompound.hasKey("real")) inventory.setItem(i, enchants.fresh_bow);
             }else if(item.getType().equals(Material.BOW)&&
                     item.getItemMeta()!=null){
+
                 NBTItem nbtItem = new NBTItem(item);
 
-                NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
-                ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
-                List<String> lore = new ArrayList<>();
+                    NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+                    NBTCompound compound = nbtItem.getOrCreateCompound("pitdata");
 
-                lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
-                lore.add("   ");
+                    if(!compound.hasKey("real")) continue;
 
-                for (String key : nbtItem.getCompound("enchants").getKeys()){
-                    int level = nbtCompound.getInteger(key);
 
-                    if(player.getItemInHand().getType().equals(Material.BOW)){
+                    ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
+                    List<String> lore = new ArrayList<>();
+
+                    lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+                    lore.add("   ");
+
+                    for (String key : nbtCompound.getKeys()){
+                        int level = nbtCompound.getInteger(key);
+
                         lore.addAll(Arrays.asList(MysticBow.enchantTier(key, level).split("\n")));
+
                     }
+
+
+                    itemMeta.setLore(lore);
+
+                    nbtItem.getItem().setItemMeta(itemMeta);
+
+                    inventory.setItem(i, nbtItem.getItem());
+                    refreshCount++;
                 }
-
-
-                itemMeta.setLore(lore);
-
-                nbtItem.getItem().setItemMeta(itemMeta);
-
-                item=nbtItem.getItem();
-
-                inventory.setItem(i, item);
-                refreshCount++;
 
             }
 
-        }
+
 
         player.getInventory().setContents(inventory.getContents());
 

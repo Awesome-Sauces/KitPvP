@@ -65,6 +65,7 @@ import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler.*;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
+import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
 import static me.alpha.kitpvp.utils.FancyText.hoverText;
@@ -165,11 +166,17 @@ public class PitCommands implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("patchnotes")){
 
-            player.sendMessage(colorCode("&eBetter Pit Update - v1.5.2\n" +
-                    "&7- &a(+) &7Reworked the whole damage system\n" +
-                    "&7- &a(+) &7Recoded the whole Enchanting system\n" +
-                    "&7- &a(+) &7Recoded the whole source\n\n" +
-                    "&eJoin the discord: &bdiscord.gg/scaTgKQq"));
+            player.sendMessage(colorCode("&eBetter Pit Update - v1.5.5\n" +
+                    "&7- &e(#) &7Made regularity deal its knockback\n" +
+                    "&7- &e(#) &7Fixed dupes related to Uber drops and Gems\n" +
+                    "&7- &a(+) &7Switched map to a custom built one\n" +
+                    "&7- &e(#) &7Changed Mystic drop chances\n" +
+                    "&7- &e(#) &7Changed bot AI\n" +
+                    "&7- &e(#) &7Fixed Damage related to Mystic Swords\n" +
+                    "&7- &e(#) &7Made leather leggings AS STRONG AS IRON\n" +
+                    "&7- &e(#) &7Changed Vile drop from kill message\n" +
+                    "&7- &e(#) Made Telebow not need you to shift\n\n" +
+                    "&eJoin the discord: &bdiscord.gg/XyY2tUvT"));
 
             return true;
         }
@@ -494,6 +501,10 @@ public class PitCommands implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("play")){
             if(args[0].equalsIgnoreCase("pit")){
 
+                if(ClassInstances.extraHearts.hasValue(player)){
+                    player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
+                }
+
                 if (CombatTag.containsKey(String.valueOf(player.getUniqueId()))){
                     // player is inside mute map
                     if (CombatTag.get(String.valueOf(player.getUniqueId())) > System.currentTimeMillis()){
@@ -554,6 +565,10 @@ public class PitCommands implements CommandExecutor {
         }
 
         if(cmd.getName().equalsIgnoreCase("hub")){
+
+            if(ClassInstances.extraHearts.hasValue(player)){
+                player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
+            }
 
             if (CombatTag.containsKey(String.valueOf(player.getUniqueId()))){
                 // player is inside mute map
@@ -876,6 +891,10 @@ public class PitCommands implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("spawn")) {
+
+            if(ClassInstances.extraHearts.hasValue(player)){
+                player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
+            }
 
             playerExists(player).setMoonXP(0);
             deleteBlob(player);

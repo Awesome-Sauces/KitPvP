@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.StreakManager;
 
 import com.nametagedit.plugin.NametagEdit;
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
@@ -16,6 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Objects;
 
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnLocation;
+import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.advancedInventory.ItemMaker;
 
@@ -28,12 +30,6 @@ public class StreakManager {
             StashCore.safeGiveMultiple(player, new ItemStack(material), amount);
         }
 
-    }
-
-    public static ItemStack getUberDrop(){
-        return ItemMaker(Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "Uberdrop",
-                ChatColor.GRAY + "Kept on death\n" + ChatColor.GRAY + "Contains: " + ChatColor.LIGHT_PURPLE + colorCode("&kUberdrop!\n\n") +
-                        ChatColor.YELLOW + "Hold and click to open!", 1, true);
     }
 
     public static void Uber(Player player){
@@ -85,7 +81,7 @@ public class StreakManager {
         }
 
         if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "overdrive")){
-            NametagEdit.getApi().setNametag(player, colorCode("&c&lOVERDRIVE ") + RankColor.getNameColor(player), "");
+            NametagEdit.getApi().setNametag(player, colorCode("&c&lOVER ") + RankColor.getNameColor(player), "");
         }
 
         if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "moon")){

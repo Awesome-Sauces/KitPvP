@@ -5,6 +5,7 @@ import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.InventoryManager.NonPermanentItems;
+import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -27,7 +28,7 @@ public class OnJoin implements Listener {
         Player player = event.getPlayer();
         GiveChain(player);
         // Make a new component (Bungee API).
-        TextComponent component = new TextComponent(TextComponent.fromLegacyText(colorCode("&e&lPIT! &fLatest update: &ev1.5.2 &bQuality of life! &7[&e&lCLICK&7]")));
+        TextComponent component = new TextComponent(TextComponent.fromLegacyText(colorCode("&e&lPIT! &fLatest update: &ev1.5.5 &bBug Patch! &7[&e&lCLICK&7]")));
         // Add a click event to the component.
         component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/patchnotes"));
 
@@ -43,6 +44,8 @@ public class OnJoin implements Listener {
             NametagEdit.getApi().setNametag(player, ChatManager.getLevelText(player) + RankColor.getNameColor(player), "");
             //NametagEdit.getApi().setNametag(player, ChatEventApiGetLevelColor(player.getDisplayName(), String.valueOf(player.getUniqueId()))+ rank.getNameColor(player), "");
         }
+
+        RefreshCore.refreshInventory(player);
     }
 
     public void GiveChain(Player player){
@@ -75,7 +78,9 @@ public class OnJoin implements Listener {
             }
 
             if (!player.getInventory().containsAtLeast(new ItemStack(Material.ARROW), 1)) {
-                player.getInventory().addItem(new ItemStack(Material.ARROW));
+                for(int i = 0; i < 32; i++){
+                    player.getInventory().addItem(new ItemStack(Material.ARROW));
+                }
             }
         }catch (Exception e){
 

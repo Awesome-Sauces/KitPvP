@@ -625,6 +625,10 @@ public class PermanentUpgrades implements Listener {
     public void PermanentUpgradesClickEvent(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
 
+        if(event==null ||
+                event.getClickedInventory()==null ||
+                event.getClickedInventory().getTitle()==null) return;
+
         if(event.getClickedInventory() != null &&
                 event.getClickedInventory().getTitle() != null &&
         !event.getClickedInventory().getTitle().equals(ChatColor.GRAY+"Permanent upgrades")) return;

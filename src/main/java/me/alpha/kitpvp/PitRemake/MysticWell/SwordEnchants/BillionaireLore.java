@@ -46,7 +46,6 @@ public class BillionaireLore extends PitEnchant {
 
         if (event.getAttacker().getPlayerGold() >= gold){
             event.getAttacker().setPlayerGold((int) (event.getAttacker().getPlayerGold() - gold));
-            event.getAttacker().refreshScoreBoard();
             Sounds.BILLIONAIRE.play(event.getAttacker().getPlayerObject());
             event.addReduxDamageMultiplier(multiplier);
         }

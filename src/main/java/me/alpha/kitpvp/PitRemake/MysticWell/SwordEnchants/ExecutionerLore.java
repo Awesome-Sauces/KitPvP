@@ -2,14 +2,23 @@ package me.alpha.kitpvp.PitRemake.MysticWell.SwordEnchants;
 
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
+import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 
@@ -33,14 +42,23 @@ public class ExecutionerLore extends PitEnchant {
 
         double tier = item.getInteger("executioner");
 
-        double damage = (event.getReduxDamage()*.75) + event.getReduxTrueDamage();
+        double damage = (tier*2);
 
+        if(CitizensHelper.isNPC(event.getDefender())){
+            damage+=2;
+        }
+
+        if(event.getDefender().getPlayerObject().getHealth() - (tier*2) <= 0){
+            Sounds.EXE.play(event.getAttacker().getPlayerObject());
+        }
 
         if(event.getDefender().getPlayerObject().getHealth() - damage <= tier){
             Sounds.EXE.play(event.getAttacker().getPlayerObject());
             event.getDefender().getPlayerObject().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 
             KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
+
+            //KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
 
             event.setCancelled(true);
             event.getBukkitEvent().setCancelled(true);

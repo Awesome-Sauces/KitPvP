@@ -22,15 +22,7 @@ public class ChatManager implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
 
-        List<Player> players = player.getWorld().getPlayers();
-
-        if(!players.isEmpty()){
-            for(Player messagePlayer : players){
-                messagePlayer.sendMessage(getLevelPrestigeText(event.getPlayer())+RankColor.getRankWithName(event.getPlayer())+RankColor.getChatColor(event.getPlayer())+": " + message);
-            }
-        }
-
-        event.setCancelled(true);
+        event.setFormat(getLevelPrestigeText(event.getPlayer())+RankColor.getRankWithName(event.getPlayer())+RankColor.getChatColor(event.getPlayer())+": " + message);
     }
 
     public static void broadcastMessage(String message, World world){

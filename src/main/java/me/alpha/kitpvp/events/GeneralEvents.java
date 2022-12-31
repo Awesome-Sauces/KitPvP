@@ -68,6 +68,7 @@ import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.deleteBlob;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.getPlayerFromBlob;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.QuestMaster.questMenu.makeMainMenu;
+import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
 import static me.alpha.kitpvp.PitRemake.StreakManager.UberRewards.claimUberReward;
 import static me.alpha.kitpvp.events.InventoryClickEvents.NonPermItems;
 import static me.alpha.kitpvp.events.InventoryClickEvents.PrestigeItems;
@@ -271,6 +272,18 @@ public class GeneralEvents implements Listener {
 
     @EventHandler
     public static void MainDamageEvent(EntityDamageByEntityEvent event){
+
+        if(event.getEntity() instanceof Player){
+            if(CitizensHelper.isNPC((Player) event.getEntity())){
+                NPC npc = CitizensHelper.getNPC((Player) event.getEntity());
+
+                if(npc.isProtected()){
+                    event.setCancelled(true);
+                    return;
+                }
+
+            }
+        }
 
         if(event.getDamager().getLocation().getY()>= Locations.getSpawnProtection() ||
                 event.getEntity().getLocation().getY()>=Locations.getSpawnProtection()) {
@@ -477,12 +490,22 @@ public class GeneralEvents implements Listener {
     public static void onRightClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
+        if(event.getClickedBlock()!=null){
+            if(event.getClickedBlock().getType().equals(Material.ENDER_CHEST)){
+                return;
+            }
+        }
+
         if(event.getItem() != null && player.getItemInHand().getType().equals(Material.CACTUS)){
             player.openInventory(CactusMenu.inventoryConstructor(player));
             return;
         }
 
         if(event.getItem() != null && event.getItem().getType().equals(Material.EMERALD)){
+
+            NBTItem nbtItem = new NBTItem(event.getItem());
+
+            if(!nbtItem.hasKey("gem")) return;
             //player.sendMessage(colorCode("&c&lERROR! &7That item is temporarily disabled!"));
             //Sounds.ERROR.play(player);
             Sounds.MYSTIC_WELL_OPEN_1.play(player);
@@ -519,7 +542,8 @@ public class GeneralEvents implements Listener {
             }
 
             if (event.getPlayer().getItemInHand() != null &&
-                    event.getPlayer().getItemInHand().equals(enchants.fullPantPB)){
+                    event.getPlayer().getItemInHand().equals(enchants.fullPantPB) &&
+            event.getPlayer().getInventory().containsAtLeast(enchants.fullPantPB, 1)){
                 for (int i = 0; i < 10; i++) {
                     event.getPlayer().getInventory().addItem(enchants.fresh_reds);
                 }
@@ -528,7 +552,8 @@ public class GeneralEvents implements Listener {
 
                 event.getPlayer().getInventory().removeItem(enchants.fullPantPB);
             }else if (event.getPlayer().getItemInHand() != null &&
-                    event.getPlayer().getItemInHand().equals(enchants.fullSwordPB)){
+                    event.getPlayer().getItemInHand().equals(enchants.fullSwordPB) &&
+                    event.getPlayer().getInventory().containsAtLeast(enchants.fullSwordPB, 1)){
                 for (int i = 0; i < 10; i++) {
                     event.getPlayer().getInventory().addItem(enchants.fresh_sword);
                 }
@@ -644,13 +669,14 @@ public class GeneralEvents implements Listener {
         if (event.getAction() == Action.LEFT_CLICK_AIR) {
             if (event.getItem() != null) {
                  if(event.getItem().getType().equals(Material.ENDER_CHEST)){
-                    event.getPlayer().getInventory().removeItem(RenownStorage.getUberDrop());
+                     NBTItem item = new NBTItem(event.getItem());
 
-                    event.getPlayer().getInventory().removeItem(new ItemStack(Material.ENDER_CHEST));
-
-                    event.getPlayer().getInventory().removeItem(RenownItems.UberDrop());
-
-                    claimUberReward(event.getPlayer());
+                     if(item.hasKey("uber") &&
+                     event.getItem().getItemMeta().getDisplayName().equals(getUberDrop().getItemMeta().getDisplayName()) &&
+                     player.getInventory().containsAtLeast(getUberDrop(), 1)){
+                         event.getPlayer().getInventory().removeItem(getUberDrop());
+                         claimUberReward(event.getPlayer());
+                     }
                 }
             }
         }
@@ -661,6 +687,10 @@ public class GeneralEvents implements Listener {
         try{
 
             Material block = event.getClickedBlock().getType();
+
+            if(event.getClickedBlock().getType().equals(Material.ENDER_CHEST)){
+                return;
+            }
 
             if(block == Material.ENCHANTMENT_TABLE){
                 event.setCancelled(true);
@@ -793,11 +823,6 @@ public class GeneralEvents implements Listener {
                     event.getPlayer().sendMessage(ChatColor.RED + "You need the right tool for this!");
                 }
 
-            }else if(!block.equals(Material.ENDER_CHEST)) {
-                if(event.getPlayer().isOp()) return;
-                if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
-                        event.getPlayer().getItemInHand().getType().equals(Material.OBSIDIAN)) return;
-                event.setCancelled(true);
             }
         }catch (Exception e){
 
@@ -947,8 +972,6 @@ public class GeneralEvents implements Listener {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             Inventory inventory = player.getInventory();
-
-
 
             if(event.getWhoClicked().getInventory().containsAtLeast(enchants.cactus, 1) && event.getCurrentItem().equals(enchants.fresh_reds)){
                 player.closeInventory();

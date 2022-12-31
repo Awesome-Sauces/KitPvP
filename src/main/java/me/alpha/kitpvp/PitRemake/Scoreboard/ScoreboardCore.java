@@ -40,6 +40,10 @@ public class ScoreboardCore  implements Listener {
         Player player = event.getPlayer();
 
         RefreshCore.refreshInventory(player);
+
+        if(ClassInstances.extraHearts.hasValue(player)){
+            player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
+        }
         
         
         if (twoTimesEvent == 2) {
@@ -173,7 +177,7 @@ public class ScoreboardCore  implements Listener {
             lobby = "Meteor";
         }
 
-        String version = ChatColor.GRAY + "v1.5.2 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
+        String version = ChatColor.GRAY + "v1.5.5 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
 
         String spacer1 = " "; //blank space
         String spacer2 = "  "; //blank space

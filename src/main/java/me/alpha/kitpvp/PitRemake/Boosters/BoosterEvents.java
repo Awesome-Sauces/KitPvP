@@ -13,6 +13,9 @@ import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 public class BoosterEvents implements Listener {
     @EventHandler
     public void clickBoosterInventory(InventoryClickEvent event){
+        if(event==null ||
+                event.getClickedInventory()==null ||
+                event.getClickedInventory().getTitle()==null) return;
         if(event.getClickedInventory() != null && event.getClickedInventory().getTitle() != null && !event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY+"Boosters")) return;
 
         Player player = (Player) event.getWhoClicked();

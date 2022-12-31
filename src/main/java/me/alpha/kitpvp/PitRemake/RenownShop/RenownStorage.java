@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.RenownShop;
 
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,9 +26,17 @@ public class RenownStorage {
     }
 
     public static ItemStack getUberDrop(){
-        return ItemMaker(Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "Uberdrop",
+        ItemStack uber = ItemMaker(Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "Uberdrop",
                 ChatColor.GRAY + "Kept on death\n" + ChatColor.GRAY + "Contains: " + ChatColor.LIGHT_PURPLE + colorCode("&kUberdrop!\n\n") +
                         ChatColor.YELLOW + "Hold and click to open!", 1, true);
+
+        NBTItem nbtItem = new NBTItem(uber);
+
+        nbtItem.setInteger("uber", 1);
+
+        uber = nbtItem.getItem();
+
+        return uber;
     }
 
     public static ItemStack getStickQuest(){

@@ -1,6 +1,7 @@
 package me.alpha.kitpvp;
 
 import me.alpha.hunter.api.HunterAPI;
+import me.alpha.hunter.bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static me.alpha.hunter.api.HunterAPI.getRandomName;
 import static me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard.RefreshBoard;
 import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.handleTwoEvent;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
@@ -94,21 +96,13 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
-/*
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
-        }
-
-        for (int i = 0; i < 30; i++) {
-            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false);
-        }
-
-        for (int i = 0; i < 30; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false);
+
+            //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
-
- */
-
 
 
     }

@@ -9,6 +9,7 @@ import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler;
 import me.alpha.kitpvp.utils.CitizensHelper;
 import org.bukkit.*;
@@ -140,8 +141,20 @@ public class ReduxEvents implements Listener {
 
         Block replaced = event.getBlockReplacedState().getBlock();
         if(event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) return;
-        if (event.getBlockReplacedState().getType() != null && event.getBlockReplacedState().getType() == Material.AIR && event.getBlockReplacedState().getType() != Material.GRASS){
+        if (event.getBlockReplacedState().getType() != null &&
+                event.getBlockReplacedState().getType() == Material.AIR &&
+                event.getBlockReplacedState().getType() != Material.GRASS){
             if (event.getBlock().getType() == Material.OBSIDIAN) {
+
+                if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))<=8){
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))>=10){
+                    event.setCancelled(true);
+                    return;
+                }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
 

@@ -89,14 +89,6 @@ public class RenownItems {
                         ChatColor.GRAY + "Cost: " + ChatColor.YELLOW + "640 Renown", 1, true);
     }
 
-    public static ItemStack UberDrop(){
-        return ItemMaker(Material.ENDER_CHEST, ChatColor.YELLOW + "Uberdrop",
-                ChatColor.GRAY + "Each purchase gives you " + ChatColor.LIGHT_PURPLE + "+1 Uberdrop!\n" + ChatColor.GRAY +
-                        "Left clicking with an Uberdrop will\n" + ChatColor.GRAY +
-                        "grant you a random uberdrop!\n\n" +
-                        ChatColor.GRAY + "Cost: " + ChatColor.YELLOW + "16 Renown", 1, true);
-    }
-
     public static ItemStack Boxers(){
         return ItemMaker(Material.LEATHER_LEGGINGS, ChatColor.YELLOW + "Colorful Boxers",
                 ChatColor.GRAY + "Each purchase gives you a\n" + ChatColor.GRAY + "to roll 3 of these dyes:\n" +

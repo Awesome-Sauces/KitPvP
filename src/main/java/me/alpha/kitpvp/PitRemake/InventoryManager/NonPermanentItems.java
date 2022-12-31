@@ -1,7 +1,9 @@
 package me.alpha.kitpvp.PitRemake.InventoryManager;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static me.alpha.kitpvp.PitRemake.InventoryManager.MysticLivesHandler.registerCommonItems;
+import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
 import static me.alpha.kitpvp.utils.advancedInventory.ItemMaker;
 
 public class NonPermanentItems {
@@ -35,9 +38,15 @@ public class NonPermanentItems {
                 item.getItemMeta() != null
                 && item.getItemMeta().getLore() != null &&
                 item.getItemMeta().getLore().equals(itemManager.feather.getItemMeta().getLore())){
-                    player.getInventory().removeItem(itemManager.feather);
-                    Sounds.FUNKY_FEATHER.play(player);
-                    player.sendMessage(ChatColor.AQUA + "Your funky feather just saved your items!");
+                    NBTItem nbtItem = new NBTItem(item);
+
+                    if(nbtItem.hasKey("feather") &&
+                            nbtItem.getItem().getItemMeta().getDisplayName().equals(itemManager.feather.getItemMeta().getDisplayName())
+                    && player.getInventory().containsAtLeast(itemManager.feather, 1)){
+                        player.getInventory().removeItem(itemManager.feather);
+                        Sounds.FUNKY_FEATHER.play(player);
+                        player.sendMessage(ColorUtil.colorCode("&3&lFUNKY FEATHER! &7Inventory protected."));
+                    }
                     return;
                 }
             }

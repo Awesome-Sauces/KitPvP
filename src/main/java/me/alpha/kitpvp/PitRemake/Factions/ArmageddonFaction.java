@@ -290,6 +290,8 @@ public class ArmageddonFaction implements Listener {
 
         LookClose lookClose = npc.getTrait(LookClose.class);
         lookClose.lookClose(true);
+
+        npc.setProtected(true);
     }
 
 }

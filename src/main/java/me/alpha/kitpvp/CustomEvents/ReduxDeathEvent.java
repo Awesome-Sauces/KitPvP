@@ -77,6 +77,16 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public void run(){
 
         if(!isNPC(defender.getPlayerObject())){
+            if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ClassInstances.promotion.hasValue(defender.getPlayerUUID()) &&
+                    ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=100){
+                ClearRegular(defender.getPlayerObject());
+                defender.getPlayerObject().sendMessage(colorCode("&e&lPROMOTION! &7you managed to reach a &c100 killstreak &7and kept your mystic lives!"));
+            }else {
+                ClearAndCheck(defender.getPlayerObject());
+            }
+        }
+
+        if(!isNPC(defender.getPlayerObject())){
             if(ClassInstances.megaStreakData.getMegaStreak(defender.getPlayerUUID()).equals("overdrive") &&
                     ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=50){
                 defender.addPlayerEXP(4000);
@@ -93,15 +103,6 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         }
         
         if(!isNPC(defender.getPlayerObject())) deleteBlob(defender.getPlayerObject());
-        if(!isNPC(defender.getPlayerObject())){
-            if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ClassInstances.promotion.hasValue(defender.getPlayerUUID()) &&
-                    (((Integer)ClassInstances.promotion.getValue(defender.getPlayerUUID()))>=1) && ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=100){
-                if(!isNPC(defender.getPlayerObject())) ClearRegular(defender.getPlayerObject());
-                defender.getPlayerObject().sendMessage(colorCode("&e&lPROMOTION! &7you managed to reach a &c100 killstreak &7and kept your mystic lives!"));
-            }else if(!isNPC(defender.getPlayerObject())) {
-                ClearAndCheck(defender.getPlayerObject());
-            }
-        }
 
         // Defender Streak tick
         if (!isNPC(defender.getPlayerObject())) {
@@ -227,7 +228,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
             addGold(Math.min(100, Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3)));
         }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
-            mystic_chance=5;
+            addMysticChance(5);
         }else if(streak.equals("magnum") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             ChatManager.broadcastMessage(colorCode("&c&lMEGASTREAK! " + ChatManager.getLevelText(attacker.getPlayerObject()) + RankColor.getNameColor(attacker.getPlayerObject()) + attacker.getPlayerObject().getDisplayName() +" &7activated &e&lMAGNUM OPUS &7and exploded! So smart!"),attacker.getPlayerObject().getWorld());
             attacker.getPlayerObject().getWorld().playEffect(attacker.getPlayerObject().getLocation(), Effect.EXPLOSION_LARGE, 10);
@@ -482,13 +483,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                         break;
 
                     case "pantsradarIII":
-                        mystic_chance+=9;
+                        addMysticChance(9);
                         break;
                     case "pantsradarII":
-                        mystic_chance+=5;
+                        addMysticChance(5);
                         break;
                     case "pantsradarI":
-                        mystic_chance+=2;
+                        addMysticChance(2);
                         break;
                 }
             }
@@ -504,7 +505,9 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     }
 
     public double getMysticChance(){
-        return baseMysticChance*(mystic_chance*.01);
+        baseMysticChance=ClassInstances.mysticism.getMysticismChance(attacker.getPlayerUUID());
+
+        return ((baseMysticChance*.01)+(mystic_chance*.01))/2;
     }
 
     public double getBaseMysticChance() {
