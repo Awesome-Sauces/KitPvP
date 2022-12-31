@@ -4,6 +4,7 @@ import me.alpha.hunter.api.HunterAPI;
 import me.alpha.hunter.bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
+import me.alpha.kitpvp.DataSave.DatabaseConnector;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard;
@@ -39,6 +40,8 @@ public class KitPvP extends JavaPlugin {
 
         INSTANCE = this;
 
+        // Start Database
+        DatabaseConnector.startConnection();
 
         // Load Data
         ClassInstances.load();
@@ -96,6 +99,7 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
+        /*
         for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
@@ -103,6 +107,8 @@ public class KitPvP extends JavaPlugin {
 
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
+
+         */
 
 
     }

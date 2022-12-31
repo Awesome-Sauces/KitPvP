@@ -7,6 +7,7 @@ import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.DataSave.Converter64;
+import me.alpha.kitpvp.DataSave.DatabaseConnector;
 import me.alpha.kitpvp.DataSave.PlayerData;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.Mobs.CustomZombie;
@@ -45,6 +46,7 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 import static me.alpha.kitpvp.Data.ClassInstances.CombatTag;
@@ -199,24 +201,34 @@ public class PitCommands implements CommandExecutor {
 
                 playerData.saveData(player);
 
-                PlayerDataSave.put(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData));
-
-                player.sendMessage(ColorUtil.colorCode("&aSuccessfully saved and serialized player data"));
-                Sounds.SUCCESS.play(player);
+                try {
+                    DatabaseConnector.updatePlayer(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData), player.getServer().getName());
+                    player.sendMessage(ColorUtil.colorCode("&aSuccessfully saved and serialized player data"));
+                    Sounds.SUCCESS.play(player);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             if(args.length>=1 && args[0].equalsIgnoreCase("load")){
                 if(PlayerDataSave.containsKey(player.getUniqueId().toString())){
-                    try {
-                        Converter64.playerDataFrom64(PlayerDataSave.get(player.getUniqueId().toString())).loadData(player);
 
+                    String playerData = "";
+
+                    try {
+                        playerData = DatabaseConnector.getPlayer(player.getUniqueId().toString());
+
+                        Converter64.playerDataFrom64(playerData).loadData(player);
                         player.sendMessage(ColorUtil.colorCode("&aSuccessfully deserialized and loaded player data"));
                         Sounds.SUCCESS.play(player);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
                     } catch (IOException e) {
                         player.sendMessage(ColorUtil.colorCode("&cFailed to deserialize player data"));
                         Sounds.ERROR.play(player);
                         throw new RuntimeException(e);
                     }
+
                 }
             }
 
