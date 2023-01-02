@@ -31,6 +31,7 @@ public class ReduxPlayer {
     public int fShotCount = 0;
     boolean telebowCD = true;
     boolean GoldenCD = true;
+    boolean SoupCD = true;
     boolean PitPocketCD = true;
     boolean AttackCD = true;
     boolean perunCD = true;
@@ -217,6 +218,10 @@ public class ReduxPlayer {
     public double getPlayerDecrease(){
         return this.damageDecrease;
     }
+
+    public boolean getSoupCD(){return this.SoupCD;}
+
+    public void setSoupCD(){this.SoupCD = !this.SoupCD;}
 
     public int tickAssistantStreaker(){
         this.assistantStreakerCount++;

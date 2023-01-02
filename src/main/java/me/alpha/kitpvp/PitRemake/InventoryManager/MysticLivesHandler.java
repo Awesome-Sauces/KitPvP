@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.InventoryManager;
 
 
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public class MysticLivesHandler {
         String lives = item.getItemMeta().getLore().get(0);
 
         if(ChatColor.stripColor(lives).contains("Lives: 1/5")){
-            player.getInventory().removeItem(item);
+            StashCore.safeRemove(player, item);
         }
 
         try{
@@ -48,7 +49,7 @@ public class MysticLivesHandler {
         }
 
         if(ChatColor.stripColor(lives).contains("Lives: 0/5")){
-            player.getInventory().removeItem(item);
+            StashCore.safeRemove(player, item);
         }
 
         try{

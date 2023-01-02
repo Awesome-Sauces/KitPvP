@@ -22,12 +22,14 @@ public class PerkHandler implements Listener {
         ClassInstances.vampire.getPerkExecute().run(event);
         ClassInstances.assistantStreaker.getPerkExecute().run(event);
         ClassInstances.gladiator.getPerkExecute().run(event);
+        ClassInstances.firstStrike.getPerkExecute().run(event);
     }
 
     @EventHandler
     public void PlayerDeathEvent(ReduxDeathEvent event){
         if(isNPC(event.getAttacker().getPlayerObject())) return;
 
+        ClassInstances.soup.getPerkExecute().run(event);
         ClassInstances.strengthChaining.getPerkExecute().run(event);
         ClassInstances.goldenHeads.getPerkExecute().run(event);
         ClassInstances.dirty.getPerkExecute().run(event);

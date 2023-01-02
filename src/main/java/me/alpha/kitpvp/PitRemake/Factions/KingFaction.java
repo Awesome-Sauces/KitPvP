@@ -3,10 +3,12 @@ package me.alpha.kitpvp.PitRemake.Factions;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.ChatColor;
@@ -45,7 +47,7 @@ public class KingFaction implements Listener {
                             player.getInventory().containsAtLeast(enchants.playerSoul, 64)
                     ){
                         ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5000);
-                        for (int i = 0; i < 64; i++) player.getInventory().removeItem(enchants.playerSoul);
+                        for (int i = 0; i < 64; i++) StashCore.safeRemove(player, enchants.playerSoul);
 
                         StashCore.safeGive(player, enchants.kingsHelmet);
                         GoldData.addEconomy(uuid, 500000);
@@ -98,7 +100,9 @@ public class KingFaction implements Listener {
 
     private static void skin(NPC npc) {
         SkinTrait skinTrait = npc.getTrait(SkinTrait.class);
-        skinTrait.setSkinName("Destinybro56");
+        skinTrait.setSkinName("ColTRA");
+
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, itemManager.IronSword);
 
         LookClose lookClose = npc.getTrait(LookClose.class);
         lookClose.lookClose(true);

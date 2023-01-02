@@ -2,6 +2,7 @@ package me.alpha.kitpvp.PitRemake.PitCommands.Stash;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -57,12 +58,30 @@ public class StashCore {
     }
 
     public static void safeGive(Player player, ItemStack itemStack){
+        if(itemStack==null || itemStack.getType().equals(Material.AIR) ||
+                itemStack.getType().equals(Material.OBSIDIAN)) return;
+
+        itemStack.setAmount(1);
+
         if(hasAvailableSlot(player)){
             player.getInventory().addItem(itemStack);
         }else{
-            StashData.addStashData(player.getUniqueId(), itemStack);
-            StashCore.reminderMessage(player);
+            for (int i = 0; i < 1; i++) {
+                StashData.addStashData(player.getUniqueId(), itemStack);
+                StashCore.reminderMessage(player);
+            }
         }
+    }
+    
+    public static boolean safeRemove(Player player, ItemStack itemStack){
+        if(!player.getInventory().containsAtLeast(itemStack, 1)) return false;
+
+        itemStack.setAmount(1);
+
+        player.getInventory().removeItem(itemStack);
+
+        
+        return true;
     }
 
     public static void safeGiveMultiple(Player player, ItemStack itemStack, int amount){

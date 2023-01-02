@@ -107,7 +107,7 @@ public class CreateVillagers {
 
     public static void loadNPC(){
 
-        perm_upgrades_npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, ChatColor.GRAY + "Permanent");
+        perm_upgrades_npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER,  ChatColor.GRAY +  "Permanent");
         perm_upgrades_npc.setBukkitEntityType(EntityType.VILLAGER);
         perm_upgrades_npc.setProtected(true);
 
@@ -385,71 +385,71 @@ public class CreateVillagers {
 
     private static void makeHolograms(){
         perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.perm_upgrades_loc.add(0,2.75,0));
-        perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
+        perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lUPGRADES"));
         non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.non_perm_upgrades_loc.add(0,2.75,0));
-        non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
+        non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&6&lITEMS"));
         leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.leaderboard_npc_loc.add(0,2.75,0));
-        leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
+        leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&3&lSTATS"));
         quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.quest_npc_loc.add(0,2.75,0));
-        quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
+        quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&b&lQUEST MASTER"));
         prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.prestige_npc_loc.add(0,2.75,0));
-        prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
+        prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&e&lPRESTIGE"));
 
         ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("world")).add(0,-.75,0));
-        ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&5ENDER CHEST"));
+        ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&5&lENDER CHEST"));
 
         ender_chest_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("world")).add(0,-1,0));
         ender_chest_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7Store items forever"));
 
         mystic_well = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("world")).add(0,-.75,0));
-        mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&dMYSTIC WELL"));
+        mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&d&lMYSTIC WELL"));
 
         mystic_well_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("world")).add(0,-1,0));
         mystic_well_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7item enchants"));
 
         lobby_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_perm_upgrades_loc.add(0,2.75,0));
-        lobby_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
+        lobby_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lUPGRADES"));
         lobby_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_non_perm_upgrades_loc.add(0,2.75,0));
-        lobby_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
+        lobby_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&6&lITEMS"));
         lobby_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_leaderboard_npc_loc.add(0,2.75,0));
-        lobby_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
+        lobby_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&3&lSTATS"));
         lobby_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_quest_npc_loc.add(0,2.75,0));
-        lobby_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
+        lobby_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&b&lQUEST MASTER"));
         lobby_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby_prestige_npc_loc.add(0,2.75,0));
-        lobby_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
+        lobby_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&e&lPRESTIGE"));
 
         lobby_ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby")).add(0,-.75,0));
-        lobby_ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&5ENDER CHEST"));
+        lobby_ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&5&lENDER CHEST"));
 
         lobby_ender_chest_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby")).add(0,-1,0));
         lobby_ender_chest_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7Store items forever"));
 
         lobby_mystic_well = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("lobby")).add(0,-.75,0));
-        lobby_mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&dMYSTIC WELL"));
+        lobby_mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&d&lMYSTIC WELL"));
 
         lobby_mystic_well_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("lobby")).add(0,-1,0));
         lobby_mystic_well_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7item enchants"));
 
 
         lobby2_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_perm_upgrades_loc.add(0,2.75,0));
-        lobby2_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&aUPGRADES"));
+        lobby2_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lUPGRADES"));
         lobby2_non_perm_upgrades_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_non_perm_upgrades_loc.add(0,2.75,0));
-        lobby2_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&6ITEMS"));
+        lobby2_non_perm_upgrades_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&6&lITEMS"));
         lobby2_leaderboard_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_leaderboard_npc_loc.add(0,2.75,0));
-        lobby2_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&3STATS"));
+        lobby2_leaderboard_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&3&lSTATS"));
         lobby2_quest_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_quest_npc_loc.add(0,2.75,0));
-        lobby2_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&bQUEST MASTER"));
+        lobby2_quest_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&b&lQUEST MASTER"));
         lobby2_prestige_hologram = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.lobby2_prestige_npc_loc.add(0,2.75,0));
-        lobby2_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&ePRESTIGE"));
+        lobby2_prestige_hologram.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&e&lPRESTIGE"));
 
         lobby2_ender_chest = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby2")).add(0,-.75,0));
-        lobby2_ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&5ENDER CHEST"));
+        lobby2_ender_chest.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&5&lENDER CHEST"));
 
         lobby2_ender_chest_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getEnderChestLocation(Bukkit.getWorld("lobby2")).add(0,-1,0));
         lobby2_ender_chest_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7Store items forever"));
 
         lobby2_mystic_well = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("lobby2")).add(0,-.75,0));
-        lobby2_mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&l&dMYSTIC WELL"));
+        lobby2_mystic_well.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&d&lMYSTIC WELL"));
 
         lobby2_mystic_well_lore = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getMysticWellLocation(Bukkit.getWorld("lobby2")).add(0,-1,0));
         lobby2_mystic_well_lore.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&7item enchants"));
@@ -510,15 +510,6 @@ public class CreateVillagers {
         Lobby2JumpBetterPit = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getPlayPitLocation(Bukkit.getWorld("world")));
         Lobby2JumpBetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&eThe Better Pit"));
         Lobby2JumpBetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lJUMP! &c&lFIGHT!"));
-
-
-        LobbyBetterPit = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getPlayPitLocation(Bukkit.getWorld("lobby")));
-        LobbyBetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&eThe Better Pit"));
-        LobbyBetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lJUMP! &c&lFIGHT!"));
-
-        Lobby2BetterPit = HologramsAPI.createHologram(KitPvP.INSTANCE, Locations.getPlayPitLocation(Bukkit.getWorld("lobby2")));
-        Lobby2BetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&eThe Better Pit"));
-        Lobby2BetterPit.appendTextLine( ChatColor.translateAlternateColorCodes('&', "&a&lJUMP! &c&lFIGHT!"));
 
 
     }

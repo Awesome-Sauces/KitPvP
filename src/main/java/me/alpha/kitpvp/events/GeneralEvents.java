@@ -15,6 +15,7 @@ import me.alpha.kitpvp.PitRemake.Bounties.Bounty;
 import me.alpha.kitpvp.PitRemake.Factions.ArchAngelFaction;
 import me.alpha.kitpvp.PitRemake.Factions.ArmageddonFaction;
 import me.alpha.kitpvp.PitRemake.Factions.KingFaction;
+import me.alpha.kitpvp.PitRemake.Fishing.FishingCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
@@ -28,6 +29,8 @@ import me.alpha.kitpvp.PitRemake.RenownShop.RenownItems;
 import me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import me.alpha.kitpvp.utils.ColorUtil;
+import me.alpha.kitpvp.utils.PacketTitles.PacketTitle;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import net.citizensnpcs.api.CitizensAPI;
@@ -63,6 +66,7 @@ import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
 import static me.alpha.kitpvp.PitRemake.Gems.gemMain.makeGemGUI;
 import static me.alpha.kitpvp.PitRemake.Locations.changeCakeLocation;
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnProtection;
+import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnPant;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.deleteBlob;
 import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.getPlayerFromBlob;
@@ -109,14 +113,14 @@ public class GeneralEvents implements Listener {
     @EventHandler
     public void SpawnProtectionNPC(NPCDamageEntityEvent event){
         if(event.getNPC().getEntity() != null)
-            if(event.getNPC().getEntity().getLocation().getY() >= getSpawnProtection())
+            if(event.getNPC().getEntity().getLocation().getY() >= getSpawnProtection(event.getNPC().getEntity().getWorld()))
                 event.setCancelled(true);
     }
 
     @EventHandler
     public void SpawnProtectionNPCtoNPC(NPCDamageByEntityEvent event){
         if(event.getNPC().getEntity() != null)
-            if(event.getNPC().getEntity().getLocation().getY() >= getSpawnProtection())
+            if(event.getNPC().getEntity().getLocation().getY() >= getSpawnProtection(event.getNPC().getEntity().getWorld()))
                 event.setCancelled(true);
     }
 
@@ -128,7 +132,7 @@ public class GeneralEvents implements Listener {
 
             Player player = getPlayerFromBlob((Slime) slime);
             if(player!=null){
-                if(player.getLocation().getY() >= getSpawnProtection()) deleteBlob(player);
+                if(player.getLocation().getY() >= getSpawnProtection(player.getWorld())) deleteBlob(player);
                 if(player.getLocation().distance(slime.getLocation()) >= 18) deleteBlob(player);
 
                 if(player.getInventory().getLeggings() != null &&
@@ -179,7 +183,7 @@ public class GeneralEvents implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
                 @Override
                 public void run() {
-                    event.getEntity().remove();
+                    if(event.getEntity() instanceof Arrow)event.getEntity().remove();
                 }
             }, 300L);
 
@@ -204,6 +208,54 @@ public class GeneralEvents implements Listener {
         }
     }
 
+    @EventHandler
+    public void HandleFishEvent(PlayerFishEvent event){
+        if(event.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)||
+                event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
+            Player player = event.getPlayer();
+
+            event.setExpToDrop(0);
+            event.setCancelled(true);
+
+            if(percentChance(.001)){
+                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught an &b&lXP &7bundle and received &b+1,000,000 XP"));
+                Sounds.PRESTIGE.play(player);
+                playerExists(player).addPlayerEXP(1000000);
+                return;
+            }else if(percentChance(.001)){
+                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a &6&lGOLD &7bundle and received &6+1,000,000g"));
+                Sounds.PRESTIGE.play(player);
+                playerExists(player).addPlayerGold(1000000);
+                ClassInstances.goldRequirementData.addGoldReq(player.getUniqueId().toString(), 1000000);
+                return;
+            }
+
+            if(percentChance(.01)){
+                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.cactus.getItemMeta().getDisplayName()));
+
+                StashCore.safeGiveMultiple(player, enchants.cactus, 1);
+                Sounds.JUGGERNAUT_EXPLOSION.play(player);
+                return;
+            }else if(percentChance(.005)){
+                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.fresh_dark.getItemMeta().getDisplayName()));
+                Sounds.HERESY.play(player);
+                StashCore.safeGiveMultiple(player, enchants.fresh_dark, 1);
+                return;
+            }else if(percentChance(.05)){
+                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.fresh_sword.getItemMeta().getDisplayName()));
+                Sounds.MYSTIC_DROP_1.play(player);
+                Sounds.MYSTIC_DROP_2.play(player);
+                Sounds.MYSTIC_DROP_2.play(player);
+                StashCore.safeGiveMultiple(player, enchants.fresh_sword, 1);
+                return;
+            }
+
+            player.sendMessage(ColorUtil.colorCode("&a&lFISHING HOOK! &7Your fishing rod missed and caught nothing :("));
+            Sounds.NO.play(player);
+
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public static void HandleMegaStreakDamage(ReduxDamageEvent event){
         // Mega Streak Calculations
@@ -222,6 +274,11 @@ public class GeneralEvents implements Listener {
                 event.getDefender().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
 
                 event.addReduxTrueDamage(counter*.1);
+            }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
+                if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
+                int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50));
+
+                event.addReduxDamageMultiplier(counter*.3);
             }else if(streak.equals("highlander") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
                 if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
                 int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/15);
@@ -285,8 +342,8 @@ public class GeneralEvents implements Listener {
             }
         }
 
-        if(event.getDamager().getLocation().getY()>= Locations.getSpawnProtection() ||
-                event.getEntity().getLocation().getY()>=Locations.getSpawnProtection()) {
+        if(event.getDamager().getLocation().getY()>= Locations.getSpawnProtection(event.getDamager().getWorld()) ||
+                event.getEntity().getLocation().getY()>=Locations.getSpawnProtection(event.getDamager().getWorld())) {
             event.setCancelled(true);
             return;
         }
@@ -338,7 +395,7 @@ public class GeneralEvents implements Listener {
         Player defender = null;
 
         if(CitizensAPI.getNPCRegistry().isNPC(event.getDamager())){
-            if(event.getDamager().getLocation().getY() >= getSpawnProtection()){
+            if(event.getDamager().getLocation().getY() >= getSpawnProtection(event.getDamager().getWorld())){
                 event.setCancelled(true);
                 return;
 
@@ -350,18 +407,29 @@ public class GeneralEvents implements Listener {
             event.setCancelled(true);
             FishHook arrow = (FishHook) event.getDamager();
             Player player = (Player) arrow.getShooter();
-            ((Player) event.getEntity()).damage(event.getDamage(), player);
 
+            event.setDamage(0);
 
             return;
 
         }
 
         if((event.getDamager() instanceof Arrow)) {
-            event.setCancelled(true);
+
             Arrow arrow = (Arrow) event.getDamager();
             Player player = (Player) arrow.getShooter();
-            ((Player) event.getEntity()).damage(event.getDamage()*.25, player);
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    arrow.remove();
+                }
+            }, 20L);
+
+            if(player.getLocation().getY()>=Locations.getSpawnProtection(player.getWorld())) {
+                event.setCancelled(true);
+                return;
+            }
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
                 @Override
@@ -370,8 +438,32 @@ public class GeneralEvents implements Listener {
                 }
             }, 300L);
 
-            ReduxBowEvent me = new ReduxBowEvent(playerExists(player), playerExists((Player) event.getEntity()), 0, event);
+            ReduxBowEvent me = new ReduxBowEvent(playerExists(player), playerExists((Player) event.getEntity()), event.getDamage(), event);
             Bukkit.getPluginManager().callEvent(me);
+
+            if(!me.isCancelled()){
+                event.setDamage((me.getReduxDamage())*.45);
+
+                if(isNPC(defender)){
+                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 3){
+                        event.setCancelled(true);
+                        ((LivingEntity) event.getEntity()).setHealth(((LivingEntity) event.getEntity()).getMaxHealth());
+                        KillMan(player, (Player) event.getEntity());
+                        return;
+                    }
+                }else{
+                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 1){
+                        event.setCancelled(true);
+                        ((LivingEntity) event.getEntity()).setHealth(((LivingEntity) event.getEntity()).getMaxHealth());
+                        KillMan(player, (Player) event.getEntity());
+                        return;
+                    }
+                }
+
+                PacketTitle.onAttackHealthBar(me);
+            }
+
+
 
 
             return;
@@ -387,7 +479,7 @@ public class GeneralEvents implements Listener {
         }
 
 
-        if(event.getDamager().getLocation().getY() <= getSpawnProtection()){
+        if(event.getDamager().getLocation().getY() <= getSpawnProtection(event.getDamager().getWorld())){
             assert defender != null;
             defender.setAllowFlight(false);
             ClassInstances.CombatTag.put(String.valueOf(event.getDamager().getUniqueId()), System.currentTimeMillis() + (5 * 1000));
@@ -490,6 +582,12 @@ public class GeneralEvents implements Listener {
     public static void onRightClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
+        if(event.getPlayer().getItemInHand()!=null &&
+        !event.getPlayer().isOp() &&
+        event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)){
+            event.setCancelled(true);
+        }
+
         if(event.getClickedBlock()!=null){
             if(event.getClickedBlock().getType().equals(Material.ENDER_CHEST)){
                 return;
@@ -513,7 +611,9 @@ public class GeneralEvents implements Listener {
             return;
         }
 
-        if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR){
+        if(event.getPlayer().getItemInHand()!=null&&
+                (event.getPlayer().getItemInHand().equals(enchants.firstaidempty)||
+        event.getPlayer().getItemInHand().equals(enchants.firstaidfull))){
 
             if(event.getPlayer().getItemInHand() != null &&
                     event.getPlayer().getItemInHand().equals(enchants.firstaidempty)){
@@ -526,6 +626,7 @@ public class GeneralEvents implements Listener {
                     event.getPlayer().getItemInHand().getItemMeta().getLore() != null &&
                     event.getPlayer().getItemInHand().getItemMeta().getLore().equals(enchants.firstaidfull.getItemMeta().getLore())){
                 event.setCancelled(true);
+                player.getInventory().remove(enchants.firstaidfull);
                 player.setItemInHand(enchants.firstaidempty);
                 player.setHealth(Math.min(player.getMaxHealth(), player.getHealth()+5));
                 Sounds.FIRST_AID.play(player);
@@ -533,7 +634,7 @@ public class GeneralEvents implements Listener {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
                     @Override
                     public void run() {
-                        player.getInventory().removeItem(enchants.firstaidempty);
+                        StashCore.safeRemove(player, enchants.firstaidempty);
                         player.getInventory().addItem(enchants.firstaidfull);
                     }
                 }, 5 * 20);
@@ -541,11 +642,16 @@ public class GeneralEvents implements Listener {
                 return;
             }
 
+        }
+
+        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) ||
+                event.getAction().equals(Action.RIGHT_CLICK_AIR)){
+
             if (event.getPlayer().getItemInHand() != null &&
                     event.getPlayer().getItemInHand().equals(enchants.fullPantPB) &&
-            event.getPlayer().getInventory().containsAtLeast(enchants.fullPantPB, 1)){
+                    event.getPlayer().getInventory().containsAtLeast(enchants.fullPantPB, 1)){
                 for (int i = 0; i < 10; i++) {
-                    event.getPlayer().getInventory().addItem(enchants.fresh_reds);
+                    StashCore.safeGive(player, enchants.fresh_reds);
                 }
 
                 Sounds.ARMOR_SWAP.play(player);
@@ -555,7 +661,7 @@ public class GeneralEvents implements Listener {
                     event.getPlayer().getItemInHand().equals(enchants.fullSwordPB) &&
                     event.getPlayer().getInventory().containsAtLeast(enchants.fullSwordPB, 1)){
                 for (int i = 0; i < 10; i++) {
-                    event.getPlayer().getInventory().addItem(enchants.fresh_sword);
+                    StashCore.safeGive(player, enchants.fresh_sword);
                 }
 
                 Sounds.ARMOR_SWAP.play(player);
@@ -566,7 +672,7 @@ public class GeneralEvents implements Listener {
             if(event.getPlayer().getItemInHand() != null &&
                     event.getPlayer().getItemInHand().getItemMeta() != null &&
                     event.getPlayer().getItemInHand().equals(enchants.swordPB) &&
-                    event.getPlayer().getInventory().contains(enchants.fresh_sword, 10)
+                    event.getPlayer().getInventory().containsAtLeast(enchants.fresh_sword, 10)
             ){
 
                 event.getPlayer().getInventory().removeItem(enchants.swordPB);
@@ -577,7 +683,7 @@ public class GeneralEvents implements Listener {
 
                 event.getPlayer().getInventory().addItem(enchants.fullSwordPB);
 
-                Sounds.FIRST_AID.play(player);
+                Sounds.ARMOR_SWAP.play(player);
 
                 return;
 
@@ -585,48 +691,48 @@ public class GeneralEvents implements Listener {
                     event.getPlayer().getItemInHand().getItemMeta() != null &&
                     event.getPlayer().getItemInHand().equals(enchants.pantsPB)){
 
-                if(event.getPlayer().getInventory().contains(enchants.fresh_reds, 10)){
+                if(event.getPlayer().getInventory().containsAtLeast(enchants.fresh_reds, 10)){
                     for (int i = 0; i < 10; i++) {
                         event.getPlayer().getInventory().removeItem(enchants.fresh_reds);
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
-                }else if(event.getPlayer().getInventory().contains(enchants.fresh_blues, 10)){
+                }else if(event.getPlayer().getInventory().containsAtLeast(enchants.fresh_blues, 10)){
                     for (int i = 0; i < 10; i++) {
                         event.getPlayer().getInventory().removeItem(enchants.fresh_blues);
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
-                }else if(event.getPlayer().getInventory().contains(enchants.fresh_yellows, 10)){
+                }else if(event.getPlayer().getInventory().containsAtLeast(enchants.fresh_yellows, 10)){
                     for (int i = 0; i < 10; i++) {
                         event.getPlayer().getInventory().removeItem(enchants.fresh_yellows);
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
-                }else if(event.getPlayer().getInventory().contains(enchants.fresh_greens, 10)){
+                }else if(event.getPlayer().getInventory().containsAtLeast(enchants.fresh_greens, 10)){
                     for (int i = 0; i < 10; i++) {
                         event.getPlayer().getInventory().removeItem(enchants.fresh_greens);
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
-                }else if(event.getPlayer().getInventory().contains(enchants.fresh_oranges, 10)){
+                }else if(event.getPlayer().getInventory().containsAtLeast(enchants.fresh_oranges, 10)){
                     for (int i = 0; i < 10; i++) {
                         event.getPlayer().getInventory().removeItem(enchants.fresh_oranges);
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
@@ -657,7 +763,8 @@ public class GeneralEvents implements Listener {
                         }
                     }
 
-                    Sounds.FIRST_AID.play(player);
+                    Sounds.ARMOR_SWAP.play(player);
+                    //Sounds.FIRST_AID.play(player);
                     event.getPlayer().getInventory().addItem(enchants.fullPantPB);
                     event.getPlayer().getInventory().removeItem(enchants.pantsPB);
                     return;
@@ -867,9 +974,6 @@ public class GeneralEvents implements Listener {
             event.setCancelled(true);
         }
 
-        if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-            event.setCancelled(true);
-        }
 
     }
 
@@ -987,7 +1091,7 @@ public class GeneralEvents implements Listener {
                 StashCore.safeGive(player, enchants.fresh_greens);
             }else if(event.getWhoClicked().getInventory().containsAtLeast(enchants.cactus, 1) && event.getCurrentItem().equals(enchants.fresh_yellows)){
                 player.closeInventory();
-                player.getInventory().removeItem(enchants.cactus);
+                StashCore.safeRemove(player, enchants.cactus);
                 StashCore.safeGive(player, enchants.fresh_yellows);
             }else if(event.getWhoClicked().getInventory().containsAtLeast(enchants.cactus, 1) && event.getCurrentItem().equals(enchants.fresh_oranges)){
                 player.closeInventory();

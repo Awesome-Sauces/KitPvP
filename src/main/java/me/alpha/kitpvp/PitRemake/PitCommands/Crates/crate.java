@@ -2,6 +2,7 @@ package me.alpha.kitpvp.PitRemake.PitCommands.Crates;
 
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -38,9 +39,7 @@ public class crate {
             ItemStack pants = items.getJewelPant();
 
 
-            inventory.addItem(pants);
-            inventory.addItem(pants);
-            inventory.addItem(pants);
+            StashCore.safeGiveMultiple(player, pants, 3);
 
         }else if(this.crate.equals("HJS")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l3x Hidden Jewel Swords!";
@@ -48,69 +47,57 @@ public class crate {
             ItemStack sword = items.getJewelSword();
 
 
-            inventory.addItem(sword);
-            inventory.addItem(sword);
-            inventory.addItem(sword);
+            StashCore.safeGiveMultiple(player, sword, 3);
 
         }else if(this.crate.equals("GEM")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Totally Legit Gem!";
 
-            inventory.addItem(items.getGem());
+            StashCore.safeGiveMultiple(player, items.getGem(), 1);
 
         }else if(this.crate.equals("BLOB")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Pit Blob III!";
 
             ItemStack blob = items.getPitBlob();
 
-            inventory.addItem(blob);
+            StashCore.safeGiveMultiple(player, blob, 1);
 
         }else if(this.crate.equals("PPP")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l16x Philosopher's Cactus!";
 
-            for (int i = 0; i < 16; i++) {
-                inventory.addItem(enchants.cactus);
-            }
+            StashCore.safeGiveMultiple(player, enchants.cactus, 16);
 
         }else if(this.crate.equals("PPH")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Helmet!";
             ItemStack helmet = items.getDiamondHelmet();
-            inventory.addItem(helmet);
+            StashCore.safeGiveMultiple(player, helmet, 1);
         }else if(this.crate.equals("PPC")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Chestplate!";
             ItemStack chestplate = items.getDiamondChestplate();
-            inventory.addItem(chestplate);
+            StashCore.safeGiveMultiple(player, chestplate, 1);
         }else if(this.crate.equals("PPL")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Leggings!";
             ItemStack leggings = items.getDiamondLeggings();
-            inventory.addItem(leggings);
+            StashCore.safeGiveMultiple(player, leggings, 1);
         }else if(this.crate.equals("PPB")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Boots!";
             ItemStack boots = items.getDiamondBoots();
-            inventory.addItem(boots);
+            StashCore.safeGiveMultiple(player, boots, 1);
         }else if(this.crate.equals("FSIX")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l16x Funky Feathers!";
             ItemStack feather = items.getFeather();
-            for (int i = 0; i < 16; i++) {
-                inventory.addItem(feather);
-            }
+            StashCore.safeGiveMultiple(player, feather, 16);
         }else if(this.crate.equals("FEIGHT")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l8x Funky Feathers!";
             ItemStack feather = items.getFeather();
-            for (int i = 0; i < 8; i++) {
-                inventory.addItem(feather);
-            }
+            StashCore.safeGiveMultiple(player, feather, 8);
         }else if(this.crate.equals("VSTACK")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l64x Vile!";
             ItemStack vile = items.getVile();
-            for (int i = 0; i < 64; i++) {
-                inventory.addItem(vile);
-            }
+            StashCore.safeGiveMultiple(player, vile, 64);
         }else if(this.crate.equals("VHALF")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l32x Vile!";
             ItemStack vile = items.getVile();
-            for (int i = 0; i < 32; i++) {
-                inventory.addItem(vile);
-            }
+            StashCore.safeGiveMultiple(player, vile, 32);
         }
 
 

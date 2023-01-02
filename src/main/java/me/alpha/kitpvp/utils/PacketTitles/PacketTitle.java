@@ -2,6 +2,7 @@ package me.alpha.kitpvp.utils.PacketTitles;
 
 import me.alpha.hunter.api.HunterAPI;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.utils.CitizensHelper;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -178,6 +179,103 @@ public class PacketTitle {
 
         sendActionBar(attacker, output.toString());
     }
+
+    public static void onAttackHealthBar(ReduxBowEvent event) {
+        if(CitizensHelper.isNPC(event.getAttacker().getPlayerObject())) return;
+
+        Player attacker = event.getAttacker().getPlayerObject();
+        Player defender = event.getDefender().getPlayerObject();
+
+//        double maxHealth = defender.getMaxHealth() / 2;
+//        double currentHealth = defender.getHealth() / 2;
+//        double damageTaken = attackEvent.event.getFinalDamage() / 2;
+//
+//
+//        Bukkit.broadcastMessage(String.valueOf("Max Health: " + maxHealth));
+//        Bukkit.broadcastMessage(String.valueOf("Current Health: " + currentHealth));
+//        Bukkit.broadcastMessage(String.valueOf("Damage Taken: " + damageTaken));
+//
+//        StringBuilder output = new StringBuilder();
+//
+//
+//
+//        for (int i = 0; i < Math.floor(currentHealth - damageTaken); i++) {
+//            output.append(ChatColor.DARK_RED).append("\u2764");
+//        }
+//
+//        for (int i = 0; i < Math.ceil(damageTaken); i++) {
+//            output.append(ChatColor.RED).append("\u2764");
+//        }
+//
+//        for (int i = 0; i < maxHealth - (Math.floor(currentHealth - damageTaken) + Math.ceil(damageTaken)); i++) {
+//            output.append(ChatColor.BLACK).append("\u2764");
+//        }
+//
+//        Misc.sendActionBar(attacker, output.toString());
+
+        EntityPlayer entityPlayer = null;
+        if(!CitizensHelper.isNPC(defender)) entityPlayer = ((CraftPlayer) defender).getHandle();
+
+        int roundedDamageTaken = ((int) event.getBukkitEvent().getFinalDamage()) / getNum(defender);
+
+        int originalHealth = ((int) defender.getHealth()) / getNum(defender);
+        int maxHealth = ((int) defender.getMaxHealth()) / getNum(defender);
+
+        int result = Math.max(originalHealth - roundedDamageTaken, 0);
+
+        if((defender.getHealth() - event.getBukkitEvent().getFinalDamage()) % 2 < 1 && event.getBukkitEvent().getFinalDamage() > 1)
+            roundedDamageTaken++;
+
+        if(result == 0) {
+            roundedDamageTaken = 0;
+
+            for(int i = 0; i < originalHealth; i++) {
+                roundedDamageTaken++;
+            }
+        }
+
+
+        StringBuilder output = new StringBuilder();
+
+        if(CitizensHelper.isNPC(defender)){
+            output.append(CitizensHelper.getNPC(defender).getName()).append(" ");
+        }else{
+            String colorPlayer = RankColor.getNameColor(defender);
+            output.append(colorPlayer).append(defender.getDisplayName()).append(" ");
+        }
+
+        for(int i = 0; i < Math.max(originalHealth - roundedDamageTaken, 0); i++) {
+            output.append(ChatColor.DARK_RED).append("\u2764");
+        }
+
+        if(!CitizensHelper.isNPC(defender)) {
+            for(int i = 0; i < roundedDamageTaken - (int) Objects.requireNonNull(entityPlayer).getAbsorptionHearts() / getNum(defender); i++) {
+                output.append(ChatColor.RED).append("\u2764");
+            }
+        } else {
+            for(int i = 0; i < roundedDamageTaken; i++) {
+                output.append(ChatColor.RED).append("\u2764");
+            }
+        }
+
+
+        for(int i = originalHealth; i < maxHealth; i++) {
+            output.append(ChatColor.BLACK).append("\u2764");
+        }
+
+        if(!CitizensHelper.isNPC(defender)) {
+            for(int i = 0; i < (int) Objects.requireNonNull(entityPlayer).getAbsorptionHearts() / getNum(defender); i++) {
+                output.append(ChatColor.YELLOW).append("\u2764");
+            }
+        }
+
+        DecimalFormat df = new DecimalFormat("#.000");
+        float number = Math.abs(Float.parseFloat(df.format(event.getBukkitEvent().getFinalDamage())));
+        output.append(" ").append(ChatColor.RED).append(number).append("HP");
+
+        sendActionBar(attacker, output.toString());
+    }
+
 
     public static int getNum(LivingEntity entity) {
         return Math.max(1, (int) (2 * (entity.getMaxHealth() / 20)));

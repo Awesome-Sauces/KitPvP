@@ -1,8 +1,11 @@
 package me.alpha.kitpvp.events;
 
 import de.tr7zw.nbtapi.NBTItem;
+import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.utils.CitizensHelper;
+
+import java.util.Objects;
 
 
 public class TrueDamageHandler {
@@ -21,11 +24,17 @@ public class TrueDamageHandler {
 
     public void run(){
 
+        if(!CitizensHelper.isNPC(defender.getPlayerObject()) &&
+                ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=50 &&
+        ClassInstances.megaStreakData.getMegaStreak(defender.getPlayerUUID()).equals("hermit")){
+            damage=0;
+        }
+
         if (!CitizensHelper.isNPC(defender.getPlayerObject()) &&
                 defender.getPlayerObject().getInventory().getLeggings()!=null){
             NBTItem item = new NBTItem(defender.getPlayerObject().getInventory().getLeggings());
 
-            if(item.hasKey("mirror")){
+            if(item.hasKey("mirror") && !Objects.equals(attacker.getPlayerUUID(), defender.getPlayerUUID())){
                 damage=0;
             }
 

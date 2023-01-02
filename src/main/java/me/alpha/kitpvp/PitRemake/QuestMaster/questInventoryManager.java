@@ -30,7 +30,7 @@ public class questInventoryManager {
             if(player.getInventory().containsAtLeast(enchants.playerSoul, 32)) {
                 if (getEconomy(uuid) >= 25000) {
                     for (int i = 0; i < 32; i++) {
-                        player.getInventory().removeItem(enchants.playerSoul);
+                        StashCore.safeRemove(player, enchants.playerSoul);
                     }
 
                     removeEconomy(uuid, 25000);
@@ -46,7 +46,7 @@ public class questInventoryManager {
             if(player.getInventory().containsAtLeast(enchants.playerSoul, 64) &&
             getEconomy(uuid)>=50000){
                 for (int i = 0; i < 64; i++) {
-                    player.getInventory().removeItem(enchants.playerSoul);
+                    StashCore.safeRemove(player, enchants.playerSoul);
                 }
 
                 StashCore.safeGive(player, enchants.fullPantPB);
@@ -60,7 +60,7 @@ public class questInventoryManager {
             if(player.getInventory().containsAtLeast(enchants.playerSoul, 128) &&
                     getEconomy(uuid)>=50000){
                 for (int i = 0; i < 256; i++) {
-                    player.getInventory().removeItem(enchants.playerSoul);
+                    StashCore.safeRemove(player, enchants.playerSoul);
                 }
 
                 StashCore.safeGive(player, enchants.fullSwordPB);
@@ -74,7 +74,7 @@ public class questInventoryManager {
             if(player.getInventory().containsAtLeast(enchants.playerSoul, 128) &&
                     getEconomy(uuid)>=50000){
                 for (int i = 0; i < 256; i++) {
-                    player.getInventory().removeItem(enchants.playerSoul);
+                    StashCore.safeRemove(player, enchants.playerSoul);
                 }
 
                 StashCore.safeGive(player, enchants.jewl_pant);
@@ -88,7 +88,7 @@ public class questInventoryManager {
             if(player.getInventory().containsAtLeast(enchants.playerSoul, 128) &&
                     getEconomy(uuid)>=75000){
                 for (int i = 0; i < 256; i++) {
-                    player.getInventory().removeItem(enchants.playerSoul);
+                    StashCore.safeRemove(player, enchants.playerSoul);
                 }
 
                 StashCore.safeGive(player, enchants.jewl_sword);

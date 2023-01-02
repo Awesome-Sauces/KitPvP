@@ -3,8 +3,10 @@ package me.alpha.kitpvp.PitRemake.InventoryManager;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,22 +35,25 @@ public class NonPermanentItems {
             hotbar.add(player.getInventory().getItem(7)); // 8
             hotbar.add(player.getInventory().getItem(8)); // 9
 
-            for (ItemStack item : hotbar){
-                if(item != null &&
-                item.getItemMeta() != null
-                && item.getItemMeta().getLore() != null &&
-                item.getItemMeta().getLore().equals(itemManager.feather.getItemMeta().getLore())){
-                    NBTItem nbtItem = new NBTItem(item);
+            boolean feather = false;
 
-                    if(nbtItem.hasKey("feather") &&
-                            nbtItem.getItem().getItemMeta().getDisplayName().equals(itemManager.feather.getItemMeta().getDisplayName())
-                    && player.getInventory().containsAtLeast(itemManager.feather, 1)){
-                        player.getInventory().removeItem(itemManager.feather);
-                        Sounds.FUNKY_FEATHER.play(player);
-                        player.sendMessage(ColorUtil.colorCode("&3&lFUNKY FEATHER! &7Inventory protected."));
-                    }
-                    return;
+            for(ItemStack itemStack : hotbar){
+                if(itemStack==null || itemStack.getType().equals(Material.AIR)) continue;
+
+                NBTItem nbtItem = new NBTItem(itemStack);
+
+                if(nbtItem.hasKey("feather") || itemStack.equals(itemManager.feather)) {
+                    feather = true;
+                    break;
                 }
+            }
+
+            if(feather){
+
+                StashCore.safeRemove(player, itemManager.feather);
+                Sounds.FUNKY_FEATHER.play(player);
+                player.sendMessage(ColorUtil.colorCode("&3&lFUNKY FEATHER! &7Inventory protected."));
+                return;
             }
 
                 try{
@@ -287,7 +292,7 @@ public class NonPermanentItems {
                         item.getItemMeta() != null
                         && item.getItemMeta().getLore() != null &&
                         item.getItemMeta().getLore().equals(itemManager.feather.getItemMeta().getLore())){
-                    player.getInventory().removeItem(itemManager.feather);
+                    StashCore.safeRemove(player, itemManager.feather);
                     Sounds.FUNKY_FEATHER.play(player);
                     player.sendMessage(ChatColor.AQUA + "Your funky feather just saved your items!");
                     return;

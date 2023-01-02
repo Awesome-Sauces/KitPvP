@@ -129,7 +129,7 @@ public class ReduxEvents implements Listener {
 
         if(event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) return;
 
-        if(event.getPlayer().getLocation().getY() >= getSpawnProtection()-13){
+        if(event.getPlayer().getLocation().getY() >= getSpawnProtection(event.getPlayer().getWorld())){
             event.setCancelled(true);
             return;
         }

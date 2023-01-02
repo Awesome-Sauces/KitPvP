@@ -9,6 +9,7 @@ import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard;
 import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
 import me.alpha.kitpvp.events.MainDamageEvent;
@@ -41,7 +42,7 @@ public class KitPvP extends JavaPlugin {
         INSTANCE = this;
 
         // Start Database
-        DatabaseConnector.startConnection();
+        //DatabaseConnector.startConnection();
 
         // Load Data
         ClassInstances.load();
@@ -85,6 +86,27 @@ public class KitPvP extends JavaPlugin {
                         Sounds.BOOSTER_REMIND.play(player);
                     }
                 },0,3000);
+
+                getServer().getScheduler().runTaskTimer(INSTANCE, () -> {
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                        player.sendMessage(ColorUtil.colorCode("&e&lNOTE! &7Found a bug? Report it on the Bloxicle forums!"));
+                        Sounds.BOOSTER_REMIND.play(player);
+                    }
+                },0,7000);
+
+                getServer().getScheduler().runTaskTimer(INSTANCE, () -> {
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                        player.sendMessage(" ");
+                        player.sendMessage(ColorUtil.colorCode("&c&l[BETTER PIT ANNOUNCEMENT]"));
+                        player.sendMessage(ColorUtil.colorCode("&7Better Pit is a Pit Remake server dedicated to providing you with the best experience possible!" +
+                                "&7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
+                                "&7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
+                        player.sendMessage(" ");
+                        player.sendMessage(ColorUtil.colorCode("&7Make sure to join the discord here: &bdiscord.gg/XyY2tUvT"));
+                        player.sendMessage(" ");
+                        Sounds.BOOSTER_REMIND.play(player);
+                    }
+                },0,14000);
             }
         }, 200L);
 
@@ -99,16 +121,17 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
-        /*
-        for (int i = 0; i < 20; i++) {
-            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
-            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false);
-            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false);
+
+
+        for (int i = 0; i < 30; i++) {
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
+            HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby")).getRingMid(Bukkit.getWorld("lobby")).getY());
 
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
 
-         */
+
 
 
     }
@@ -118,11 +141,11 @@ public class KitPvP extends JavaPlugin {
         // Save Data
         ClassInstances.save();
 
-        // Delete Leaderboard
-        Leaderboard.delBoard();
-
         // Unload NPC
         CreateVillagers.unloadNPC();
+
+        // Delete Leaderboard
+        Leaderboard.delBoard();
     }
 
 

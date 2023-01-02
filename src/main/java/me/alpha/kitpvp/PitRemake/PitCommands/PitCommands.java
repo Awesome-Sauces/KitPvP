@@ -19,6 +19,7 @@ import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
+import me.alpha.kitpvp.PitRemake.Perks.FishingRod;
 import me.alpha.kitpvp.PitRemake.PitCommands.Crates.crate;
 import me.alpha.kitpvp.PitRemake.PitCommands.Repairs.menu;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
@@ -65,6 +66,7 @@ import static me.alpha.kitpvp.PitRemake.PitCommands.TebexSystem.TebexSystem.onRa
 import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.twoTimesEvent;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler.*;
+import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
@@ -168,7 +170,7 @@ public class PitCommands implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("patchnotes")){
 
-            player.sendMessage(colorCode("&eBetter Pit Update - v1.5.5\n" +
+            player.sendMessage(colorCode("&eBetter Pit Update - v1.5.7\n" +
                     "&7- &e(#) &7Made regularity deal its knockback\n" +
                     "&7- &e(#) &7Fixed dupes related to Uber drops and Gems\n" +
                     "&7- &a(+) &7Switched map to a custom built one\n" +
@@ -177,7 +179,9 @@ public class PitCommands implements CommandExecutor {
                     "&7- &e(#) &7Fixed Damage related to Mystic Swords\n" +
                     "&7- &e(#) &7Made leather leggings AS STRONG AS IRON\n" +
                     "&7- &e(#) &7Changed Vile drop from kill message\n" +
-                    "&7- &e(#) Made Telebow not need you to shift\n\n" +
+                    "&7- &e(#) &7Fixed Drops giving too much and Removing too much\n" +
+                    "&7- &5(+) &7Added Dark Pants\n" +
+                    "&7- &e(#) &7Made Telebow not need you to shift\n\n" +
                     "&eJoin the discord: &bdiscord.gg/XyY2tUvT"));
 
             return true;
@@ -196,6 +200,18 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            player.sendMessage(" ");
+            player.sendMessage(ColorUtil.colorCode("&c&l[BETTER PIT ANNOUNCEMENT]"));
+            player.sendMessage(ColorUtil.colorCode("&7Better Pit is a Pit Remake server dedicated to providing you with the best experience possible!" +
+                    "&7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
+                    "&7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
+            player.sendMessage(" ");
+            player.sendMessage(ColorUtil.colorCode("&7Make sure to join the discord here: &bdiscord.gg/XyY2tUvT"));
+            player.sendMessage(" ");
+            StashCore.safeGiveMultiple(player, enchants.vile, 1);
+            StashCore.safeGive(player, getUberDrop());
+
+            /*
             if(args.length>=1 && args[0].equalsIgnoreCase("save")){
                 PlayerData playerData = new PlayerData(player.getUniqueId().toString());
 
@@ -231,6 +247,11 @@ public class PitCommands implements CommandExecutor {
 
                 }
             }
+
+             */
+
+
+            // AAAAAAAAA
 
 
 
@@ -398,7 +419,7 @@ public class PitCommands implements CommandExecutor {
                     meta.setLore(MysticRepairs(meta.getLore()));
 
                     player.getInventory().getItemInHand().setItemMeta(meta);
-                    player.getInventory().removeItem(enchants.vile);
+                    StashCore.safeRemove(player, enchants.vile);
                     player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
                     return true;
                 } catch (Exception e) {
@@ -513,6 +534,9 @@ public class PitCommands implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("play")){
             if(args[0].equalsIgnoreCase("pit")){
 
+                deleteBlob(player);
+                FishingRod.getRod(player);
+
                 if(ClassInstances.extraHearts.hasValue(player)){
                     player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
                 }
@@ -577,6 +601,8 @@ public class PitCommands implements CommandExecutor {
         }
 
         if(cmd.getName().equalsIgnoreCase("hub")){
+
+            FishingRod.getRod(player);
 
             if(ClassInstances.extraHearts.hasValue(player)){
                 player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
@@ -904,6 +930,8 @@ public class PitCommands implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("spawn")) {
 
+            FishingRod.getRod(player);FishingRod.getRod(player);
+
             if(ClassInstances.extraHearts.hasValue(player)){
                 player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
             }
@@ -946,6 +974,8 @@ public class PitCommands implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("oof")) {
+            FishingRod.getRod(player);
+
             if(player.getKiller() != null){
                 KillMan(player.getKiller(), player);
                 refreshInventory(player);

@@ -21,16 +21,14 @@ import net.citizensnpcs.api.npc.NPC;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -150,7 +148,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         // Sound effects for mega
         if(streak.equals("beastmode") ||
                 streak.equals("overdrive") ||
-                streak.equals("highlander")){
+                streak.equals("highlander") ||
+        streak.equals("hermit") ){
             if(ClassInstances.streakData.getStreak(attacker.getPlayerUUID())==50){
 
                 String megastreakMessage = "&c&lOVERDRIVE";
@@ -159,6 +158,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     megastreakMessage="&a&lBEASTMODE";
                 }else if(streak.equals("highlander")){
                     megastreakMessage="&6&lHIGHLANDER";
+                }else if(streak.equals("hermit")){
+                    megastreakMessage="&9&lHERMIT";
                 }
 
                 ChatManager.broadcastMessage(colorCode("&c&lMEGASTREAK! " +
@@ -168,7 +169,6 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                 Sounds.MEGA_GENERAL.play(attacker.getPlayerObject());
             }
         }else if(streak.equals("moon") ||
-                    streak.equals("magnum")||
                 streak.equals("uber")){
                 if(ClassInstances.streakData.getStreak(attacker.getPlayerUUID())==100){
                     String megastreakMessage = "&b&lTO THE MOON";
@@ -178,7 +178,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                         ChatManager.broadcastMessage(colorCode("&c&lMEGASTREAK! " +
                                 ChatManager.getLevelText(attacker.getPlayerObject()) + RankColor.getNameColor(attacker.getPlayerObject()) + attacker.getPlayerObject().getDisplayName()
                                 + " &7activated " + megastreakMessage), attacker.getPlayerObject().getWorld());
-                    }else if(streak.equals("moon")){
+                    }else {
                         ChatManager.broadcastMessage(colorCode("&c&lMEGASTREAK! " +
                                 ChatManager.getLevelText(attacker.getPlayerObject()) + RankColor.getNameColor(attacker.getPlayerObject()) + attacker.getPlayerObject().getDisplayName()
                                 +" &7activated " + megastreakMessage), attacker.getPlayerObject().getWorld());
@@ -202,6 +202,20 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
             addXp(50);
             addXp(Math.min(Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3), 100));
+        }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
+            addXp((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5);
+            addGold((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5);
+            setXp_cap(getXp_cap()+200);
+
+            if(ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())==50){
+                StashCore.safeGiveMultiple(getAttacker().getPlayerObject(), new ItemStack(Material.OBSIDIAN), 32);
+            }
+
+            if(ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID()) % 10 == 0 &&
+                    ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())!=50
+            ){
+                StashCore.safeGiveMultiple(getAttacker().getPlayerObject(), new ItemStack(Material.OBSIDIAN), 16);
+            }
         }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addXp(100);
             addXp(xp*.2);
@@ -229,7 +243,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             addGold(Math.min(100, Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3)));
         }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addMysticChance(5);
-        }else if(streak.equals("magnum") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
+        }else if(streak.equals("magnum") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             ChatManager.broadcastMessage(colorCode("&c&lMEGASTREAK! " + ChatManager.getLevelText(attacker.getPlayerObject()) + RankColor.getNameColor(attacker.getPlayerObject()) + attacker.getPlayerObject().getDisplayName() +" &7activated &e&lMAGNUM OPUS &7and exploded! So smart!"),attacker.getPlayerObject().getWorld());
             attacker.getPlayerObject().getWorld().playEffect(attacker.getPlayerObject().getLocation(), Effect.EXPLOSION_LARGE, 10);
             Sounds.JUGGERNAUT_EXPLOSION.play(attacker.getPlayerObject());
@@ -483,13 +497,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                         break;
 
                     case "pantsradarIII":
-                        addMysticChance(9);
+                        addMysticChance(10);
                         break;
                     case "pantsradarII":
-                        addMysticChance(5);
+                        addMysticChance(7);
                         break;
                     case "pantsradarI":
-                        addMysticChance(2);
+                        addMysticChance(5);
                         break;
                 }
             }
@@ -507,7 +521,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public double getMysticChance(){
         baseMysticChance=ClassInstances.mysticism.getMysticismChance(attacker.getPlayerUUID());
 
-        return ((baseMysticChance*.01)+(mystic_chance*.01))/2;
+        return ((baseMysticChance*.01)+(mystic_chance*.01))/10;
     }
 
     public double getBaseMysticChance() {
@@ -542,7 +556,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                 percentChance(getMysticChance())){
             while (true){
                 if(percentChance(.20)){
-                    StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_greens);
+                    StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_greens, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -554,7 +568,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
                     break;
                 }else if(percentChance(.20)){
-                    StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_blues);
+                    StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_blues, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -566,7 +580,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
                     break;
                 }else if(percentChance(.20)){
-                    StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_reds);
+                    StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_reds, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -578,7 +592,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
                     break;
                 }else if(percentChance(.20)){
-                    StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_oranges);
+                    StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_oranges, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -590,7 +604,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
                     break;
                 }else if(percentChance(.20)) {
-                    StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_yellows);
+                    StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_yellows, 1);
                     if (isNPC(defender.getPlayerObject())) {
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -605,7 +619,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             }
         }else if (ClassInstances.mysticism.hasValue(attacker.getPlayerUUID())&&
                 percentChance(getMysticChance())) {
-            StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_bow);
+            StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_bow, 1);
             if(isNPC(defender.getPlayerObject())){
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                         " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
@@ -617,7 +631,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
         }else if(ClassInstances.mysticism.hasValue(attacker.getPlayerUUID())&&
                 percentChance(getMysticChance())){
-            StashCore.safeGive(attacker.getPlayerObject(), enchants.fresh_sword);
+            StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_sword, 1);
             if(isNPC(defender.getPlayerObject())){
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                         " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));

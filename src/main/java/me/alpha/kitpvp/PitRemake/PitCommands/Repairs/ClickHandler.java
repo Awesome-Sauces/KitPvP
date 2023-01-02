@@ -1,6 +1,7 @@
 package me.alpha.kitpvp.PitRemake.PitCommands.Repairs;
 
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public class ClickHandler implements Listener {
                             meta.setLore(MysticRepairs(meta.getLore()));
 
                             event.getClickedInventory().getItem(13).setItemMeta(meta);
-                            player.getInventory().removeItem(enchants.vile);
+                            StashCore.safeRemove(player, enchants.vile);
                             player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
                         }else{
                             player.sendMessage(ChatColor.RED + "You don't have any vile!");

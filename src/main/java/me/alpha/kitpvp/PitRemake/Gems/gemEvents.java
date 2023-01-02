@@ -142,7 +142,7 @@ public class gemEvents implements Listener {
 
             item.setItemMeta(meta);
 
-            player.getInventory().removeItem(storedMystic.get(player.getUniqueId().toString()));
+            StashCore.safeRemove(player, storedMystic.get(player.getUniqueId().toString()));
 
             storedMystic.put(player.getUniqueId().toString(), new ItemStack(Material.AIR));
             storedMystic.put(player.getUniqueId().toString(), new ItemStack(Material.AIR));
@@ -151,7 +151,7 @@ public class gemEvents implements Listener {
 
             Sounds.GEM_USE.play(player);
 
-            player.getInventory().removeItem(enchants.gem);
+            StashCore.safeRemove(player, enchants.gem);
 
             player.closeInventory();
         }else if(clicked.getType().equals(Material.ARROW)){

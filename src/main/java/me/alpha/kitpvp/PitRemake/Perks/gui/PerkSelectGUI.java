@@ -163,6 +163,80 @@ public class PerkSelectGUI implements Listener {
         }
     }
 
+    public static ItemStack getFirstStrikeItem(String uuid, Player player){
+
+        int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
+        int level = playerData[1];
+        int neededXP = playerData[0];
+        boolean theWay = ClassInstances.theWay.hasValue(uuid) &&
+                ((Integer) ClassInstances.theWay.getValue(uuid)) >= 1;
+
+        if(level<60 && !theWay) return ItemMaker(Material.BEDROCK, ChatColor.RED + ClassInstances.firstStrike.getName(),
+                colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                        "&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,60) + "\n" +
+                        "&cor higher."), 1, true);
+
+        if(getPerkSlot(uuid, ClassInstances.firstStrike.getRefID())){
+            return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.GREEN + ClassInstances.firstStrike.getName(),
+                    colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                            "&aAlready selected!"),1, true);
+        }else{
+            return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.YELLOW + ClassInstances.firstStrike.getName(),
+                    colorCode(ClassInstances.firstStrike.getLore() + "\n\n"+
+                            "&eClick to select!"),1, true);
+        }
+    }
+
+    public static ItemStack getSoupItem(String uuid, Player player){
+
+        int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
+        int level = playerData[1];
+        int neededXP = playerData[0];
+        boolean theWay = ClassInstances.theWay.hasValue(uuid) &&
+                ((Integer) ClassInstances.theWay.getValue(uuid)) >= 1;
+
+        if(level<25 && !theWay) return ItemMaker(Material.BEDROCK, ChatColor.RED + ClassInstances.soup.getName(),
+                colorCode(ClassInstances.soup.getLore() + "\n\n" +
+                        "&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,25) + "\n" +
+                        "&cor higher."), 1, true);
+
+        if(getPerkSlot(uuid, ClassInstances.soup.getRefID())){
+            return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.GREEN + ClassInstances.soup.getName(),
+                    colorCode(ClassInstances.soup.getLore() + "\n\n" +
+                            "&aAlready selected!"),1, true);
+        }else{
+            return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.YELLOW + ClassInstances.soup.getName(),
+                    colorCode(ClassInstances.soup.getLore() + "\n\n"+
+                            "&eClick to select!"),1, true);
+        }
+    }
+
+    public static ItemStack getFishingRodItem(String uuid, Player player){
+
+        int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
+        int level = playerData[1];
+        int neededXP = playerData[0];
+        boolean theWay = ClassInstances.theWay.hasValue(uuid) &&
+                ((Integer) ClassInstances.theWay.getValue(uuid)) >= 1;
+
+        if(level<5 && !theWay) return ItemMaker(Material.BEDROCK, ChatColor.RED + ClassInstances.fishingRod.getName(),
+                colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                        "&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,5) + "\n" +
+                        "&cor higher."), 1, true);
+
+        if(getPerkSlot(uuid, ClassInstances.fishingRod.getRefID())){
+            return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.GREEN + ClassInstances.fishingRod.getName(),
+                    colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                            "&aAlready selected!"),1, true);
+        }else{
+            return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.YELLOW + ClassInstances.fishingRod.getName(),
+                    colorCode(ClassInstances.fishingRod.getLore() + "\n\n"+
+                            "&eClick to select!"),1, true);
+        }
+    }
+
+
+
     public static ItemStack getStrengthItem(String uuid, Player player){
         int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
         int level = playerData[1];
@@ -232,6 +306,10 @@ public class PerkSelectGUI implements Listener {
         advancedInventory.addInv(gui, getGladiatorItem(uuid, player), 7, 2, false);
         advancedInventory.addInv(gui, getAssistantStreakerItem(uuid, player), 8, 2, false);
 
+        advancedInventory.addInv(gui, getFirstStrikeItem(uuid, player), 2, 3, false);
+        advancedInventory.addInv(gui, getFishingRodItem(uuid, player), 3, 3, false);
+        advancedInventory.addInv(gui, getSoupItem(uuid, player), 4, 3, false);
+
         advancedInventory.addInv(gui, getGoBackItem(uuid), 5, 5, false);
         advancedInventory.addInv(gui, getNoPerkItem(uuid), 6, 5, false);
 
@@ -288,6 +366,13 @@ public class PerkSelectGUI implements Listener {
         return String.valueOf(ClassInstances.perkSlotFour.getValue(uuid, "")).equals(ClassInstances.goldenHeads.getRefID());
     }
 
+    public boolean hasSoup(String uuid){
+        if(String.valueOf(ClassInstances.perkSlotOne.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return true;
+        if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return true;
+        if(String.valueOf(ClassInstances.perkSlotThree.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return true;
+        return String.valueOf(ClassInstances.perkSlotFour.getValue(uuid, "")).equals(ClassInstances.soup.getRefID());
+    }
+
     public boolean hasVampire(String uuid){
         if(String.valueOf(ClassInstances.perkSlotOne.getValue(uuid, "")).equals(ClassInstances.vampire.getRefID())) return true;
         if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.vampire.getRefID())) return true;
@@ -335,7 +420,7 @@ public class PerkSelectGUI implements Listener {
         } else if (event.getCurrentItem().getType().equals(ClassInstances.vampire.getMaterial())) {
             
 
-            if(hasGoldenHead(uuid)) {
+            if(hasGoldenHead(uuid) || hasSoup(uuid)) {
                 Sounds.NO.play(player);
             }else if (hasValue(uuid, perkSlot) &&
                     Objects.equals(getValue(uuid, perkSlot), ClassInstances.vampire.getRefID())) {
@@ -402,11 +487,55 @@ public class PerkSelectGUI implements Listener {
             }
 
             player.openInventory(PermanentUpgrades.getPermanentUpgrades(player));
+        } else if (event.getCurrentItem().getType().equals(ClassInstances.firstStrike.getMaterial())) {
+
+
+            if (hasValue(uuid, perkSlot) &&
+                    Objects.equals(getValue(uuid, perkSlot), ClassInstances.firstStrike.getRefID())) {
+                Sounds.NO.play(player);
+            } else if (level >= 60 || theWay) {
+                Sounds.GAMBLE_YES.play(player);
+                setValue(uuid, ClassInstances.firstStrike.getRefID(), perkSlot);
+            } else {
+                Sounds.NO.play(player);
+            }
+
+            player.openInventory(PermanentUpgrades.getPermanentUpgrades(player));
+        } else if (event.getCurrentItem().getType().equals(ClassInstances.soup.getMaterial())) {
+
+
+            if(hasGoldenHead(uuid) || hasVampire(uuid)) {
+                Sounds.NO.play(player);
+            }else if (hasValue(uuid, perkSlot) &&
+                    Objects.equals(getValue(uuid, perkSlot), ClassInstances.soup.getRefID())) {
+                Sounds.NO.play(player);
+            } else if (level >= 25 || theWay) {
+                Sounds.GAMBLE_YES.play(player);
+                setValue(uuid, ClassInstances.soup.getRefID(), perkSlot);
+            } else {
+                Sounds.NO.play(player);
+            }
+
+            player.openInventory(PermanentUpgrades.getPermanentUpgrades(player));
+        } else if (event.getCurrentItem().getType().equals(ClassInstances.fishingRod.getMaterial())) {
+
+
+            if (hasValue(uuid, perkSlot) &&
+                    Objects.equals(getValue(uuid, perkSlot), ClassInstances.fishingRod.getRefID())) {
+                Sounds.NO.play(player);
+            } else if (level >= 5 || theWay) {
+                Sounds.GAMBLE_YES.play(player);
+                setValue(uuid, ClassInstances.fishingRod.getRefID(), perkSlot);
+            } else {
+                Sounds.NO.play(player);
+            }
+
+            player.openInventory(PermanentUpgrades.getPermanentUpgrades(player));
         } else if (event.getCurrentItem().getItemMeta() != null &&
                 event.getCurrentItem().getItemMeta().getDisplayName().contains("Golden Heads")) {
             
 
-            if(hasVampire(uuid)) {
+            if(hasVampire(uuid) || hasSoup(uuid)) {
                 Sounds.NO.play(player);
             }else if (hasValue(uuid, perkSlot) &&
                     Objects.equals(getValue(uuid, perkSlot), ClassInstances.goldenHeads.getRefID())) {

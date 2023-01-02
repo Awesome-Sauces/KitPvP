@@ -5,6 +5,7 @@ import me.alpha.hunter.bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
@@ -170,9 +171,9 @@ public class Booster {
                         "&7active &e&l+30 &cbot &7booster!"));
 
                 for (int i = 0; i < 15; i++) {
-                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 3600, false);
-                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 3600, false);
-                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 3600, false);
+                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 3600, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
+                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 3600, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
+                    HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 3600, false, (int) MapType.getMapType(Bukkit.getWorld("lobby")).getRingMid(Bukkit.getWorld("lobby")).getY());
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {

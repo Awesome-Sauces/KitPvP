@@ -80,6 +80,12 @@ public class StreakManager {
             }
         }
 
+        if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "hermit")){
+            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) > 49 && ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) < 51){
+                NametagEdit.getApi().setNametag(player, colorCode("&9&lHERMIT ") + RankColor.getNameColor(player), "");
+            }
+        }
+
         if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "overdrive")){
             NametagEdit.getApi().setNametag(player, colorCode("&c&lOVER ") + RankColor.getNameColor(player), "");
         }

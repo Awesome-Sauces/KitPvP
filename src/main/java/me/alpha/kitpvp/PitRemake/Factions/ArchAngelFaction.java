@@ -293,7 +293,7 @@ public class ArchAngelFaction implements Listener {
 
     private static void skin(NPC npc) {
         SkinTrait skinTrait = npc.getTrait(SkinTrait.class);
-        skinTrait.setSkinName("x_Auriel_x");
+        skinTrait.setSkinName("Mangoliaa");
 
         LookClose lookClose = npc.getTrait(LookClose.class);
         lookClose.lookClose(true);

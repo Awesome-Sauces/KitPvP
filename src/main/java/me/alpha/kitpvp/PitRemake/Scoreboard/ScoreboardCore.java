@@ -108,6 +108,9 @@ public class ScoreboardCore  implements Listener {
         } else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(uuid), "overdrive")) {
             select_mega = "Overdrive";
             mega_color = ChatColor.translateAlternateColorCodes('&', "&c");
+        }else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(uuid), "hermit")) {
+            select_mega = "Hermit";
+            mega_color = ChatColor.translateAlternateColorCodes('&', "&9");
         }
 
         return mega_color + select_mega;
@@ -177,7 +180,7 @@ public class ScoreboardCore  implements Listener {
             lobby = "Meteor";
         }
 
-        String version = ChatColor.GRAY + "v1.5.5 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
+        String version = ChatColor.GRAY + "v1.5.7 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
 
         String spacer1 = " "; //blank space
         String spacer2 = "  "; //blank space

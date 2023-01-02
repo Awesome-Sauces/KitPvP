@@ -169,8 +169,23 @@ public class PermanentUpgrades implements Listener {
                 "&e&l- &7Keep the &bDiamond Helmet&7.");
     }
 
+    public static String getHermitLore(){
+        return colorCode("&7Triggers on: &c50 kills\n\n" +
+                "&7From 0 kills:\n" +
+                "&a&l- &7Placed blocks stay &f2x &7longer.\n\n" +
+                "&7On trigger:\n" +
+                "&a&l- &7True damage immunity.\n" +
+                "&a&l- &7Gain &f32 Obsidian &7+ &f16 &7every 10 kills.\n" +
+                "&a&l- &7Earn &6+5% gold &7and &b+5%\n" +
+                "&bXP &7from kills for each 10 kills\n" +
+                "&7over 50, up to 200.\n\n" +
+                "&7BUT:\n" +
+                "&c&l- &7Receive &c+0.1% &7damage per\n" +
+                "&7damage per kill over 50.");
+    }
+
     public static String getMagnum(){
-        return colorCode("&7Triggers on: &c100 kills\n\n" +
+        return colorCode("&7Triggers on: &c50 kills\n\n" +
                 "&7On trigger:\n" +
                 "&a&l- &7EXPLODE!!!\n\n" +
                 "&7BUT:\n" +
@@ -340,6 +355,33 @@ public class PermanentUpgrades implements Listener {
         }
     }
 
+    public static ItemStack getHermitItem(String uuid, Player player){
+
+
+
+        if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit")){
+            return ItemMaker(Material.BED, ChatColor.GREEN + "Hermit",
+                    getHermitLore() + "\n\n" + ChatColor.GREEN + "Already selected!", 1, true);
+        }
+
+        int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
+        int level = playerData[1];
+        int neededXP = playerData[0];
+
+        if(ClassInstances.beastmodeStreak.hasValue(uuid) && level>=50){
+            return ItemMaker(Material.BED, ChatColor.YELLOW + "Hermit",
+                    getHermitLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
+        }else if(ClassInstances.beastmodeStreak.hasValue(uuid) && level<50){
+            return ItemMaker(Material.BED, ChatColor.RED + "Hermit",
+                    getHermitLore() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,50) + "\n" +
+                            "&cor higher."), 1, true);
+        }else{
+            return ItemMaker(Material.BEDROCK, ChatColor.RED + "Hermit",
+                    getHermitLore() + "\n\n" + ChatColor.RED + "Unlocked in Renown Shop!\n" + ChatColor.RED +
+                            "Bundle: " + ChatColor.GREEN + "Beastmode", 1, true);
+        }
+    }
+
     public static ItemStack getOverDriveItem(String uuid){
         
 
@@ -382,6 +424,21 @@ public class PermanentUpgrades implements Listener {
                         colorCode(ClassInstances.strengthChaining.getLore() + "\n\n" +
                                 "&eAlready selected!"),1, true);
 
+        if(String.valueOf(ClassInstances.perkSlotOne.getValue(uuid, "")).equals(ClassInstances.firstStrike.getRefID())) return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.YELLOW + ClassInstances.firstStrike.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.firstStrike.getName() + "\n\n" +
+                        colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotOne.getValue(uuid, "")).equals(ClassInstances.fishingRod.getRefID())) return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.YELLOW + ClassInstances.fishingRod.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.fishingRod.getName() + "\n\n" +
+                        colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotOne.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.YELLOW + ClassInstances.soup.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.soup.getName() + "\n\n" +
+                        colorCode(ClassInstances.soup.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
         return EmptySlotItem(uuid, 1);
     }
 
@@ -413,6 +470,21 @@ public class PermanentUpgrades implements Listener {
         if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.strengthChaining.getRefID())) return ItemMaker(ClassInstances.strengthChaining.getMaterial(), ChatColor.YELLOW + ClassInstances.strengthChaining.getName(),
                 ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.strengthChaining.getName() + "\n\n" +
                         colorCode(ClassInstances.strengthChaining.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.firstStrike.getRefID())) return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.YELLOW + ClassInstances.firstStrike.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.firstStrike.getName() + "\n\n" +
+                        colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.fishingRod.getRefID())) return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.YELLOW + ClassInstances.fishingRod.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.fishingRod.getName() + "\n\n" +
+                        colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotTwo.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.YELLOW + ClassInstances.soup.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.soup.getName() + "\n\n" +
+                        colorCode(ClassInstances.soup.getLore() + "\n\n" +
                                 "&eAlready selected!"),1, true);
 
         return EmptySlotItem(uuid, 2);
@@ -448,6 +520,21 @@ public class PermanentUpgrades implements Listener {
                         colorCode(ClassInstances.strengthChaining.getLore() + "\n\n" +
                                 "&eAlready selected!"),1, true);
 
+        if(String.valueOf(ClassInstances.perkSlotThree.getValue(uuid, "")).equals(ClassInstances.firstStrike.getRefID())) return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.YELLOW + ClassInstances.firstStrike.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.firstStrike.getName() + "\n\n" +
+                        colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotThree.getValue(uuid, "")).equals(ClassInstances.fishingRod.getRefID())) return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.YELLOW + ClassInstances.fishingRod.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.fishingRod.getName() + "\n\n" +
+                        colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotThree.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.YELLOW + ClassInstances.soup.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.soup.getName() + "\n\n" +
+                        colorCode(ClassInstances.soup.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
         return EmptySlotItem(uuid, 3);
     }
 
@@ -481,6 +568,21 @@ public class PermanentUpgrades implements Listener {
                         colorCode(ClassInstances.strengthChaining.getLore() + "\n\n" +
                                 "&eAlready selected!"),1, true);
 
+        if(String.valueOf(ClassInstances.perkSlotFour.getValue(uuid, "")).equals(ClassInstances.firstStrike.getRefID())) return ItemMaker(ClassInstances.firstStrike.getMaterial(), ChatColor.YELLOW + ClassInstances.firstStrike.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.firstStrike.getName() + "\n\n" +
+                        colorCode(ClassInstances.firstStrike.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotFour.getValue(uuid, "")).equals(ClassInstances.fishingRod.getRefID())) return ItemMaker(ClassInstances.fishingRod.getMaterial(), ChatColor.YELLOW + ClassInstances.fishingRod.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.fishingRod.getName() + "\n\n" +
+                        colorCode(ClassInstances.fishingRod.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
+        if(String.valueOf(ClassInstances.perkSlotFour.getValue(uuid, "")).equals(ClassInstances.soup.getRefID())) return ItemMaker(ClassInstances.soup.getMaterial(), ChatColor.YELLOW + ClassInstances.soup.getName(),
+                ChatColor.GRAY + "Selected: " + ChatColor.GREEN + ClassInstances.soup.getName() + "\n\n" +
+                        colorCode(ClassInstances.soup.getLore() + "\n\n" +
+                                "&eAlready selected!"),1, true);
+
         return EmptySlotItem(uuid, 4);
     }
 
@@ -501,6 +603,8 @@ public class PermanentUpgrades implements Listener {
             megastreak = Material.ENDER_STONE;
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("magnum")){
             megastreak = Material.NETHER_STAR;
+        }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit")){
+            megastreak = Material.BED;
         }
 
         ItemStack base_glass = advancedInventory.cGlass();
@@ -565,11 +669,13 @@ public class PermanentUpgrades implements Listener {
 
         advancedInventory.addInv(gui, getHigherLanderItem(uuid, player), 4, 2, false);
 
-        advancedInventory.addInv(gui, getMagnumItem(uuid, player), 5, 2, false);
+        advancedInventory.addInv(gui, getHermitItem(uuid, player), 5, 2, false);
 
-        advancedInventory.addInv(gui, getToTheMoonItem(uuid,player), 6, 2, false);
+        advancedInventory.addInv(gui, getMagnumItem(uuid, player), 6, 2, false);
 
-        advancedInventory.addInv(gui, getUberItem(uuid, player), 7, 2, false);
+        advancedInventory.addInv(gui, getToTheMoonItem(uuid,player), 7, 2, false);
+
+        advancedInventory.addInv(gui, getUberItem(uuid, player), 8, 2, false);
 
         return gui;
     }
@@ -593,6 +699,9 @@ public class PermanentUpgrades implements Listener {
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("beastmode")){
                 megastreak = Material.DIAMOND_HELMET;
                 lore = getBeastModeLore();
+        }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit")){
+            megastreak = Material.BED;
+            lore = getHermitLore();
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("moon")){
             megastreak = Material.ENDER_STONE;
             lore = getToTheMoonLore();
@@ -623,11 +732,11 @@ public class PermanentUpgrades implements Listener {
 
     @EventHandler
     public void PermanentUpgradesClickEvent(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
-
         if(event==null ||
                 event.getClickedInventory()==null ||
                 event.getClickedInventory().getTitle()==null) return;
+
+        Player player = (Player) event.getWhoClicked();
 
         if(event.getClickedInventory() != null &&
                 event.getClickedInventory().getTitle() != null &&
@@ -648,6 +757,8 @@ public class PermanentUpgrades implements Listener {
             megastreak = Material.DIAMOND_HELMET;
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("moon")){
             megastreak = Material.ENDER_STONE;
+        }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit")){
+            megastreak = Material.BED;
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("magnum")){
             megastreak = Material.NETHER_STAR;
         }
@@ -667,6 +778,8 @@ public class PermanentUpgrades implements Listener {
 
     @EventHandler
     public void KillstreakClickEvent(InventoryClickEvent event){
+        if(event==null||
+                event.getClickedInventory()==null) return;
         Player player = (Player) event.getWhoClicked();
 
         String uuid = String.valueOf(player.getUniqueId());
@@ -689,6 +802,8 @@ public class PermanentUpgrades implements Listener {
             megastreak = Material.ENDER_STONE;
         }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("magnum")){
             megastreak = Material.NETHER_STAR;
+        }else if(ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit")){
+            megastreak = Material.BED;
         }
 
         if(event.getCurrentItem().getType().equals(megastreak)){
@@ -699,6 +814,9 @@ public class PermanentUpgrades implements Listener {
 
     @EventHandler
     public void SelectKillstreakClickEvent(InventoryClickEvent event){
+        if(event==null||
+                event.getClickedInventory()==null) return;
+
         Player player = (Player) event.getWhoClicked();
 
         String uuid = String.valueOf(player.getUniqueId());
@@ -715,6 +833,7 @@ public class PermanentUpgrades implements Listener {
         Material beastmode = Material.DIAMOND_HELMET;
         Material overdrive = Material.BLAZE_POWDER;
         Material magnum = Material.NETHER_STAR;
+        Material hermit = Material.BED;
 
         Material clicked = event.getCurrentItem().getType();
 
@@ -767,6 +886,14 @@ public class PermanentUpgrades implements Listener {
                 level >= 25){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"beastmode");
+            ClassInstances.streakData.setStreak(uuid, 0);
+            player.openInventory(getKillstreakUpgrades(player));
+        }if(clicked.equals(hermit) &&
+                !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit") &&
+                ClassInstances.beastmodeStreak.hasValue(uuid) &&
+                level >= 50){
+            Sounds.SUCCESS.play(player);
+            ClassInstances.megaStreakData.setMegaStreak(uuid,"hermit");
             ClassInstances.streakData.setStreak(uuid, 0);
             player.openInventory(getKillstreakUpgrades(player));
         }if(clicked.equals(overdrive) &&

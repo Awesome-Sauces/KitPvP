@@ -26,12 +26,9 @@ public class SqlCore {
         }
 
         //Try to connect to my MySQL database running locally
-        String url = connectionUrl;
-        String user = username;
-        String password = this.password;
 
 
-        Connection connection = DriverManager.getConnection(url, user, password);
+        Connection connection = DriverManager.getConnection(connectionUrl, username, password);
 
         this.connection = connection;
 

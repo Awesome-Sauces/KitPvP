@@ -20,6 +20,8 @@ public class Sounds {
     public static final SoundEffect WARNING_LOUD = new SoundEffect(Sound.NOTE_PLING, 1000, 1);
 
     public static final SoundEffect MYSTIC_DROP_1 = new SoundEffect(Sound.NOTE_PIANO, 1000, 1);
+    public static final SoundEffect MYSTIC_DROP_2 = new SoundEffect(Sound.NOTE_PIANO, 1000, 1.1);
+    public static final SoundEffect MYSTIC_DROP_3 = new SoundEffect(Sound.NOTE_PIANO, 1000, 1.2);
 
     //	Game / Misc
     public static final SoundEffect LEVEL_UP = new SoundEffect(Sound.LEVEL_UP, 1, 1);

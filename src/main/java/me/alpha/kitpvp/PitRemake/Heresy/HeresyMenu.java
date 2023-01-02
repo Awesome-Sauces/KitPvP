@@ -30,25 +30,25 @@ public class HeresyMenu implements Listener {
         int tier = ((Integer)ClassInstances.heresy.getValue(uuid))+1;
         int renown = ClassInstances.renownData.getRenown(uuid);
 
-        int newAmount = 64;
+        int newAmount = 640;
 
         int upgradeCost = ((tier*2)*100);
 
         switch (tier){
             case 1:
-                newAmount=48;
+                newAmount=480;
                 break;
             case 2:
-                newAmount=32;
+                newAmount=320;
                 break;
             case 3:
-                newAmount=16;
+                newAmount=160;
                 break;
             case 4:
-                newAmount=8;
+                newAmount=80;
                 break;
             case 5:
-                newAmount=4;
+                newAmount=40;
                 break;
         }
 
@@ -96,25 +96,25 @@ public class HeresyMenu implements Listener {
         int tier = ((Integer)ClassInstances.heresy.getValue(uuid));
         int renown = ClassInstances.renownData.getRenown(uuid);
 
-        int newAmount = 64;
+        int newAmount = 640;
 
         int upgradeCost = ((tier*2)*100);
 
         switch (tier){
             case 1:
-                newAmount=48;
+                newAmount=480;
                 break;
             case 2:
-                newAmount=32;
+                newAmount=320;
                 break;
             case 3:
-                newAmount=16;
+                newAmount=160;
                 break;
             case 4:
-                newAmount=8;
+                newAmount=80;
                 break;
             case 5:
-                newAmount=4;
+                newAmount=40;
                 break;
         }
 
@@ -220,25 +220,25 @@ public class HeresyMenu implements Listener {
         int tier = ((Integer)ClassInstances.heresy.getValue(uuid));
         int renown = ClassInstances.renownData.getRenown(uuid);
 
-        int newAmount = 64;
+        int newAmount = 640;
 
         int upgradeCost = ((tier*2)*100);
 
         switch (tier){
             case 1:
-                newAmount=48;
+                newAmount=480;
                 break;
             case 2:
-                newAmount=32;
+                newAmount=320;
                 break;
             case 3:
-                newAmount=16;
+                newAmount=160;
                 break;
             case 4:
-                newAmount=8;
+                newAmount=80;
                 break;
             case 5:
-                newAmount=4;
+                newAmount=40;
                 break;
         }
 
@@ -247,7 +247,7 @@ public class HeresyMenu implements Listener {
 
         if(item.getType().equals(Material.ANVIL)){
             if(hasVile&&hasRenown){
-                for(int i = 0; i < newAmount; i++) player.getInventory().removeItem(enchants.vile);
+                for(int i = 0; i < newAmount; i++) StashCore.safeRemove(player, enchants.vile);
                 Sounds.SUCCESS.play(player);
                 Sounds.HERESY.play(player);
                 ClassInstances.renownData.setRenown(uuid, Math.max(0, ClassInstances.renownData.getRenown(uuid)-newAmount));

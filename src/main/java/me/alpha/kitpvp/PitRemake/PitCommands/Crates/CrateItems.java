@@ -1,5 +1,7 @@
 package me.alpha.kitpvp.PitRemake.PitCommands.Crates;
 
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import org.bukkit.ChatColor;
@@ -29,6 +31,17 @@ public class CrateItems {
 
     public ItemStack getPitBlob(){
         ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+
+        nbtCompound.setInteger("pitblob", 3);
+
+        nbtItem.mergeCompound(nbtCompound);
+
+        item = nbtItem.getItem();
+
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setColor(Color.AQUA);
         meta.setDisplayName(colorCode("&cTier I Aqua Pants"));
@@ -42,7 +55,7 @@ public class CrateItems {
         lore.add(colorCode("&7grows and gains health for every"));
         lore.add(colorCode("&7enemy you kill."));
 
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.spigot().setUnbreakable(true);
         meta.setLore(lore);
         item.setItemMeta(meta);

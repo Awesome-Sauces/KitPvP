@@ -50,6 +50,7 @@ public class enchants {
     public static ItemStack archAngel;
     public static ItemStack arma;
     public static ItemStack soup;
+    public static ItemStack rod;
 
 
     public static void init(){
@@ -84,6 +85,7 @@ public class enchants {
         createArma();
         createDarks();
         createSoup();
+        createRod();
     }
 
     private static void createArma() {
@@ -126,7 +128,7 @@ public class enchants {
         List<String> lore = new ArrayList<>();
         lore.add(colorCode("&9Speed I (0:07)"));
         lore.add(colorCode("&a1.5\u2764 Heal &7+ &61\u2764 Absorption"));
-        lore.add("&cNext melee hit +15% damage");
+        lore.add(colorCode("&cNext melee hit +15% damage"));
         meta.setLore(lore);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
         meta.spigot().setUnbreakable(true);
@@ -134,8 +136,37 @@ public class enchants {
         soup = item;
     }
 
+    private static void createRod() {
+        ItemStack item = new ItemStack(Material.FISHING_ROD, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("fishing_rod", 1);
+
+        nbtItem.setInteger("damage_rod", 1);
+
+        item = nbtItem.getItem();
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(colorCode("&aLucky Rod"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&7Fishing Item"));
+        lore.add(colorCode(" "));
+        lore.add(colorCode("&9Shark Hunter III"));
+        lore.add(colorCode("&7Deal &c+27% &7damage to sharks"));
+        lore.add(colorCode("  "));
+        lore.add(colorCode("&9+6.5 Attack Damage"));
+        lore.add(colorCode("&8(Against Sea Creatures)"));
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
+        meta.spigot().setUnbreakable(true);
+        item.setItemMeta(meta);
+        rod = item;
+    }
+
     private static void createArchAngel() {
         ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&bArchangel Chestplate"));
         List<String> lore = new ArrayList<>();

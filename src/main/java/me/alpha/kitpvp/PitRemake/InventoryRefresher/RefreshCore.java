@@ -85,17 +85,6 @@ public class RefreshCore {
                 continue;
             }
 
-            if(item.getType().equals(Material.FEATHER)){
-
-                    ItemStack stack = itemManager.feather;
-
-                    stack.setAmount(item.getAmount());
-
-                    inventory.setItem(i, stack);
-                    refreshCount++;
-
-            }
-
             if(item.getType().equals(Material.COAL)){
                 if(item.getItemMeta()!=null&&
                         !item.getItemMeta().getDisplayName().equals(enchants.vile.getItemMeta().getDisplayName())){

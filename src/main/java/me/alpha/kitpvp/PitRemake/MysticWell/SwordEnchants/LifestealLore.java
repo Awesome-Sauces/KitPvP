@@ -26,19 +26,21 @@ public class LifestealLore extends PitEnchant {
         NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
         int level = item.getInteger("lifesteal");
 
-        double multiplier = 0;
-
-        if (level > 2) {
-            multiplier += (level*4) + 1;
-        }else {multiplier += level*4;}
-
         double playerHealth = event.getAttacker().getPlayerObject().getHealth();
         double maxHealth = event.getAttacker().getPlayerObject().getMaxHealth();
 
-        double healAmount = Math.min(event.getReduxDamage()*(multiplier/100), 3);
+        double damage = event.getReduxDamage();
+
+        double healAmount = (damage * (getHealing(level)/100D))*2;
 
         event.getAttacker().getPlayerObject().setHealth(Math.min(maxHealth,
                 playerHealth+healAmount));
+    }
+
+    public double getHealing(int enchantLvl) {
+
+//		return (int) (Math.pow(enchantLvl, 1.1) * 4);
+        return (enchantLvl * 4) + 1;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class LifestealLore extends PitEnchant {
         }else {multiplier += String.valueOf(level*4);}
 
         String lore = "&9Lifesteal" + tier + "\n" +
-                "&7Heal for &c" + multiplier + "%&7 of damage dealt up" +
+                "&7Heal for &c" + multiplier + "%&7 of damage dealt" +
                 "\n&7to &c1.5\u2764" + "\n&7";
 
         return colorCode(lore);

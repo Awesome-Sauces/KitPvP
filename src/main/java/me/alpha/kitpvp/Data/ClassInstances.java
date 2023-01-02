@@ -43,6 +43,7 @@ public class ClassInstances {
     public static UberStreak uberStreak = new UberStreak("uberstreak");
     public static HighlanderStreak highlanderStreak = new HighlanderStreak("highlander");
     public static BeastmodeStreak beastmodeStreak = new BeastmodeStreak("beastmode");
+    public static HermitStreak hermitStreak = new HermitStreak("hermit");
     public static MagnumOpus magnumOpus = new MagnumOpus("magnum");
     public static ExperienceIndustrialComplex experienceIndustrialComplex = new ExperienceIndustrialComplex("industrial");
     public static FastPass fastPass = new FastPass("fastpass");

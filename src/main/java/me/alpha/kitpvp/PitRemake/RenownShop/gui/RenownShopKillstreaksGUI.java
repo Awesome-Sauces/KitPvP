@@ -59,6 +59,26 @@ public class RenownShopKillstreaksGUI implements Listener {
         }
     }
 
+    public static ItemStack getHermitItem(String uuid){
+        if(ClassInstances.prestigeData.getPrestige(uuid)<12){
+            return ItemMaker(Material.BEDROCK, ChatColor.RED + "Unknown upgrade",
+                    colorCode("&7Prestige: &e"+integerToRoman(12)),1, true);
+        }
+
+        if(ClassInstances.hermitStreak.hasValue(uuid) &&
+                ((Integer)ClassInstances.hermitStreak.getValue(uuid))>=1){
+            return ItemMaker(Material.BED, ChatColor.GREEN + "Killstreaks: Hermit",
+                    colorCode(ClassInstances.hermitStreak.getLore() + "\n\n" +
+                            "&aUnlocked!"),1, true);
+        }else{
+            return ItemMaker(Material.BED, ChatColor.YELLOW + "Killstreaks: Hermit",
+                    colorCode(ClassInstances.hermitStreak.getLore() + "\n\n" +
+                            "&7Cost: &e100 Renown\n" +
+                            "&7You have: &e"+ClassInstances.renownData.getRenown(uuid)+" Renown\n\n" +
+                            "&eClick to purchase!"),1, true);
+        }
+    }
+
     public static ItemStack getHighlanderItem(String uuid){
         if(ClassInstances.prestigeData.getPrestige(uuid)<7){
             return ItemMaker(Material.BEDROCK, ChatColor.RED + "Unknown upgrade",
@@ -142,11 +162,13 @@ public class RenownShopKillstreaksGUI implements Listener {
 
         advancedInventory.addInv(gui, getHighlanderItem(uuid), 3, 2, false);
 
-        advancedInventory.addInv(gui, getMagnumOpusItem(uuid), 4, 2, false);
+        advancedInventory.addInv(gui, getHermitItem(uuid), 4, 2, false);
 
-        advancedInventory.addInv(gui, getMoonItem(uuid), 5, 2, false);
+        advancedInventory.addInv(gui, getMagnumOpusItem(uuid), 5, 2, false);
 
-        advancedInventory.addInv(gui, getUberItem(uuid), 6, 2, false);
+        advancedInventory.addInv(gui, getMoonItem(uuid), 6, 2, false);
+
+        advancedInventory.addInv(gui, getUberItem(uuid), 7, 2, false);
         
         advancedInventory.addInv(gui, getGoBackItem(uuid), 5,5, false);
 
@@ -157,6 +179,9 @@ public class RenownShopKillstreaksGUI implements Listener {
 
     @EventHandler
     public void HandleRenownShopUpgradesClick(InventoryClickEvent event){
+        if(event==null||
+                event.getClickedInventory()==null) return;
+
         if(event.getClickedInventory() != null &&
                 event.getClickedInventory().getTitle() != null &&
                 !event.getClickedInventory().getTitle().equals(ChatColor.GRAY + "Renown Shop - Killstreaks")) return;
@@ -189,6 +214,20 @@ public class RenownShopKillstreaksGUI implements Listener {
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-20);
                 ClassInstances.beastmodeStreak.setValue(uuid, (Integer) 1);
+            }else{
+                Sounds.NO.play(player);
+            }
+
+            player.openInventory(getRenownShopKillstreaksGUI(player));
+        }else if(event.getCurrentItem().getType().equals(Material.BED)){
+
+            if(ClassInstances.hermitStreak.hasValue(uuid) &&
+                    ((Integer)ClassInstances.hermitStreak.getValue(uuid))>=1){
+                Sounds.NO.play(player);
+            }else if(ClassInstances.renownData.getRenown(uuid)>=100 && !ClassInstances.hermitStreak.hasValue(uuid)){
+                Sounds.RENOWN_SHOP_PURCHASE.play(player);
+                ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-100);
+                ClassInstances.hermitStreak.setValue(uuid, (Integer) 1);
             }else{
                 Sounds.NO.play(player);
             }

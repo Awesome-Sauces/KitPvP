@@ -331,6 +331,9 @@ public class RenownShopUpgradesGUI implements Listener {
 
     @EventHandler
     public void HandleRenownShopUpgradesClick(InventoryClickEvent event){
+        if(event==null||
+        event.getClickedInventory()==null) return;
+
         if(event.getClickedInventory() != null &&
                 event.getClickedInventory().getTitle() != null &&
                 !event.getClickedInventory().getTitle().equals(ChatColor.GRAY + "Renown Shop - Upgrades")) return;
@@ -471,7 +474,7 @@ public class RenownShopUpgradesGUI implements Listener {
 
             if(ClassInstances.heresy.hasValue(uuid) &&
                     ((Integer)ClassInstances.heresy.getValue(uuid))>=1){
-                //player.openInventory(HeresyMenu.getHeresyMenu(player));
+                player.openInventory(HeresyMenu.getHeresyMenu(player));
                 return;
             }else if(ClassInstances.renownData.getRenown(uuid)>=50 && !ClassInstances.heresy.hasValue(uuid)){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);

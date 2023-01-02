@@ -21,7 +21,7 @@ public class Soup extends PitPerk {
                 "&aTasty Soup\n" +
                 "&9Speed I (0:07)\n" +
                 "&a1.5\u2764 Heal &7+ &61\u2764 Absorption\n" +
-                "&cNext melee hit +15% damage"));
+                "&cStrength I (0:03)"));
         this.setCost(8000);
         this.setLevel(25);
     }
@@ -39,7 +39,7 @@ public class Soup extends PitPerk {
                 ReduxPlayer player = event.getAttacker();
 
                 if(player.getPerks().contains(ClassInstances.soup.getRefID())){
-                    if(player.getPlayerObject().getInventory().contains(enchants.soup.getType(), 2)) return;
+                    if(player.getPlayerObject().getInventory().contains(enchants.soup.getType(), 1)) return;
                     player.getPlayerObject().getInventory().addItem(enchants.soup);
                 }
 

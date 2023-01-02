@@ -751,6 +751,11 @@ public class itemManager {
 
     private static void createGMCFeather() {
         ItemStack item = new ItemStack(Material.FEATHER, 1);
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("feather", 1);
+
+        item=nbtItem.getItem();
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&3Funky Feather"));
         List<String> lore = new ArrayList<>();

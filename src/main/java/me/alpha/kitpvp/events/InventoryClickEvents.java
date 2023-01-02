@@ -88,16 +88,16 @@ public class InventoryClickEvents {
 
                 player.openInventory(gui);
 
-                player.getInventory().removeItem(event.getCurrentItem());
+                StashCore.safeRemove(player, event.getCurrentItem());
                 event.setCancelled(true);
 
             }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier I")){
                 player.openInventory(MysticWellGUI.openMysticWell(player, event.getCurrentItem()));
-                player.getInventory().removeItem(event.getCurrentItem());
+                StashCore.safeRemove(player, event.getCurrentItem());
                 event.setCancelled(true);
             }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier II")){
                 player.openInventory(MysticWellGUI.openMysticWell(player, event.getClickedInventory().getItem(21)));
-                player.getInventory().removeItem(event.getCurrentItem());
+                StashCore.safeRemove(player, event.getCurrentItem());
                 event.setCancelled(true);
             }
             }
