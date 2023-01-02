@@ -3,6 +3,7 @@ package me.alpha.kitpvp.PitRemake.InventoryManager;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
+import me.alpha.kitpvp.PitRemake.PitCommands.Crates.CrateItems;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
@@ -48,7 +49,7 @@ public class NonPermanentItems {
                 }
             }
 
-            if(feather){
+            if(feather && player.getInventory().containsAtLeast(itemManager.feather, 1)){
 
                 StashCore.safeRemove(player, itemManager.feather);
                 Sounds.FUNKY_FEATHER.play(player);
@@ -215,6 +216,37 @@ public class NonPermanentItems {
                 }catch (Exception e){
 
                 }
+
+                if(player.getInventory().getHelmet()!=null&&
+                        player.getInventory().getHelmet().equals(CrateItems.getDiamondHelmet())){
+                    player.getInventory().setHelmet(null);
+                }if(player.getInventory().containsAtLeast(CrateItems.getDiamondHelmet(), 1)){
+                    player.getInventory().remove(CrateItems.getDiamondHelmet());
+                }
+
+            if(player.getInventory().getChestplate()!=null&&
+                    player.getInventory().getChestplate().equals(CrateItems.getDiamondChestplate())){
+                player.getInventory().setChestplate(null);
+            }
+            if(player.getInventory().containsAtLeast(CrateItems.getDiamondChestplate(), 1)){
+                player.getInventory().remove(CrateItems.getDiamondChestplate());
+            }
+
+            if(player.getInventory().getLeggings()!=null&&
+                    player.getInventory().getLeggings().equals(CrateItems.getDiamondLeggings())){
+                player.getInventory().setLeggings(null);
+            }
+            if(player.getInventory().containsAtLeast(CrateItems.getDiamondLeggings(), 1)){
+                player.getInventory().remove(CrateItems.getDiamondLeggings());
+            }
+
+            if(player.getInventory().getBoots()!=null&&
+                    player.getInventory().getBoots().equals(CrateItems.getDiamondBoots())){
+                player.getInventory().setBoots(null);
+            }
+            if(player.getInventory().containsAtLeast(CrateItems.getDiamondBoots(), 1)){
+                player.getInventory().remove(CrateItems.getDiamondBoots());
+            }
 
                 try {
                     if (player.getInventory().contains(ItemMaker(Material.DIAMOND_BOOTS, "NULL", "NULL", 1, false))) {

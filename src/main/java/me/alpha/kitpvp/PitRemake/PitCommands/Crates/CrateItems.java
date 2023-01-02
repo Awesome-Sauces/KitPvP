@@ -73,38 +73,65 @@ public class CrateItems {
 
     public ItemStack getGem(){return enchants.gem;}
 
-    public ItemStack getDiamondHelmet() {
+    private static ItemStack helmet = null;
+    private static ItemStack chestplate = null;
+    private static ItemStack leggings = null;
+    private static ItemStack boots = null;
+
+
+    public static ItemStack getDiamondHelmet() {
+        if(helmet!=null) return helmet;
+
         ItemStack item = new ItemStack(Material.DIAMOND_HELMET, 1);
         List<String> lore = new ArrayList<>();
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, false);
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
-        return item;
+
+        helmet = item;
+        return getDiamondHelmet();
     }
-    public ItemStack getDiamondChestplate() {
+    public static ItemStack getDiamondChestplate() {
+        if(chestplate!=null) return chestplate;
+
         ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, false);
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
-        return item;
+
+        chestplate=item;
+
+        return getDiamondChestplate();
     }
-    public ItemStack getDiamondLeggings() {
+    public static ItemStack getDiamondLeggings() {
+        if(leggings!=null) return leggings;
+
         ItemStack item = new ItemStack(Material.DIAMOND_LEGGINGS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, false);
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
-        return item;
+
+        leggings = item;
+
+        return getDiamondLeggings();
     }
-    public ItemStack getDiamondBoots() {
+    public static ItemStack getDiamondBoots() {
+        if(boots!=null) return boots;
+
         ItemStack item = new ItemStack(Material.DIAMOND_BOOTS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, false);
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
-        return item;
+
+        boots = item;
+
+        return getDiamondBoots();
     }
+
+
     
 }

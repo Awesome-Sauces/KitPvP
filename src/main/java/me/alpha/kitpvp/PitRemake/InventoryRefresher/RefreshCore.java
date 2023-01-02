@@ -99,6 +99,31 @@ public class RefreshCore {
                 }
             }
 
+            if(item.getType().equals(Material.FEATHER)){
+
+                NBTItem nbtItem = new NBTItem(item);
+
+                if(item.getItemMeta()!=null &&
+                !item.getItemMeta().getDisplayName().equals(itemManager.feather.getItemMeta().getDisplayName())){
+                    ItemStack stack = itemManager.feather;
+
+                    stack.setAmount(item.getAmount());
+
+                    inventory.setItem(i, stack);
+                    refreshCount++;
+                    continue;
+                }
+                else if(nbtItem.hasKey("feather")) continue;
+
+                ItemStack stack = itemManager.feather;
+
+                stack.setAmount(item.getAmount());
+
+                inventory.setItem(i, stack);
+                refreshCount++;
+            }
+
+
             if(item.getType().equals(Material.EMERALD)){
                 if(item.getItemMeta()!=null&&
                         !item.getItemMeta().getDisplayName().equals(enchants.gem.getItemMeta().getDisplayName())){

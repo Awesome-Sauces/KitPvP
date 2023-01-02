@@ -17,6 +17,7 @@ import me.alpha.kitpvp.PitRemake.Factions.ArmageddonFaction;
 import me.alpha.kitpvp.PitRemake.Factions.KingFaction;
 import me.alpha.kitpvp.PitRemake.Fishing.FishingCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PermanentUpgrades;
@@ -213,17 +214,18 @@ public class GeneralEvents implements Listener {
         if(event.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)||
                 event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
             Player player = event.getPlayer();
+            NBTItem nbtItem = new NBTItem(event.getPlayer().getItemInHand());
 
             event.setExpToDrop(0);
             event.setCancelled(true);
 
             if(percentChance(.001)){
-                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught an &b&lXP &7bundle and received &b+1,000,000 XP"));
+                player.sendMessage(colorCode("&a&lCATCH! &7fished &b+1,000,000 XP"));
                 Sounds.PRESTIGE.play(player);
                 playerExists(player).addPlayerEXP(1000000);
                 return;
             }else if(percentChance(.001)){
-                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a &6&lGOLD &7bundle and received &6+1,000,000g"));
+                player.sendMessage(colorCode("&a&lCATCH! &7fished &6+1,000,000g"));
                 Sounds.PRESTIGE.play(player);
                 playerExists(player).addPlayerGold(1000000);
                 ClassInstances.goldRequirementData.addGoldReq(player.getUniqueId().toString(), 1000000);
@@ -231,27 +233,50 @@ public class GeneralEvents implements Listener {
             }
 
             if(percentChance(.01)){
-                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.cactus.getItemMeta().getDisplayName()));
+                player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.cactus.getItemMeta().getDisplayName()));
 
-                StashCore.safeGiveMultiple(player, enchants.cactus, 1);
+                StashCore.safeGiveMultiple(player, enchants.cactus, 8);
                 Sounds.JUGGERNAUT_EXPLOSION.play(player);
                 return;
             }else if(percentChance(.005)){
-                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.fresh_dark.getItemMeta().getDisplayName()));
+                player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.fresh_dark.getItemMeta().getDisplayName()));
                 Sounds.HERESY.play(player);
                 StashCore.safeGiveMultiple(player, enchants.fresh_dark, 1);
                 return;
             }else if(percentChance(.05)){
-                player.sendMessage(colorCode("&a&lFISHING HOOK! &7You caught a " + enchants.fresh_sword.getItemMeta().getDisplayName()));
+                player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.fresh_sword.getItemMeta().getDisplayName()));
                 Sounds.MYSTIC_DROP_1.play(player);
                 Sounds.MYSTIC_DROP_2.play(player);
                 Sounds.MYSTIC_DROP_2.play(player);
                 StashCore.safeGiveMultiple(player, enchants.fresh_sword, 1);
                 return;
+            } else if(percentChance(.005)){
+                player.sendMessage(colorCode("&a&lCATCH! &7fished " + itemManager.feather.getItemMeta().getDisplayName()));
+                Sounds.JUGGERNAUT_EXPLOSION.play(player);
+                StashCore.safeGiveMultiple(player, itemManager.feather, 1);
+                return;
             }
 
-            player.sendMessage(ColorUtil.colorCode("&a&lFISHING HOOK! &7Your fishing rod missed and caught nothing :("));
-            Sounds.NO.play(player);
+            if(percentChance(.0001)){
+                player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.big_rod.getItemMeta().getDisplayName()));
+                Sounds.PRESTIGE.play(player);
+                StashCore.safeGiveMultiple(player, enchants.big_rod, 1);
+                return;
+            }
+
+            if(nbtItem.hasKey("big_rod")){
+                player.sendMessage(ColorUtil.colorCode("&a&lCATCH! &7fished &b+250XP &6+78g"));
+                playerExists(player).addPlayerEXP(250);
+                playerExists(player).addPlayerGold(78);
+                ClassInstances.goldRequirementData.addGoldReq(player.getUniqueId().toString(), 78);
+            }else {
+                player.sendMessage(ColorUtil.colorCode("&a&lCATCH! &7fished &b+104XP &6+53g"));
+                playerExists(player).addPlayerEXP(104);
+                playerExists(player).addPlayerGold(53);
+                ClassInstances.goldRequirementData.addGoldReq(player.getUniqueId().toString(), 53);
+            }
+
+            Sounds.SUCCESS.play(player);
 
         }
     }
@@ -419,13 +444,6 @@ public class GeneralEvents implements Listener {
             Arrow arrow = (Arrow) event.getDamager();
             Player player = (Player) arrow.getShooter();
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
-                @Override
-                public void run() {
-                    arrow.remove();
-                }
-            }, 20L);
-
             if(player.getLocation().getY()>=Locations.getSpawnProtection(player.getWorld())) {
                 event.setCancelled(true);
                 return;
@@ -444,15 +462,18 @@ public class GeneralEvents implements Listener {
             if(!me.isCancelled()){
                 event.setDamage((me.getReduxDamage())*.45);
 
+                ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis() + (15 * 1000));
+                ClassInstances.CombatTag.put(String.valueOf(event.getEntity().getUniqueId()), System.currentTimeMillis() + (15 * 1000));
+
                 if(isNPC(defender)){
-                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 3){
+                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 0){
                         event.setCancelled(true);
                         ((LivingEntity) event.getEntity()).setHealth(((LivingEntity) event.getEntity()).getMaxHealth());
                         KillMan(player, (Player) event.getEntity());
                         return;
                     }
                 }else{
-                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 1){
+                    if(((LivingEntity) event.getEntity()).getHealth() - event.getFinalDamage() <= 0){
                         event.setCancelled(true);
                         ((LivingEntity) event.getEntity()).setHealth(((LivingEntity) event.getEntity()).getMaxHealth());
                         KillMan(player, (Player) event.getEntity());
@@ -482,8 +503,8 @@ public class GeneralEvents implements Listener {
         if(event.getDamager().getLocation().getY() <= getSpawnProtection(event.getDamager().getWorld())){
             assert defender != null;
             defender.setAllowFlight(false);
-            ClassInstances.CombatTag.put(String.valueOf(event.getDamager().getUniqueId()), System.currentTimeMillis() + (5 * 1000));
-            ClassInstances.CombatTag.put(String.valueOf(event.getEntity().getUniqueId()), System.currentTimeMillis() + (5 * 1000));
+            ClassInstances.CombatTag.put(String.valueOf(event.getDamager().getUniqueId()), System.currentTimeMillis() + (15 * 1000));
+            ClassInstances.CombatTag.put(String.valueOf(event.getEntity().getUniqueId()), System.currentTimeMillis() + (15 * 1000));
 
             if(((Player) event.getDamager()).getItemInHand()!=null &&
                     ((Player) event.getDamager()).getItemInHand().getType().equals(Material.GOLD_SWORD) &&

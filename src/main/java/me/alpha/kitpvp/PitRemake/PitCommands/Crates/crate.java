@@ -68,19 +68,19 @@ public class crate {
 
         }else if(this.crate.equals("PPH")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Helmet!";
-            ItemStack helmet = items.getDiamondHelmet();
+            ItemStack helmet = CrateItems.getDiamondHelmet();
             StashCore.safeGiveMultiple(player, helmet, 1);
         }else if(this.crate.equals("PPC")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Chestplate!";
-            ItemStack chestplate = items.getDiamondChestplate();
+            ItemStack chestplate = CrateItems.getDiamondChestplate();
             StashCore.safeGiveMultiple(player, chestplate, 1);
         }else if(this.crate.equals("PPL")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Leggings!";
-            ItemStack leggings = items.getDiamondLeggings();
+            ItemStack leggings = CrateItems.getDiamondLeggings();
             StashCore.safeGiveMultiple(player, leggings, 1);
         }else if(this.crate.equals("PPB")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l1x Protection II Diamond Boots!";
-            ItemStack boots = items.getDiamondBoots();
+            ItemStack boots = CrateItems.getDiamondBoots();
             StashCore.safeGiveMultiple(player, boots, 1);
         }else if(this.crate.equals("FSIX")){
             this.broadcast = RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName()) + " &7has won &e&l16x Funky Feathers!";

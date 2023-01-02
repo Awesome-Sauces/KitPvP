@@ -52,6 +52,8 @@ public class enchants {
     public static ItemStack soup;
     public static ItemStack rod;
 
+    public static ItemStack big_rod;
+
 
     public static void init(){
         createGoldenHead();
@@ -86,6 +88,8 @@ public class enchants {
         createDarks();
         createSoup();
         createRod();
+
+        createBigRod();
     }
 
     private static void createArma() {
@@ -162,6 +166,38 @@ public class enchants {
         meta.spigot().setUnbreakable(true);
         item.setItemMeta(meta);
         rod = item;
+    }
+
+    private static void createBigRod() {
+        ItemStack item = new ItemStack(Material.FISHING_ROD, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("fishing_rod", 1);
+
+        nbtItem.setInteger("big_rod", 1);
+
+        item = nbtItem.getItem();
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(colorCode("&9Expert Rod"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&7Fishing Item"));
+        lore.add(colorCode(" "));
+        lore.add(colorCode("&9Quick Fisher"));
+        lore.add(colorCode("&7Get &aCatches &750% quicker"));
+        lore.add(" ");
+        lore.add(colorCode("&9Seasoned Fisher"));
+        lore.add(colorCode("&7Get a chance for Better &aCatches"));
+        lore.add(colorCode("  "));
+        lore.add(colorCode("&9+6.5 Attack Damage"));
+        lore.add(colorCode("&8(Against Sea Creatures)"));
+        meta.setLore(lore);
+        meta.addEnchant(Enchantment.LURE, 3, false);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
+        meta.spigot().setUnbreakable(true);
+        item.setItemMeta(meta);
+        big_rod = item;
     }
 
     private static void createArchAngel() {

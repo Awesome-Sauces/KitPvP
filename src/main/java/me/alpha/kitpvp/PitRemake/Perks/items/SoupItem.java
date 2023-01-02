@@ -54,7 +54,9 @@ public class SoupItem implements Listener {
 
             if(event.getAction()==Action.RIGHT_CLICK_AIR) return;
 
-                if (reduxPlayer.getSoupCD()){
+            if (event.getItem().hasItemMeta() &&
+                    event.getItem().equals(enchants.soup)
+                    && reduxPlayer.getSoupCD()){
                     reduxPlayer.setSoupCD();
 
 
