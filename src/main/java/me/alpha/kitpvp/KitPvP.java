@@ -42,7 +42,7 @@ public class KitPvP extends JavaPlugin {
         INSTANCE = this;
 
         // Start Database
-        //DatabaseConnector.startConnection();
+        DatabaseConnector.startConnection();
 
         // Load Data
         ClassInstances.load();
@@ -122,7 +122,7 @@ public class KitPvP extends JavaPlugin {
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
 
-
+/*
         for (int i = 0; i < 30; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
@@ -130,6 +130,8 @@ public class KitPvP extends JavaPlugin {
 
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
+
+ */
 
 
 

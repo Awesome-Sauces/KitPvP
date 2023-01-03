@@ -219,12 +219,12 @@ public class GeneralEvents implements Listener {
             event.setExpToDrop(0);
             event.setCancelled(true);
 
-            if(percentChance(.001)){
+            if(percentChance(.0001)){
                 player.sendMessage(colorCode("&a&lCATCH! &7fished &b+1,000,000 XP"));
                 Sounds.PRESTIGE.play(player);
                 playerExists(player).addPlayerEXP(1000000);
                 return;
-            }else if(percentChance(.001)){
+            }else if(percentChance(.0001)){
                 player.sendMessage(colorCode("&a&lCATCH! &7fished &6+1,000,000g"));
                 Sounds.PRESTIGE.play(player);
                 playerExists(player).addPlayerGold(1000000);
@@ -232,16 +232,11 @@ public class GeneralEvents implements Listener {
                 return;
             }
 
-            if(percentChance(.01)){
+            if(percentChance(.001)){
                 player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.cactus.getItemMeta().getDisplayName()));
 
                 StashCore.safeGiveMultiple(player, enchants.cactus, 8);
                 Sounds.JUGGERNAUT_EXPLOSION.play(player);
-                return;
-            }else if(percentChance(.005)){
-                player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.fresh_dark.getItemMeta().getDisplayName()));
-                Sounds.HERESY.play(player);
-                StashCore.safeGiveMultiple(player, enchants.fresh_dark, 1);
                 return;
             }else if(percentChance(.05)){
                 player.sendMessage(colorCode("&a&lCATCH! &7fished " + enchants.fresh_sword.getItemMeta().getDisplayName()));
@@ -250,7 +245,7 @@ public class GeneralEvents implements Listener {
                 Sounds.MYSTIC_DROP_2.play(player);
                 StashCore.safeGiveMultiple(player, enchants.fresh_sword, 1);
                 return;
-            } else if(percentChance(.005)){
+            } else if(percentChance(.0005)){
                 player.sendMessage(colorCode("&a&lCATCH! &7fished " + itemManager.feather.getItemMeta().getDisplayName()));
                 Sounds.JUGGERNAUT_EXPLOSION.play(player);
                 StashCore.safeGiveMultiple(player, itemManager.feather, 1);

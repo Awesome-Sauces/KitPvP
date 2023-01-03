@@ -5,14 +5,18 @@ import me.alpha.kitpvp.ChatManager.PrestigeBracketColors;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.Data.XpData;
+import me.alpha.kitpvp.DataSave.DatabaseConnector;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler;
 import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.IntegerHelper;
 import me.alpha.kitpvp.utils.PacketScoreboard.FastBoard;
+import me.alpha.kitpvp.utils.Sounds;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,6 +42,13 @@ public class ScoreboardCore  implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+            @Override
+            public void run() {
+                DatabaseConnector.loadPlayer(player);
+            }
+        }, 1L);
 
         RefreshCore.refreshInventory(player);
 
@@ -71,6 +82,9 @@ public class ScoreboardCore  implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
+        Bukkit.broadcastMessage("AAA");
+        DatabaseConnector.savePlayer(player);
 
         BossBarAPI.removeAllBars(player);
 

@@ -44,7 +44,7 @@ public class SqlCore {
         int length = 100000;
 
         //Create the player_data table
-        String sql = "CREATE TABLE IF NOT EXISTS player_data (uuid varchar(36) primary key, playerdata varchar(36) , serverID varchar(36))";
+        String sql = "CREATE TABLE IF NOT EXISTS player_data (uuid varchar(36) primary key, playerdata TEXT(45000) , serverID varchar(36))";
 
         statement.execute(sql);
 
@@ -58,16 +58,16 @@ public class SqlCore {
         statement.setString(1, uuid);
 
         ResultSet resultSet = statement.executeQuery();
+        String toReturn = null;
 
         if(resultSet.next()){
-            statement.close();
 
-            return resultSet.getString("playerdata");
+            toReturn = resultSet.getString("playerdata");
         }
 
         statement.close();
 
-        return null;
+        return toReturn;
     }
 
     public void createPlayerData(String uuid, String playerData, String serverID) throws SQLException {

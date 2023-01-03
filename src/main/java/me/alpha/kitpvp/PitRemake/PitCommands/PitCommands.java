@@ -200,55 +200,16 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
-            player.sendMessage(" ");
-            player.sendMessage(ColorUtil.colorCode("&c&l[BETTER PIT ANNOUNCEMENT]"));
-            player.sendMessage(ColorUtil.colorCode("&7Better Pit is a Pit Remake server dedicated to providing you with the best experience possible!" +
-                    "&7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
-                    "&7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
-            player.sendMessage(" ");
-            player.sendMessage(ColorUtil.colorCode("&7Make sure to join the discord here: &bdiscord.gg/XyY2tUvT"));
-            player.sendMessage(" ");
-            StashCore.safeGiveMultiple(player, enchants.vile, 1);
-            StashCore.safeGive(player, getUberDrop());
 
-            /*
+
             if(args.length>=1 && args[0].equalsIgnoreCase("save")){
-                PlayerData playerData = new PlayerData(player.getUniqueId().toString());
-
-                playerData.saveData(player);
-
-                try {
-                    DatabaseConnector.updatePlayer(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData), player.getServer().getName());
-                    player.sendMessage(ColorUtil.colorCode("&aSuccessfully saved and serialized player data"));
-                    Sounds.SUCCESS.play(player);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                DatabaseConnector.savePlayer(player);
             }
 
             if(args.length>=1 && args[0].equalsIgnoreCase("load")){
-                if(PlayerDataSave.containsKey(player.getUniqueId().toString())){
-
-                    String playerData = "";
-
-                    try {
-                        playerData = DatabaseConnector.getPlayer(player.getUniqueId().toString());
-
-                        Converter64.playerDataFrom64(playerData).loadData(player);
-                        player.sendMessage(ColorUtil.colorCode("&aSuccessfully deserialized and loaded player data"));
-                        Sounds.SUCCESS.play(player);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        player.sendMessage(ColorUtil.colorCode("&cFailed to deserialize player data"));
-                        Sounds.ERROR.play(player);
-                        throw new RuntimeException(e);
-                    }
-
-                }
+                DatabaseConnector.loadPlayer(player);
             }
 
-             */
 
 
             // AAAAAAAAA

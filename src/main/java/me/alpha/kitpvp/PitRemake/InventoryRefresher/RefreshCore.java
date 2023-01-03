@@ -46,28 +46,35 @@ public class RefreshCore {
                     item.getItemMeta()!=null){
                 NBTItem nbtItem = new NBTItem(item);
 
-                nbtItem.addCompound("enchants");
-
-                NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
-
-                List<String> enchants = new ArrayList<>();
-
-                enchants= loreChecker.CheckEnchantOnPant(item.getItemMeta().getLore());
-
-                if(!enchants.isEmpty()){
-                    for(String enchant : enchants){
-                        int tier = enchant.length()-enchant.replaceAll("I", "").length();
-
-                        nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
-                    }
-
-                    nbtItem.mergeCompound(nbtCompound);
-
-                    item=nbtItem.getItem();
-
-                    player.getInventory().setLeggings(item);
+                if(nbtItem.hasKey("darkPant") && !nbtItem.hasKey("real")) {
+                    player.getInventory().setLeggings(null);
                     refreshCount++;
+                }else{
+                    nbtItem.addCompound("enchants");
+
+                    NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
+
+                    List<String> enchants = new ArrayList<>();
+
+                    enchants= loreChecker.CheckEnchantOnPant(item.getItemMeta().getLore());
+
+                    if(!enchants.isEmpty()){
+                        for(String enchant : enchants){
+                            int tier = enchant.length()-enchant.replaceAll("I", "").length();
+
+                            nbtCompound.setInteger(FreshPants.convertEnchant(enchant.replaceAll("I", "")), tier);
+                        }
+
+                        nbtItem.mergeCompound(nbtCompound);
+
+                        item=nbtItem.getItem();
+
+                        player.getInventory().setLeggings(item);
+                        refreshCount++;
+                    }
                 }
+
+
 
             }
         }
@@ -187,6 +194,12 @@ public class RefreshCore {
             }else if(item.getType().equals(Material.LEATHER_LEGGINGS)&&
                     item.getItemMeta()!=null){
                 NBTItem nbtItem = new NBTItem(item);
+
+                if(nbtItem.hasKey("darkPant") && !nbtItem.hasKey("real")){
+                    inventory.setItem(i, null);
+                    refreshCount++;
+                    continue;
+                }
 
                 nbtItem.addCompound("enchants");
 

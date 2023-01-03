@@ -467,6 +467,7 @@ public class enchants {
         NBTItem nbtItem = new NBTItem(item);
 
         nbtItem.setInteger("darkPant", 1);
+        nbtItem.setInteger("real", 1);
 
         item = nbtItem.getItem();
 
