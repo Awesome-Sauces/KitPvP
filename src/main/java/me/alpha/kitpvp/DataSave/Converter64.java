@@ -1,7 +1,10 @@
 package me.alpha.kitpvp.DataSave;
 
+import de.tr7zw.nbtapi.NBTItem;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
@@ -59,6 +62,20 @@ public class Converter64 {
         StringBuilder inv = new StringBuilder();
 
         for(ItemStack item : inventory){
+            /*if(item!=null &&
+            item.getType()!= Material.AIR){
+                Material material = item.getType();
+                NBTItem nbtItem = new NBTItem(item);
+
+                if(nbtItem.getCompound("enchants")!=null){
+                    ItemMeta itemMeta = item.getItemMeta();
+
+                    itemMeta.setLore(new ArrayList<>());
+
+                    item.setItemMeta(itemMeta);
+                }
+
+            }*/
             inv.append(itemTo64(item)).append(">");
         }
 
@@ -72,6 +89,15 @@ public class Converter64 {
 
         for(String item : items){
             ItemStack itemStack = itemFrom64(item);
+
+            /*if(itemStack!=null&&
+            itemStack.getType()!=Material.AIR){
+                NBTItem nbtItem = new NBTItem(itemStack);
+
+                if(nbtItem.getCompound("enchants")!=null){
+
+                }
+            }*/
 
             itemStacks.add(itemStack);
         }

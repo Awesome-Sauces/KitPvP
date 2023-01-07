@@ -4,7 +4,9 @@ import me.alpha.hunter.api.HunterAPI;
 import me.alpha.hunter.bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
+import me.alpha.kitpvp.DataSave.Converter64;
 import me.alpha.kitpvp.DataSave.DatabaseConnector;
+import me.alpha.kitpvp.DataSave.PlayerData;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard;
@@ -20,9 +22,16 @@ import me.alpha.kitpvp.utils.Sounds;
 import net.citizensnpcs.nms.v1_12_R1.util.CustomEntityRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +41,7 @@ import static me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard.RefreshBoard;
 import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.handleTwoEvent;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
 import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
+import static org.bukkit.Bukkit.getServer;
 
 public class KitPvP extends JavaPlugin {
 
@@ -99,8 +109,8 @@ public class KitPvP extends JavaPlugin {
                         player.sendMessage(" ");
                         player.sendMessage(ColorUtil.colorCode("&c&l[BETTER PIT ANNOUNCEMENT]"));
                         player.sendMessage(ColorUtil.colorCode("&7Better Pit is a Pit Remake server dedicated to providing you with the best experience possible!" +
-                                "&7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
-                                "&7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
+                                " &7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
+                                " &7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
                         player.sendMessage(" ");
                         player.sendMessage(ColorUtil.colorCode("&7Make sure to join the discord here: &bdiscord.gg/XyY2tUvT"));
                         player.sendMessage(" ");
@@ -141,6 +151,38 @@ public class KitPvP extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        for(World world : Bukkit.getServer().getWorlds()){
+            for(Entity entity : world.getEntities()){
+                if(entity instanceof Item){
+                    entity.remove();
+                }
+            }
+        }
+
+        for(Player player : Bukkit.getOnlinePlayers()){
+            PlayerData playerData = new PlayerData(player.getUniqueId().toString()).saveData(player);
+
+            try {
+                DatabaseConnector.updatePlayer(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData), player.getServer().getName());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+
+            try {
+                out.writeUTF("Connect");
+                out.writeUTF("lobby"); // Target Server
+            } catch (IOException e) {
+                // Can never happen
+            }
+
+            getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+            player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+        }
+
         // Save Data
         ClassInstances.save();
 

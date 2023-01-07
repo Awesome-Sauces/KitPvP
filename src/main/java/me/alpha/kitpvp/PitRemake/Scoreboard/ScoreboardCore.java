@@ -82,8 +82,6 @@ public class ScoreboardCore  implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
-        Bukkit.broadcastMessage("AAA");
         DatabaseConnector.savePlayer(player);
 
         BossBarAPI.removeAllBars(player);

@@ -604,6 +604,12 @@ public class GeneralEvents implements Listener {
             event.setCancelled(true);
         }
 
+        if(event.getPlayer().getItemInHand()!=null &&
+                !event.getPlayer().isOp() &&
+                event.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)){
+            event.setCancelled(true);
+        }
+
         if(event.getClickedBlock()!=null){
             if(event.getClickedBlock().getType().equals(Material.ENDER_CHEST)){
                 return;

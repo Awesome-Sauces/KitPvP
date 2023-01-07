@@ -161,39 +161,7 @@ public class ClassInstances {
             , 100, ChatColor.AQUA, 75000);
 
     public static void save(){
-        goldRequirementData.saveHashMap();
-        prestigeData.saveHashMap();
-        xpData.saveHashMap();
-        megaStreakData.saveHashMap();
 
-        perkSlotOne.saveHashMap();
-        perkSlotTwo.saveHashMap();
-        perkSlotThree.saveHashMap();
-        perkSlotFour.saveHashMap();
-        experienceIndustrialComplex.saveHashMap();
-        extraHearts.saveHashMap();
-        fastPass.saveHashMap();
-        celebrity.saveHashMap();
-        heresy.saveHashMap();
-        renownGoldBoost.saveHashMap();
-        renownXpBump.saveHashMap();
-        promotion.saveHashMap();
-        tenacity.saveHashMap();
-        moonStreak.saveHashMap();
-        uberStreak.saveHashMap();
-        beastmodeStreak.saveHashMap();
-        botKills.saveHashMap();
-        highlanderStreak.saveHashMap();
-        theWay.saveHashMap();
-        mysticism.saveHashMap();
-        magnumOpus.saveHashMap();
-        factionData.saveHashMap();
-        factionReward.saveHashMap();
-        renownData.saveHashMap();
-
-        botBoosterData.saveHashMap();
-        goldBoosterData.saveHashMap();
-        xpBoosterData.saveHashMap();
 
         petData.saveHashMap();
     }

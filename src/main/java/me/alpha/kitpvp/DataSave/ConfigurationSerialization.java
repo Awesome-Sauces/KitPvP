@@ -43,9 +43,7 @@ public class ConfigurationSerialization {
             } else {
                 return Modifier.isStatic(method.getModifiers()) != isStatic ? null : method;
             }
-        } catch (NoSuchMethodException var4) {
-            return null;
-        } catch (SecurityException var5) {
+        } catch (NoSuchMethodException | SecurityException var4) {
             return null;
         }
     }
@@ -53,9 +51,7 @@ public class ConfigurationSerialization {
     protected Constructor<? extends ConfigurationSerializable> getConstructor() {
         try {
             return this.clazz.getConstructor(Map.class);
-        } catch (NoSuchMethodException var1) {
-            return null;
-        } catch (SecurityException var2) {
+        } catch (NoSuchMethodException | SecurityException var1) {
             return null;
         }
     }

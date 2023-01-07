@@ -90,6 +90,11 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         ClassInstances.renownXpBump.setValue(uuid, getRenownXpBump());
         ClassInstances.renownGoldBoost.setValue(uuid, getRenownGoldBoost());
         ClassInstances.mysticism.setMysticismChance(uuid, getMysticism());
+
+        // Faction
+        ClassInstances.botKills.setValue(uuid, getBotKills());
+        ClassInstances.factionData.setValue(uuid, getFactionData());
+        ClassInstances.factionReward.setValue(uuid, getFactionRewards());
     }
 
     /*
@@ -106,7 +111,7 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
                 }
      */
 
-    public void saveData(Player player){
+    public PlayerData saveData(Player player){
 
         // Armor/Inventory
         setHelmet(Converter64.itemTo64(player.getInventory().getHelmet()));
@@ -157,10 +162,18 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         setRenownXpBump((Integer) ClassInstances.renownXpBump.getValue(uuid, 0));
         setRenownGoldBoost((Integer) ClassInstances.renownGoldBoost.getValue(uuid, 0));
         setMysticism((Integer) ClassInstances.mysticism.getValue(uuid, 0));
+
+        // Faction Data
+        setBotKills((Integer) ClassInstances.botKills.getValue(uuid, 0));
+        setFactionData((String) ClassInstances.factionData.getValue(uuid, "NONE"));
+        setFactionRewards((String) ClassInstances.factionReward.getValue(uuid, "NONE"));
+
+        return this;
     }
 
     public static PlayerData deserialize(Map<String, Object> args) {
-        PlayerData playerData = new PlayerData((String) args.get("uuid"),
+
+        return new PlayerData((String) args.get("uuid"),
                 (Integer) args.get("botBooster"), (Integer) args.get("goldBooster"),
                 (Integer) args.get("xpBooster"), (String) args.get("megastreak"), (String) args.get("perkSlotOne"),
                 (String) args.get("perkSlotTwo"), (String) args.get("perkSlotThree"), (String) args.get("perkSlotFour"),
@@ -172,9 +185,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
                 (Integer) args.get("tenacity"), (Integer) args.get("promotion"), (Integer) args.get("theWay"),
                 (Integer) args.get("renownXpBump"), (Integer) args.get("renownGoldBoost"), (Integer) args.get("mysticism"),
                 (String) args.get("helmet"), (String) args.get("chestplate"), (String) args.get("leggings"),
-                (String) args.get("boots"), (String) args.get("inventory"), (String) args.get("enderChest"));
-
-        return playerData;
+                (String) args.get("boots"), (String) args.get("inventory"), (String) args.get("enderChest"),
+                (Integer) args.get("botKills"), (String) args.get("factionData"), (String) args.get("factionRewards"));
     }
 
     public Map<String, Object> serialize() {
@@ -232,6 +244,11 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         result.put("renownGoldBoost", getRenownGoldBoost());
         result.put("mysticism", getMysticism());
 
+        // Factions
+        result.put("botKills", getBotKills());
+        result.put("factionData", getFactionData());
+        result.put("factionRewards", getFactionRewards());
+
         return result;
     }
 
@@ -252,7 +269,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
                       int highlander, int magnumOpus, int moon, int uber, int heresy, int celebrity,
                       int industrial, int extraHearts, int fastPass, int tenacity, int promotion, int theWay,
                       int renownXpBump, int renownGoldBoost, int mysticism,
-                      String helmet, String chestplate, String leggings, String boots, String inventory, String enderChest) {
+                      String helmet, String chestplate, String leggings, String boots, String inventory, String enderChest,
+                      int botKills, String factionData, String factionRewards) {
         this.uuid = uuid; this.botBoosters = botBoosters;
         this.goldBoosters = goldBoosters; this.xpBoosters = xpBoosters;
         this.megaStreak = megaStreak; this.perkSlotOne = perkSlotOne;
@@ -272,6 +290,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         this.helmet = helmet; this.chestplate = chestplate;
         this.leggings = leggings; this.boots = boots;
         this.inventory = inventory; this.enderChest = enderChest;
+        this.botKills = botKills; this.factionData = factionData;
+        this.factionRewards = factionRewards;
     }
 
     String uuid;
@@ -325,6 +345,34 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
     int renownXpBump = 0;
     int renownGoldBoost = 0;
     int mysticism = 0;
+
+    int botKills = 0;
+    String factionData = "";
+    String factionRewards = "";
+
+    public String getFactionRewards() {
+        return factionRewards;
+    }
+
+    public void setFactionRewards(String factionRewards) {
+        this.factionRewards = factionRewards;
+    }
+
+    public int getBotKills() {
+        return botKills;
+    }
+
+    public void setBotKills(int botKills) {
+        this.botKills = botKills;
+    }
+
+    public String getFactionData() {
+        return factionData;
+    }
+
+    public void setFactionData(String factionData) {
+        this.factionData = factionData;
+    }
 
     public String getUuid() {
         return uuid;

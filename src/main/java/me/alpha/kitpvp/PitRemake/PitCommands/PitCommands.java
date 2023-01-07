@@ -41,11 +41,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
@@ -74,6 +77,7 @@ import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
 import static me.alpha.kitpvp.utils.FancyText.hoverText;
 import static me.alpha.kitpvp.utils.advancedInventory.HeadMaker;
+import static org.bukkit.Bukkit.getServer;
 
 public class PitCommands implements CommandExecutor {
     public static HashMap<String, Boolean> KillMessages = new HashMap<>();
@@ -521,6 +525,49 @@ public class PitCommands implements CommandExecutor {
                         }else if(player.getWorld().getName().equals("lobby")){
                             loc = getSpawnLocation(Bukkit.getWorld("lobby2"));
                             player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 3"));
+                        }else if(player.getWorld().getName().equals("lobby2")){
+                            deleteBlob(player);
+                            playerExists(player).setMoonXP(0);
+                            refreshInventory(player);
+
+                            String server = "pit-m3";
+                            int port = Bukkit.getServer().getPort();
+
+                            if(port==25572) server="pit-m2";
+                            if(port==25573) server="pit-m3";
+                            if(port==25574) server="pit-m2";
+
+                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m1")) server="pit-m2";
+                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m2")) server="pit-m3";
+                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m3")) server="pit-m2";
+
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80,2, true));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
+                            player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
+                            Sounds.MEGA_RNGESUS.play(player);
+
+
+                            String finalServer = server;
+                            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    ByteArrayOutputStream b = new ByteArrayOutputStream();
+                                    DataOutputStream out = new DataOutputStream(b);
+
+                                    try {
+                                        out.writeUTF("Connect");
+                                        out.writeUTF(finalServer); // Target Server
+                                    } catch (IOException e) {
+                                        // Can never happen
+                                    }
+
+                                    getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                                    player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+                                }
+                            }, 60);
+
+                            return true;
                         }else{
                             loc = getSpawnLocation(Bukkit.getWorld("world"));
                             player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));
@@ -550,6 +597,45 @@ public class PitCommands implements CommandExecutor {
                     }else if(player.getWorld().getName().equals("lobby")){
                         loc = getSpawnLocation(Bukkit.getWorld("lobby2"));
                         player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 3"));
+                    }else if(player.getWorld().getName().equals("lobby2")){
+                        deleteBlob(player);
+                        playerExists(player).setMoonXP(0);
+                        refreshInventory(player);
+
+                        String server = "pit-m3";
+                        int port = Bukkit.getServer().getPort();
+
+                        if(port==25572) server="pit-m2";
+                        if(port==25573) server="pit-m3";
+                        if(port==25574) server="pit-m2";
+
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80,2, true));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
+                        player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
+                        Sounds.MEGA_RNGESUS.play(player);
+
+
+                        String finalServer = server;
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                            @Override
+                            public void run() {
+
+                                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                                DataOutputStream out = new DataOutputStream(b);
+
+                                try {
+                                    out.writeUTF("Connect");
+                                    out.writeUTF(finalServer); // Target Server
+                                } catch (IOException e) {
+                                    // Can never happen
+                                }
+
+                                getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                                player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+                            }
+                        }, 60);
+
+                        return true;
                     }else{
                         loc = getSpawnLocation(Bukkit.getWorld("world"));
                         player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));

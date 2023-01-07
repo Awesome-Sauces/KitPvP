@@ -37,6 +37,11 @@ public class SqlCore {
         return connection;
     }
 
+    public void reconnect() throws SQLException {
+        connection=null;
+        getConnection();
+    }
+
     public void initializeDatabase() throws SQLException {
 
         Statement statement = getConnection().createStatement();

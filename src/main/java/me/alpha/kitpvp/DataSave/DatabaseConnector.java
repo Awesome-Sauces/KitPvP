@@ -1,5 +1,7 @@
 package me.alpha.kitpvp.DataSave;
 
+import me.alpha.kitpvp.KitPvP;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.SQL.SqlCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
@@ -24,11 +26,18 @@ public class DatabaseConnector {
             System.out.println("Could not initialize database.");
         }
 
+        KitPvP.INSTANCE.getServer().getScheduler().runTaskTimer(KitPvP.INSTANCE, () -> {
+            try {
+                database.reconnect();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        },0,12000);
+
     }
 
     public static void updatePlayer(String uuid, String playerData, String serverID) throws SQLException {
 
-        Bukkit.broadcastMessage(String.valueOf(playerData.getBytes().length));
         database.deletePlayerData(uuid);
         database.createPlayerData(uuid, playerData, serverID);
     }
