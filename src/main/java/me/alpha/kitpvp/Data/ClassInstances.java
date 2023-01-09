@@ -162,7 +162,8 @@ public class ClassInstances {
 
     public static void save(){
 
-
+        prestigeData.saveHashMap();
+        xpData.saveHashMap();
         petData.saveHashMap();
     }
 

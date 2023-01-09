@@ -134,7 +134,7 @@ public class XpDragon extends PitPet {
                     event.setXp_cap(event.getXp_cap()+(ClassInstances.petData.getPetLevel(event.getAttacker().getPlayerUUID(), getXpPerLevel())*10));
                 }
 
-                event.addXp(event.getXp()*(ClassInstances.petData.getPetLevel(event.getAttacker().getPlayerUUID(), getXpPerLevel())*.004));
+                event.addXpIncrease((ClassInstances.petData.getPetLevel(event.getAttacker().getPlayerUUID(), getXpPerLevel())));
             }
         }
     }

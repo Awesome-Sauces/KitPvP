@@ -41,218 +41,118 @@ public class Leaderboard {
             String top8 = "null";
             String top9 = "null";
             String top10 = "null";
-            Player player1 = null;
-        Player player2 = null;
-        Player player3 = null;
-        Player player4 = null;
-        Player player5 = null;
-        Player player6 = null;
-        Player player7 = null;
-        Player player8 = null;
-        Player player9 = null;
-        Player player10 = null;
 
             if (topPlayers.get(9).getKey() != null){
                 top1 = getName(topPlayers.get(9).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top1);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top1).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player1=tempPlayer;
             }
 
             if (topPlayers.get(8).getKey() != null){
                 top2 = getName(topPlayers.get(8).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top2);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top2).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player2=tempPlayer;
             }
 
             if (topPlayers.get(7).getKey() != null){
                 top3 = getName(topPlayers.get(7).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top3);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top3).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player3=tempPlayer;
             }
 
             if (topPlayers.get(6).getKey() != null){
                 top4 = getName(topPlayers.get(6).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top4);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top4).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player4=tempPlayer;
             }
 
             if (topPlayers.get(5).getKey() != null){
                 top5 = getName(topPlayers.get(5).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top5);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top5).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player5=tempPlayer;
             }
 
             if (topPlayers.get(4).getKey() != null){
                 top6 = getName(topPlayers.get(4).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top6);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top6).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player6=tempPlayer;
             }
 
             if (topPlayers.get(3).getKey() != null){
                 top7 = getName(topPlayers.get(3).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top7);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top7).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player7=tempPlayer;
             }
 
             if (topPlayers.get(2).getKey() != null){
                 top8 = getName(topPlayers.get(2).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top8);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top8).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player8=tempPlayer;
             }
 
             if (topPlayers.get(1).getKey() != null){
                 top9 = getName(topPlayers.get(1).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top9);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top9).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player9=tempPlayer;
             }
 
             if (topPlayers.get(0).getKey() != null){
                 top10 = getName(topPlayers.get(0).getKey());
-                Player tempPlayer = Bukkit.getPlayer(top10);
-                OfflinePlayer offline;
-
-                if(tempPlayer==null){
-                    offline = Bukkit.getOfflinePlayer(Bukkit.getOfflinePlayer(top10).getUniqueId());
-                    tempPlayer = ViewCore.loadPlayer(offline);
-                }
-                player10=tempPlayer;
             }
 
-            if(player1==null) return;
-            if(player2==null) return;
-            if(player3==null) return;
-            if(player4==null) return;
-            if(player5==null) return;
-            if(player6==null) return;
-            if(player7==null) return;
-            if(player8==null) return;
-            if(player9==null) return;
-            if(player10==null) return;
 
             //For every player, add their name to gui
             hologram.appendTextLine(ChatColor.AQUA + ChatColor.translateAlternateColorCodes('&', "&lTOP ACTIVE PLAYERS"));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(player1) + RankColor.getNameColor(player1) + ChatColor.stripColor(player1.getDisplayName()) + ChatManager.getPlayerEXP(player1) );
+            hologram.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(topPlayers.get(9).getKey()) + ChatColor.stripColor(top1) + ChatManager.getPlayerEXP(top1));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(player2) + RankColor.getNameColor(player2) + ChatColor.stripColor(player2.getDisplayName()) + ChatManager.getPlayerEXP(player2));
+            hologram.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(topPlayers.get(8).getKey()) + ChatColor.stripColor(top2) + ChatManager.getPlayerEXP(top2));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(player3) + RankColor.getNameColor(player3) + ChatColor.stripColor(player3.getDisplayName()) + ChatManager.getPlayerEXP(player3));
+            hologram.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(topPlayers.get(7).getKey()) + ChatColor.stripColor(top3) + ChatManager.getPlayerEXP(top3));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(player4) + RankColor.getNameColor(player4) + ChatColor.stripColor(player4.getDisplayName()) + ChatManager.getPlayerEXP(player4));
+            hologram.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(topPlayers.get(6).getKey()) + ChatColor.stripColor(top4) + ChatManager.getPlayerEXP(top4));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(player5) + RankColor.getNameColor(player5) + ChatColor.stripColor(player5.getDisplayName()) + ChatManager.getPlayerEXP(player5));
+            hologram.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(topPlayers.get(5).getKey()) + ChatColor.stripColor(top5) + ChatManager.getPlayerEXP(top5));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(player6) + RankColor.getNameColor(player6) + ChatColor.stripColor(player6.getDisplayName()) + ChatManager.getPlayerEXP(player6));
+            hologram.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(topPlayers.get(4).getKey()) + ChatColor.stripColor(top6) + ChatManager.getPlayerEXP(top6));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(player7) + RankColor.getNameColor(player7) + ChatColor.stripColor(player7.getDisplayName()) + ChatManager.getPlayerEXP(player7));
+            hologram.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(topPlayers.get(3).getKey()) + ChatColor.stripColor(top7) + ChatManager.getPlayerEXP(top7));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(player8) + RankColor.getNameColor(player8) + ChatColor.stripColor(player8.getDisplayName()) + ChatManager.getPlayerEXP(player8));
+            hologram.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(topPlayers.get(2).getKey()) + ChatColor.stripColor(top8) + ChatManager.getPlayerEXP(top8));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(player9) + RankColor.getNameColor(player9) + ChatColor.stripColor(player9.getDisplayName()) + ChatManager.getPlayerEXP(player9));
+            hologram.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(topPlayers.get(1).getKey()) + ChatColor.stripColor(top9) + ChatManager.getPlayerEXP(top9));
             hologram.appendTextLine("");
-            hologram.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(player10) + RankColor.getNameColor(player10) + ChatColor.stripColor(player10.getDisplayName()) + ChatManager.getPlayerEXP(player10));
+            hologram.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(topPlayers.get(0).getKey()) + ChatColor.stripColor(top10) + ChatManager.getPlayerEXP(top10));
             hologram.appendTextLine("");
 
         //For every player, add their name to gui
             hologram2.appendTextLine(ChatColor.AQUA + ChatColor.translateAlternateColorCodes('&', "&lTOP ACTIVE PLAYERS"));
             hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(player1) + RankColor.getNameColor(player1) + ChatColor.stripColor(player1.getDisplayName())  + ChatManager.getPlayerEXP(player1));
+        hologram2.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(topPlayers.get(9).getKey()) + ChatColor.stripColor(top1) + ChatManager.getPlayerEXP(top1));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(player2) + RankColor.getNameColor(player2) + ChatColor.stripColor(player2.getDisplayName()) + ChatManager.getPlayerEXP(player2));
+        hologram2.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(topPlayers.get(8).getKey()) + ChatColor.stripColor(top2) + ChatManager.getPlayerEXP(top2));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(player3) + RankColor.getNameColor(player3) + ChatColor.stripColor(player3.getDisplayName()) + ChatManager.getPlayerEXP(player3));
+        hologram2.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(topPlayers.get(7).getKey()) + ChatColor.stripColor(top3) + ChatManager.getPlayerEXP(top3));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(player4) + RankColor.getNameColor(player4) + ChatColor.stripColor(player4.getDisplayName()) + ChatManager.getPlayerEXP(player4));
+        hologram2.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(topPlayers.get(6).getKey()) + ChatColor.stripColor(top4) + ChatManager.getPlayerEXP(top4));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(player5) + RankColor.getNameColor(player5) + ChatColor.stripColor(player5.getDisplayName()) + ChatManager.getPlayerEXP(player5));
+        hologram2.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(topPlayers.get(5).getKey()) + ChatColor.stripColor(top5) + ChatManager.getPlayerEXP(top5));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(player6) + RankColor.getNameColor(player6) + ChatColor.stripColor(player6.getDisplayName()) + ChatManager.getPlayerEXP(player6));
+        hologram2.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(topPlayers.get(4).getKey()) + ChatColor.stripColor(top6) + ChatManager.getPlayerEXP(top6));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(player7) + RankColor.getNameColor(player7) + ChatColor.stripColor(player7.getDisplayName()) + ChatManager.getPlayerEXP(player7));
+        hologram2.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(topPlayers.get(3).getKey()) + ChatColor.stripColor(top7) + ChatManager.getPlayerEXP(top7));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(player8) + RankColor.getNameColor(player8) + ChatColor.stripColor(player8.getDisplayName()) + ChatManager.getPlayerEXP(player8));
+        hologram2.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(topPlayers.get(2).getKey()) + ChatColor.stripColor(top8) + ChatManager.getPlayerEXP(top8));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(player9) + RankColor.getNameColor(player9) + ChatColor.stripColor(player9.getDisplayName()) + ChatManager.getPlayerEXP(player9));
+        hologram2.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(topPlayers.get(1).getKey()) + ChatColor.stripColor(top9) + ChatManager.getPlayerEXP(top9));
         hologram2.appendTextLine("");
-        hologram2.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(player10) + RankColor.getNameColor(player10) + ChatColor.stripColor(player10.getDisplayName()) + ChatManager.getPlayerEXP(player10));
+        hologram2.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(topPlayers.get(0).getKey()) + ChatColor.stripColor(top10) + ChatManager.getPlayerEXP(top10));
             hologram2.appendTextLine("");
 
         //For every player, add their name to gui
         hologram3.appendTextLine(ChatColor.AQUA + ChatColor.translateAlternateColorCodes('&', "&lTOP ACTIVE PLAYERS"));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(player1) + RankColor.getNameColor(player1) + ChatColor.stripColor(player1.getDisplayName()) + ChatManager.getPlayerEXP(player1) );
+        hologram3.appendTextLine(ChatColor.YELLOW + "1. " + ChatManager.getLevelPrestigeText(topPlayers.get(9).getKey()) + ChatColor.stripColor(top1) + ChatManager.getPlayerEXP(top1) );
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(player2) + RankColor.getNameColor(player2) + ChatColor.stripColor(player2.getDisplayName()) + ChatManager.getPlayerEXP(player2));
+        hologram3.appendTextLine(ChatColor.YELLOW + "2. " + ChatManager.getLevelPrestigeText(topPlayers.get(8).getKey()) + ChatColor.stripColor(top2) + ChatManager.getPlayerEXP(top2));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(player3) + RankColor.getNameColor(player3) + ChatColor.stripColor(player3.getDisplayName()) + ChatManager.getPlayerEXP(player3));
+        hologram3.appendTextLine(ChatColor.YELLOW + "3. " + ChatManager.getLevelPrestigeText(topPlayers.get(7).getKey()) + ChatColor.stripColor(top3) + ChatManager.getPlayerEXP(top3));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(player4) + RankColor.getNameColor(player4) + ChatColor.stripColor(player4.getDisplayName()) + ChatManager.getPlayerEXP(player4));
+        hologram3.appendTextLine(ChatColor.YELLOW + "4. " + ChatManager.getLevelPrestigeText(topPlayers.get(6).getKey()) + ChatColor.stripColor(top4) + ChatManager.getPlayerEXP(top4));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(player5) + RankColor.getNameColor(player5) + ChatColor.stripColor(player5.getDisplayName()) + ChatManager.getPlayerEXP(player5));
+        hologram3.appendTextLine(ChatColor.YELLOW + "5. " + ChatManager.getLevelPrestigeText(topPlayers.get(5).getKey()) + ChatColor.stripColor(top5) + ChatManager.getPlayerEXP(top5));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(player6) + RankColor.getNameColor(player6) + ChatColor.stripColor(player6.getDisplayName()) + ChatManager.getPlayerEXP(player6));
+        hologram3.appendTextLine(ChatColor.YELLOW + "6. " + ChatManager.getLevelPrestigeText(topPlayers.get(4).getKey()) + ChatColor.stripColor(top6) + ChatManager.getPlayerEXP(top6));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(player7) + RankColor.getNameColor(player7) + ChatColor.stripColor(player7.getDisplayName()) + ChatManager.getPlayerEXP(player7));
+        hologram3.appendTextLine(ChatColor.YELLOW + "7. " + ChatManager.getLevelPrestigeText(topPlayers.get(3).getKey()) + ChatColor.stripColor(top7) + ChatManager.getPlayerEXP(top7));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(player8) + RankColor.getNameColor(player8) + ChatColor.stripColor(player8.getDisplayName()) + ChatManager.getPlayerEXP(player8));
+        hologram3.appendTextLine(ChatColor.YELLOW + "8. " + ChatManager.getLevelPrestigeText(topPlayers.get(2).getKey()) + ChatColor.stripColor(top8) + ChatManager.getPlayerEXP(top8));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(player9) + RankColor.getNameColor(player9) + ChatColor.stripColor(player9.getDisplayName()) + ChatManager.getPlayerEXP(player9));
+        hologram3.appendTextLine(ChatColor.YELLOW + "9. " + ChatManager.getLevelPrestigeText(topPlayers.get(1).getKey()) + ChatColor.stripColor(top9) + ChatManager.getPlayerEXP(top9));
         hologram3.appendTextLine("");
-        hologram3.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(player10) + RankColor.getNameColor(player10) + ChatColor.stripColor(player10.getDisplayName()) + ChatManager.getPlayerEXP(player10));
+        hologram3.appendTextLine(ChatColor.YELLOW + "10. " + ChatManager.getLevelPrestigeText(topPlayers.get(0).getKey()) + ChatColor.stripColor(top10) + ChatManager.getPlayerEXP(top10));
         hologram3.appendTextLine("");
 
     }

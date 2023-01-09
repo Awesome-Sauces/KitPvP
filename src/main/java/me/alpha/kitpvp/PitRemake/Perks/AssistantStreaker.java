@@ -38,7 +38,7 @@ public class AssistantStreaker extends PitPerk {
 
                 if(player.getPerks().contains(ClassInstances.assistantStreaker.getRefID())){
                     event.addGold(2);
-                    event.addXp(event.getXp()*.15);
+                    event.addXpIncrease(15);
                 }
 
                 if(player.getPerks().contains(ClassInstances.assistantStreaker.getRefID())) if(player.tickAssistantStreaker()>=4){

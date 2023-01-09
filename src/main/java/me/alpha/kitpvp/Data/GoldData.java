@@ -6,6 +6,7 @@ import net.ess3.api.MaxMoneyException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import static com.earth2me.essentials.api.Economy.*;
@@ -15,7 +16,7 @@ public class GoldData {
 
     public static void setEconomy(String player, int amount){
         try{
-            setMoney(ChatColor.stripColor(Bukkit.getPlayer(UUID.fromString(player)).getDisplayName()), amount);
+            setMoney(UUID.fromString(player), new BigDecimal(amount));
         } catch (UserDoesNotExistException | NoLoanPermittedException | MaxMoneyException e) {
             e.printStackTrace();
         }
@@ -24,7 +25,7 @@ public class GoldData {
 
     public static void addEconomy(String player, int amount){
         try{
-            add(ChatColor.stripColor(Bukkit.getPlayer(UUID.fromString(player)).getDisplayName()), amount);
+            add(UUID.fromString(player), new BigDecimal(amount));
         } catch (UserDoesNotExistException | NoLoanPermittedException | MaxMoneyException e) {
             e.printStackTrace();
         }
@@ -33,7 +34,7 @@ public class GoldData {
 
     public static void removeEconomy(String player, int amount){
         try{
-            subtract(ChatColor.stripColor(Bukkit.getPlayer(UUID.fromString(player)).getDisplayName()), amount);
+            subtract(UUID.fromString(player), new BigDecimal(amount));
         } catch (UserDoesNotExistException | NoLoanPermittedException | MaxMoneyException e) {
             e.printStackTrace();
         }
@@ -41,7 +42,7 @@ public class GoldData {
 
     public static int getEconomy(String player){
         try{
-            return (int) getMoney(ChatColor.stripColor(Bukkit.getPlayer(UUID.fromString(player)).getDisplayName()));
+            return getMoneyExact(UUID.fromString(player)).intValue();
         } catch (UserDoesNotExistException e) {
             return 0;
         }
@@ -62,7 +63,7 @@ public class GoldData {
             if(playerExists(UUID.fromString(player))){
                 return true;
             }else{
-                setMoney(ChatColor.stripColor(Bukkit.getPlayer(UUID.fromString(player)).getDisplayName()), 0);
+                setMoney(UUID.fromString(player), new BigDecimal(0));
             }
             return true;
         } catch (UserDoesNotExistException | NoLoanPermittedException | MaxMoneyException e) {

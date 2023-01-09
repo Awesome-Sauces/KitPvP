@@ -31,7 +31,7 @@ public class Streaker extends PitPerk {
                 ReduxPlayer player = event.getAttacker();
 
                 if(player.getPerks().contains(ClassInstances.streaker.getRefID())){
-                    event.addXp(event.getXp()*3);
+                    event.addXpIncrease(200);
                 }
 
             }

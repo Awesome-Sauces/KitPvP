@@ -187,6 +187,32 @@ public class XpData extends DataStore {
         return failedReturn;
     }
 
+    public static int[] GetCurrentLevel(String player, Integer PlayerXpAmount, Integer PlayerPrestige) {
+        int CurrentXpMoment = 0;
+        int current_level = 0;
+        int xp_to_next_level = 0;
+        for (int i = 0; i < ClassInstances.XpAmounts.size(); i++) {
+            CurrentXpMoment += ClassInstances.XpAmounts.get(i) + (ClassInstances.XpAmounts.get(i) * PrestigeData.PrestigeXpAmount(PlayerPrestige));
+            if (CurrentXpMoment >= PlayerXpAmount) {
+                xp_to_next_level = PlayerXpAmount - CurrentXpMoment;
+
+                current_level = Math.max(i - 1, 1);
+
+                int[] returns = new int[2];
+                returns[0] = xp_to_next_level;
+                returns[1] = current_level;
+
+                return returns;
+            }
+        }
+
+        int[] failedReturn = new int[2];
+        failedReturn[0] = 323232323;
+        failedReturn[1] = 120;
+
+        return failedReturn;
+    }
+
     public static int getLevelXP(Player player, int level, int PlayerPrestige) {
         int CurrentXpMoment = 0;
         int current_level = 0;

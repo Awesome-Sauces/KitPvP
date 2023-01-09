@@ -31,7 +31,7 @@ public class XpbumpLore extends PitEnchant {
                 int level = item.getInteger("xpbump");
 
                 double xp = (double) 2*level;
-                event.addXp((int) xp);
+                event.addBaseXp((int) xp);
             }
 
         }
@@ -48,7 +48,7 @@ public class XpbumpLore extends PitEnchant {
 
 
             double xp = (double) 2*level;
-            event.addXp((int) xp);
+            event.addBaseXp((int) xp);
 
 
         }
