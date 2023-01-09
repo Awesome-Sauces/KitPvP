@@ -48,7 +48,7 @@ public class MonsterHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void MonsterDamageEvent(ReduxDamageEvent event){
         if(isNPC(event.getDefender().getPlayerObject()) &&
-                getNPC(event.getDefender().getPlayerObject()).getName().equals(ChatColor.AQUA + "CookieMonster")){
+                getNPC(event.getDefender().getPlayerObject()).getFullName().equals(ChatColor.AQUA + "CookieMonster")){
             NPC npc = getNPC(event.getDefender().getPlayerObject());
 
             event.subtractReduxDamageMultiplier(100);
@@ -64,7 +64,7 @@ public class MonsterHandler implements Listener {
             npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
             npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
         }else if(isNPC(event.getAttacker().getPlayerObject()) &&
-        getNPC(event.getAttacker().getPlayerObject()).getName().equals(ChatColor.AQUA + "CookieMonster")){
+        getNPC(event.getAttacker().getPlayerObject()).getFullName().equals(ChatColor.AQUA + "CookieMonster")){
             NPC npc = getNPC(event.getAttacker().getPlayerObject());
 
             npc.getEntity().getWorld().strikeLightningEffect(event.getDefender().getPlayerObject().getLocation());

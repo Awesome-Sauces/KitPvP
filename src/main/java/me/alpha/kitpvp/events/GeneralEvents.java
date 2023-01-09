@@ -181,12 +181,15 @@ public class GeneralEvents implements Listener {
     @EventHandler(priority =  EventPriority.HIGHEST)
     public void HandleBowEvents(ProjectileHitEvent event){
         if(event.getEntity().getShooter() instanceof Player){
+            if(!(event.getEntity() instanceof Arrow)) return;
             Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
                 @Override
                 public void run() {
-                    if(event.getEntity() instanceof Arrow)event.getEntity().remove();
+                    event.getEntity().remove();
                 }
             }, 300L);
+
+
 
             ReduxPlayer attacker = playerExists((Player) event.getEntity().getShooter());
 
@@ -209,12 +212,29 @@ public class GeneralEvents implements Listener {
         }
     }
 
+    private boolean fishingCooldown(ReduxPlayer owner){
+        if (owner.getGambleCD()){
+            owner.setGambleCD();
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    owner.setGambleCD();
+                }
+            }.runTaskLater(KitPvP.INSTANCE, 7L);
+            return true;
+        }
+
+        return false;
+    }
+
     @EventHandler
     public void HandleFishEvent(PlayerFishEvent event){
         if(event.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)||
                 event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
             Player player = event.getPlayer();
             NBTItem nbtItem = new NBTItem(event.getPlayer().getItemInHand());
+
+            if(!fishingCooldown(playerExists(player))) return;
 
             event.setExpToDrop(0);
             event.setCancelled(true);

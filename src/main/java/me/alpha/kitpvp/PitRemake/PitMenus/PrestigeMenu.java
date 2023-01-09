@@ -2,6 +2,7 @@ package me.alpha.kitpvp.PitRemake.PitMenus;
 
 import me.alpha.kitpvp.ChatManager.PrestigeBracketColors;
 import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.utils.ColorUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,6 +47,22 @@ public class PrestigeMenu {
                         ChatColor.YELLOW + "Click to browse!"
                 , 1, true);
 
+        ItemStack pitSupport = ItemMaker(Material.WATCH, ChatColor.GOLD + "Pit Supporter",
+                ColorUtil.colorCode("&7Prestige: &eI\n\n" +
+                        "&7Show your support for The Pit and\n" +
+                        "&7unlock exclusive features!\n\n" +
+                        "&7Features:\n" +
+                        "&e- &7Toggleable suffix!\n" +
+                        "&e- &7/events to view upcoming &devents&7!\n" +
+                        "&e- &7/show to link a held item in chat!\n" +
+                        "&e- &7/dye to color your pants!\n" +
+                        "&e- &7And many more!\n\n" +
+                        "&7Buy on the store!\n\n" +
+                        "&8Pit Supporter is a way you can help support\n" +
+                        "&8the server and keep it funded!\n\n" +
+                        "&eVisit store.pitredux.net!")
+                , 1, true);
+
         for (int i = 0; i < 10; i++) {
             addInv(gui, base_glass, i, 1, false);
             addInv(gui, base_glass, i, 2, false);
@@ -54,6 +71,8 @@ public class PrestigeMenu {
         addInv(gui, Prestige_Block, 3, 2, false);
 
         addInv(gui, Prestige_Shop, 7, 2, false);
+
+        addInv(gui, pitSupport, 9, 3, false);
 
         player.openInventory(gui);
     }

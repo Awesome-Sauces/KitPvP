@@ -58,8 +58,8 @@ public class StashCore {
     }
 
     public static void safeGive(Player player, ItemStack itemStack){
-        if(itemStack==null || itemStack.getType().equals(Material.AIR) ||
-                itemStack.getType().equals(Material.OBSIDIAN)) return;
+        if(itemStack==null || itemStack.getType().equals(Material.AIR)) return;
+        if(itemStack.getType().equals(Material.OBSIDIAN)) if(!hasAvailableSlot(player)) return;
 
         itemStack.setAmount(1);
 

@@ -67,7 +67,7 @@ public class PacketTitle {
         float number = Float.parseFloat(df.format(event.getFinalDamage()));
 
         if(CitizensHelper.isNPC(defender)){
-            sendActionBar(player, colorPlayer + CitizensHelper.getNPC(defender).getName() + health + " &c" + number + "HP");
+            sendActionBar(player, colorPlayer + CitizensHelper.getNPC(defender).getFullName() + health + " &c" + number + "HP");
         }else{
             sendActionBar(player, colorPlayer + defender.getDisplayName() + health + " &c" + number + "HP");
         }
@@ -78,7 +78,7 @@ public class PacketTitle {
         String colorPlayer = RankColor.getNameColor(defender);
 
         if(CitizensHelper.isNPC(defender)){
-            sendActionBar(player, colorPlayer + CitizensHelper.getNPC(defender).getName() + health);
+            sendActionBar(player, CitizensHelper.getNPC(defender).getFullName() + health);
         }else{
             sendActionBar(player, colorPlayer + defender.getDisplayName() + health);
         }
@@ -142,7 +142,7 @@ public class PacketTitle {
         StringBuilder output = new StringBuilder();
 
         if(CitizensHelper.isNPC(defender)){
-            output.append(CitizensHelper.getNPC(defender).getName()).append(" ");
+            output.append(CitizensHelper.getNPC(defender).getFullName()).append(" ");
         }else{
             String colorPlayer = RankColor.getNameColor(defender);
             output.append(colorPlayer).append(defender.getDisplayName()).append(" ");
@@ -238,7 +238,7 @@ public class PacketTitle {
         StringBuilder output = new StringBuilder();
 
         if(CitizensHelper.isNPC(defender)){
-            output.append(CitizensHelper.getNPC(defender).getName()).append(" ");
+            output.append(CitizensHelper.getNPC(defender).getFullName()).append(" ");
         }else{
             String colorPlayer = RankColor.getNameColor(defender);
             output.append(colorPlayer).append(defender.getDisplayName()).append(" ");

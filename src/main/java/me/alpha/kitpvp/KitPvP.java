@@ -131,17 +131,24 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 12000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.broadcastMessage(ColorUtil.colorCode("&c&lWARNING! &7The server may lag temporarily as all online player data is being saved!"));
+                for(Player player : Bukkit.getOnlinePlayers()) DatabaseConnector.savePlayer(player);
 
-/*
-        for (int i = 0; i < 30; i++) {
+            }
+        }, 0L, 36000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
+
+
+
+        for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby")).getRingMid(Bukkit.getWorld("lobby")).getY());
 
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
-
- */
 
 
 
@@ -161,26 +168,9 @@ public class KitPvP extends JavaPlugin {
         }
 
         for(Player player : Bukkit.getOnlinePlayers()){
-            PlayerData playerData = new PlayerData(player.getUniqueId().toString()).saveData(player);
 
-            try {
-                DatabaseConnector.updatePlayer(player.getUniqueId().toString(), Converter64.playerDataTo64(playerData), player.getServer().getName());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            DatabaseConnector.savePlayer(player);
 
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(b);
-
-            try {
-                out.writeUTF("Connect");
-                out.writeUTF("lobby"); // Target Server
-            } catch (IOException e) {
-                // Can never happen
-            }
-
-            getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
-            player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
         }
 
         // Save Data

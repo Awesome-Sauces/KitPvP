@@ -541,7 +541,6 @@ public class PitCommands implements CommandExecutor {
                             if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m2")) server="pit-m3";
                             if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m3")) server="pit-m2";
 
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80,2, true));
                             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
                             player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
                             Sounds.MEGA_RNGESUS.play(player);
@@ -551,6 +550,7 @@ public class PitCommands implements CommandExecutor {
                             Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
                                 @Override
                                 public void run() {
+                                    DatabaseConnector.savePlayer(player);
 
                                     ByteArrayOutputStream b = new ByteArrayOutputStream();
                                     DataOutputStream out = new DataOutputStream(b);
@@ -565,7 +565,7 @@ public class PitCommands implements CommandExecutor {
                                     getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
                                     player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
                                 }
-                            }, 60);
+                            }, 20);
 
                             return true;
                         }else{
@@ -609,7 +609,6 @@ public class PitCommands implements CommandExecutor {
                         if(port==25573) server="pit-m3";
                         if(port==25574) server="pit-m2";
 
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80,2, true));
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
                         player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
                         Sounds.MEGA_RNGESUS.play(player);
@@ -620,6 +619,7 @@ public class PitCommands implements CommandExecutor {
                             @Override
                             public void run() {
 
+                                DatabaseConnector.savePlayer(player);
                                 ByteArrayOutputStream b = new ByteArrayOutputStream();
                                 DataOutputStream out = new DataOutputStream(b);
 
@@ -633,7 +633,7 @@ public class PitCommands implements CommandExecutor {
                                 getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
                                 player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
                             }
-                        }, 60);
+                        }, 20);
 
                         return true;
                     }else{
@@ -655,36 +655,30 @@ public class PitCommands implements CommandExecutor {
                 player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
             }
 
-            if (CombatTag.containsKey(String.valueOf(player.getUniqueId()))){
-                // player is inside mute map
-                if (CombatTag.get(String.valueOf(player.getUniqueId())) > System.currentTimeMillis()){
-                    // They still have time left on mute
-                    long timeleft = (CombatTag.get(String.valueOf(player.getUniqueId())) - System.currentTimeMillis()) / 1000;
-                    player.sendMessage(colorCode("&c&lHOLD UP! &7Can't /hub while fighting (&c" + timeleft + "s &7left)"));
-                    return true;
-                }else{
-                    deleteBlob(player);
-                    refreshInventory(player);
-                    playerExists(player).setMoonXP(0);
-                    player.removePotionEffect(PotionEffectType.WEAKNESS);
-                    ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
+            deleteBlob(player);
+            refreshInventory(player);
+            playerExists(player).setMoonXP(0);
+            player.removePotionEffect(PotionEffectType.WEAKNESS);
 
-                    Location loc = getSpawnLocation(player.getWorld());
-                    player.teleport(loc);
-                    ScoreboardCore.CreateScore(player);
-                    return true;
+            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    DatabaseConnector.savePlayer(player);
+
+                    ByteArrayOutputStream b = new ByteArrayOutputStream();
+                    DataOutputStream out = new DataOutputStream(b);
+
+                    try {
+                        out.writeUTF("Connect");
+                        out.writeUTF("lobby"); // Target Server
+                    } catch (IOException e) {
+                        // Can never happen
+                    }
+
+                    getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                    player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
                 }
-
-            }else{
-                refreshInventory(player);
-                deleteBlob(player);
-                playerExists(player).setMoonXP(0);
-                player.removePotionEffect(PotionEffectType.WEAKNESS);
-                ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
-                Location loc = getSpawnLocation(player.getWorld());
-                player.teleport(loc);
-                ScoreboardCore.CreateScore(player);
-            }
+            }, 20);
             return true;
         }
 

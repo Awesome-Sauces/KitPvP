@@ -26,6 +26,7 @@ public class ReduxPlayer {
     boolean vampireCD = true;
     boolean mlbCD = true;
     boolean booCD = true;
+    boolean fishingCD = true;
 
     public int shotCount = 0;
     public int fShotCount = 0;
@@ -170,6 +171,10 @@ public class ReduxPlayer {
     public boolean getGambleCD(){return this.gambleCD;}
 
     public void setGambleCD(){this.gambleCD = !this.gambleCD;}
+
+    public boolean getFishingCD(){return this.fishingCD;}
+
+    public void setFishingCD(){this.fishingCD = !this.fishingCD;}
 
     public double getPlayerGoldBooster(){
         return this.goldBooster;

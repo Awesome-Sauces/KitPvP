@@ -45,7 +45,7 @@ public class Bounty {
                 if(BountiesMap.get(uuid) > 0){
                     NametagEdit.getApi().setSuffix(bountied, "");
                     if(CitizensHelper.isNPC(claimer)){
-                        ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + CitizensHelper.getNPC(claimer).getName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
+                        ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + CitizensHelper.getNPC(claimer).getFullName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
                     }else{
                         ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',"&6&lBOUNTY CLAIMED! " + "&7" + RankColor.getNameColor(claimer) + claimer.getDisplayName() + "&7 killed " + RankColor.getNameColor(bountied) + bountied.getDisplayName() + "&7 for " + "&6&l" + BountiesMap.get(uuid) + "&6&lg"), bountied.getWorld());
                     }

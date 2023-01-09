@@ -13,6 +13,7 @@ import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.RenownShop.gui.RenownShopGUI;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
@@ -234,7 +235,7 @@ public class InventoryClickEvents {
                 if (hasEconomy(String.valueOf(player.getUniqueId()))) {
                     if (getEconomy(String.valueOf(player.getUniqueId())) >= 40) {
                         removeEconomy(String.valueOf(player.getUniqueId()), 40);
-                        StashCore.safeGive(player,ItemMaker(Material.OBSIDIAN, "NULL", "NULL", 8, false));
+                        StashCore.safeGiveMultiple(player,ItemMaker(Material.OBSIDIAN, "NULL", "NULL", 1, false), 8);
 
                         player.getWorld().playSound(player.getLocation(), Sound.LEVEL_UP, 1, 20);
 
@@ -320,6 +321,13 @@ public class InventoryClickEvents {
 
     public static void PrestigeItems(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
+        if(event.getCurrentItem().getType()==Material.WATCH){
+            event.setCancelled(true);
+            player.closeInventory();
+            player.sendMessage(ColorUtil.colorCode("&6&lBLOXICLE STORE! &7Click on: &ehttp://store.pitredux.net"));
+            return;
+        }
+
         if (event.getCurrentItem().getType() == Material.DIAMOND) {
             event.setCancelled(true);
             int[] randomDUDE;

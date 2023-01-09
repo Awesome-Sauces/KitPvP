@@ -329,7 +329,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                 KillMessages.put(attacker.getPlayerUUID(), true);
             }else if(KillMessages.get(attacker.getPlayerUUID()).equals(true)){
                 if(isNPC(defender.getPlayerObject())){
-                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + getNPC(defender.getPlayerObject()).getName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.xp, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
+                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + getNPC(defender.getPlayerObject()).getFullName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.xp, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
                 }else{
                     attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + defender.getPlayerObject().getDisplayName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.xp, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
                 }
@@ -559,7 +559,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_greens, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
                     }else{
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " +
@@ -571,7 +571,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_blues, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
                     }else{
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " +
@@ -583,7 +583,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_reds, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
                     }else{
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " +
@@ -595,7 +595,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_oranges, 1);
                     if(isNPC(defender.getPlayerObject())){
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
                     }else{
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " +
@@ -607,7 +607,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                     StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_yellows, 1);
                     if (isNPC(defender.getPlayerObject())) {
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                                " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
                     } else {
                         attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                                 " &7dropped from killing " +
@@ -622,7 +622,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_bow, 1);
             if(isNPC(defender.getPlayerObject())){
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                        " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                        " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
             }else{
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                         " &7dropped from killing " +
@@ -634,7 +634,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.fresh_sword, 1);
             if(isNPC(defender.getPlayerObject())){
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
-                        " &7dropped from killing " + getNPC(defender.getPlayerObject()).getName() + "&7!"));
+                        " &7dropped from killing " + getNPC(defender.getPlayerObject()).getFullName() + "&7!"));
             }else{
                 attacker.getPlayerObject().sendMessage(colorCode("&d&lMYSTIC ITEM!" +
                         " &7dropped from killing " +

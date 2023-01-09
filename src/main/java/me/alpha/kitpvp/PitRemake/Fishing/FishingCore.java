@@ -24,7 +24,7 @@ public class FishingCore implements Listener {
     @EventHandler
     public void handleBossDeaths(ReduxDeathEvent event){
         if(CitizensHelper.isNPC(event.getDefender()) &&
-                CitizensHelper.getNPC(event.getDefender().getPlayerObject()).getName().equals(monsterName)){
+                CitizensHelper.getNPC(event.getDefender().getPlayerObject()).getFullName().equals(monsterName)){
             NPC npc = CitizensHelper.getNPC(event.getDefender().getPlayerObject());
 
             npc.despawn();
@@ -39,7 +39,7 @@ public class FishingCore implements Listener {
     @EventHandler
     public void handleBossDamage(ReduxDamageEvent event){
         if(CitizensHelper.isNPC(event.getDefender()) &&
-        CitizensHelper.getNPC(event.getDefender().getPlayerObject()).getName().equals(monsterName)){
+        CitizensHelper.getNPC(event.getDefender().getPlayerObject()).getFullName().equals(monsterName)){
             event.subtractReduxDamageMultiplier(300);
 
             NPC npc = CitizensHelper.getNPC(event.getDefender().getPlayerObject());
@@ -56,7 +56,7 @@ public class FishingCore implements Listener {
         }
 
         if(CitizensHelper.isNPC(event.getAttacker()) &&
-                CitizensHelper.getNPC(event.getAttacker().getPlayerObject()).getName().equals(monsterName)){
+                CitizensHelper.getNPC(event.getAttacker().getPlayerObject()).getFullName().equals(monsterName)){
             event.addReduxDamageMultiplier(200);
 
             NPC npc = CitizensHelper.getNPC(event.getAttacker().getPlayerObject());

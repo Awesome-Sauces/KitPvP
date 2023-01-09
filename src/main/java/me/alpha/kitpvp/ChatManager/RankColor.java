@@ -43,7 +43,7 @@ public class RankColor {
         else if(player.hasPermission("VIP+")) nameColor = String.valueOf(ChatColor.GREEN);
         else if(player.hasPermission("VIP")) nameColor = String.valueOf(ChatColor.GREEN);
         else if(player.hasPermission("HELPER")) nameColor = String.valueOf(ChatColor.BLUE);
-        else if(player.hasPermission("MOD")) nameColor = String.valueOf(ChatColor.GREEN);
+        else if(player.hasPermission("MOD")) nameColor = String.valueOf(ChatColor.DARK_GREEN);
         else if(player.hasPermission("ADMIN")) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("YOUTUBE")) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("SALMON")) nameColor = String.valueOf(ChatColor.RED);

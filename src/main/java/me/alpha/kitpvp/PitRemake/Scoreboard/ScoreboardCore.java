@@ -47,6 +47,10 @@ public class ScoreboardCore  implements Listener {
             @Override
             public void run() {
                 DatabaseConnector.loadPlayer(player);
+
+                for(Player players : Bukkit.getOnlinePlayers()){
+                    players.showPlayer(player);
+                }
             }
         }, 1L);
 
@@ -180,17 +184,16 @@ public class ScoreboardCore  implements Listener {
         }
 
         String prestigeColor = PrestigeBracketColors.getBracketColor(player);
-        String lobby = "M2C";
+        String lobby = "none";
 
-        if (player.getWorld().getName().equals("world")) {
-            lobby = "M6B";
-        } else if (player.getWorld().getName().equals("lobby")) {
-            lobby = "M14E";
-        } else if(player.getWorld().getName().equals("lobby2")){
-            lobby = "M43B";
-        } else if(player.getWorld().getName().equals("MeteorMap")){
-            lobby = "Meteor";
-        }
+        String server = "pit-m2";
+        int port = Bukkit.getServer().getPort();
+
+        if(port==25572) server="pit-m1";
+        if(port==25573) server="pit-m2";
+        if(port==25574) server="pit-m3";
+
+        lobby=server;
 
         String version = ChatColor.GRAY + "v1.5.7 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
 
