@@ -4,6 +4,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Bukkit;
 
 import java.util.Objects;
 
@@ -22,7 +23,7 @@ public class TrueDamageHandler {
         this.finalDamage = addcalc;
     }
 
-    public void run(){
+    public boolean run(){
 
         if(!CitizensHelper.isNPC(defender.getPlayerObject()) &&
                 ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=50 &&
@@ -40,16 +41,18 @@ public class TrueDamageHandler {
 
         }
 
-        if(this.damage <= 0) return;
+        if(this.damage <= 0) return false;
 
         if(this.defender.getPlayerObject().getHealth() - (this.damage + this.finalDamage) <= 2) {
             //defender.getPlayerObject().setHealth(defender.getPlayerObject().getMaxHealth());
             defender.killPlayer(attacker.getPlayerObject());
+            return true;
         }
         else {
             this.defender.getPlayerObject().setHealth(Math.max(this.defender.getPlayerObject().getHealth() - damage, 1));
             defender.getPlayerObject().damage(0);
         }
 
+        return false;
     }
 }

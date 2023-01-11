@@ -27,7 +27,6 @@ public class MirrorLore extends PitEnchant {
         NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("mirror");
 
-        event.setReduxTrueDamage(0);
     }
 
     @Override

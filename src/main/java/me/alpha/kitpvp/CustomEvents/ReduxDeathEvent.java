@@ -56,6 +56,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private final ReduxPlayer defender;
     private double xp_base = 14;
     private int xp_cap = 200;
+
+    private int final_xp = (int) xp_base;
     private double mystic_chance=0;
     private double baseMysticChance=0;
     private double gold = 18;
@@ -65,7 +67,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private int xpIncrease = 100;
 
     public int getXp(){
-        return (int) Math.min(0, xp_base*(xpIncrease*.01));
+        return (int) Math.max(0, xp_base*(xpIncrease*.01));
     }
 
     public static HandlerList getHandlerList() {
@@ -318,7 +320,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             }
         }
 
-        xp_base = (int) getXp();
+        final_xp = (int) getXp();
         gold = (int) Math.round(gold);
 
         // Attacker Streak tick
@@ -335,9 +337,9 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                 KillMessages.put(attacker.getPlayerUUID(), true);
             }else if(KillMessages.get(attacker.getPlayerUUID()).equals(true)){
                 if(isNPC(defender.getPlayerObject())){
-                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + getNPC(defender.getPlayerObject()).getFullName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.xp_base, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
+                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + getNPC(defender.getPlayerObject()).getFullName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.final_xp, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
                 }else{
-                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + defender.getPlayerObject().getDisplayName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.xp_base, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
+                    attacker.getPlayerObject().sendMessage(ChatColor.GREEN + colorCode("&lKILL! ") + ChatColor.GRAY + "on " + defender.getPlayerObject().getDisplayName() + ChatColor.RESET + ChatColor.AQUA + " +" + String.valueOf((int)Math.min(this.final_xp, xp_cap)) + "XP" + ChatColor.GOLD + " +" + String.valueOf((int) Math.min(this.gold, this.gold_cap)) + "g");
                 }
             }
 
@@ -358,7 +360,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Kill rewards
         if(!isNPC(attacker.getPlayerObject())){
-            attacker.addPlayerEXP((int) Math.round(Math.min(this.xp_cap, this.xp_base)));
+            attacker.addPlayerEXP((int) Math.round(Math.min(this.xp_cap, this.final_xp)));
             GoldData.hasEconomy(attacker.getPlayerUUID());
             GoldData.addEconomy(attacker.getPlayerUUID(), (int) Math.min((int) Math.round(this.gold), gold_cap));
         }
@@ -387,10 +389,10 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         if(!isNPC(attacker.getPlayerObject())) Bounty.BountyManager(attacker.getPlayerObject());
 
         if(streak.equals("moon") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
-            attacker.addMoonXP((int)Math.round( Math.min(xp_cap, xp_base)));
+            attacker.addMoonXP((int)Math.round( Math.min(xp_cap, final_xp)));
         }
 
-        if(!isNPC(attacker.getPlayerObject())) ClassInstances.goldRequirementData.addGoldReq(attacker.getPlayerUUID(), Math.min((int) Math.round(gold), xp_cap));
+        if(!isNPC(attacker.getPlayerObject())) ClassInstances.goldRequirementData.addGoldReq(attacker.getPlayerUUID(), (int) Math.min((int) Math.round(gold), gold_cap));
 
         if(!isNPC(attacker.getPlayerObject())) killEnchants();
 

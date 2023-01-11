@@ -5,20 +5,13 @@ import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
-import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.utils.CitizensHelper;
-import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
-import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
-import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 
@@ -31,12 +24,12 @@ public class ExecutionerLore extends PitEnchant {
                 event.getAttacker().getPlayerObject().getItemInHand()!=null){
             NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
 
-            if(!item.hasKey("executioner")) return;
+            if(!item.hasKey("executioner")) return ;
 
 
         }else if(!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
-                event.getAttacker().getPlayerObject().getItemInHand()!=null) return;
-        else if(CitizensHelper.isNPC(event.getAttacker().getPlayerObject())) return;
+                event.getAttacker().getPlayerObject().getItemInHand()!=null) return ;
+        else if(CitizensHelper.isNPC(event.getAttacker().getPlayerObject())) return ;
 
         NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
 
@@ -56,13 +49,24 @@ public class ExecutionerLore extends PitEnchant {
             Sounds.EXE.play(event.getAttacker().getPlayerObject());
             event.getDefender().getPlayerObject().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 
-            KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
+                }
+            }, 1L);
 
             //KillMan(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject());
 
+            event.setReduxDamage(0);
+            event.subtractReduxDamageMultiplier(1000);
             event.setCancelled(true);
             event.getBukkitEvent().setCancelled(true);
+
+            return ;
         }
+
+        return ;
     }
 
     @Override

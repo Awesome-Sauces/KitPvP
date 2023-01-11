@@ -5,7 +5,11 @@ import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
+
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
 public class CriticallyFunkyLore extends PitEnchant {
@@ -33,17 +37,22 @@ public class CriticallyFunkyLore extends PitEnchant {
             damage += (level*7) + 9;
         }else {damage += level*7;}
 
-        double dmg = 80-((level-1)*15);
+        double dmg = 70-((level-1)*15);
 
-        if(criticalHit(event.getAttacker().getPlayerObject().getPlayer())){
+        if(isCritical(event.getAttacker().getPlayerObject().getPlayer())){
             event.getDefender().setPlayerIncrease(damage);
             event.subtractReduxDamageMultiplier(dmg);
         }
     
     }
 
-    private boolean criticalHit(Player player){
-        return !player.isOnGround();
+    public boolean isCritical(LivingEntity entity){
+        return entity.getFallDistance()>0.0F &&
+                !entity.isOnGround() &&
+                !entity.isInsideVehicle() &&
+                !entity.hasPotionEffect(PotionEffectType.BLINDNESS) &&
+                entity.getLocation().getBlock().getType() != Material.LADDER &&
+                entity.getLocation().getBlock().getType() != Material.VINE;
     }
 
     @Override

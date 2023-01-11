@@ -10,9 +10,12 @@ import me.alpha.kitpvp.utils.CitizensHelper;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffectType;
 
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
@@ -36,40 +39,47 @@ public class RetroGravityMicrocosmLore extends PitEnchant {
         int level = item.getInteger("retro-gravitymicrocosm");
 
         if(criticalHit(event)){
-            runIt(event.getAttacker().getPlayerObject(), event.getDefender().getPlayerObject(), .5+((level-1)*.25), .5+((level-1)*.5));
+
+            event.getDefender().getPlayerObject().setHealth(Math.min(event.getDefender().getPlayerObject().getMaxHealth(),
+                    event.getDefender().getPlayerObject().getHealth()+(.5+((level-1)*.25))));
+
+            event.addReduxDefenderTrueDamage((.5+((level-1)*.5))*2);
+
+            event.getAttacker().getPlayerObject().sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lRGM! &7Proc'd against " + RankColor.getNameColor(event.getDefender().getPlayerObject()) + event.getDefender().getPlayerObject().getDisplayName() + "&7!"));
+            Sounds.RGM.play(event.getAttacker().getPlayerObject());
+            Sounds.RGM.play(event.getDefender().getPlayerObject());
+            event.getDefender().getPlayerObject().sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lRGM! &7Procced against " + RankColor.getNameColor(event.getAttacker().getPlayerObject()) + event.getAttacker().getPlayerObject().getDisplayName() + "&7!"));
         }
 
     }
 
-    public boolean criticalHit(ReduxDamageEvent event){
-        Player player = event.getDefender().getPlayerObject();
+    public boolean isCritical(LivingEntity entity){
+        return entity.getFallDistance()>0.0F &&
+                !entity.isOnGround() &&
+                !entity.isInsideVehicle() &&
+                !entity.hasPotionEffect(PotionEffectType.BLINDNESS) &&
+                entity.getLocation().getBlock().getType() != Material.LADDER &&
+                entity.getLocation().getBlock().getType() != Material.VINE;
+    }
 
-        if(!event.getAttacker().getPlayerObject().isOnGround()){
+    public boolean criticalHit(ReduxDamageEvent event){
+        Player player = event.getAttacker().getPlayerObject();
+
+        if(isCritical(event.getAttacker().getPlayerObject())){
             if(ClassInstances.RgmHitCounter.containsKey(String.valueOf(player.getUniqueId()))){
                 ClassInstances.RgmHitCounter.put(String.valueOf(player.getUniqueId()), ClassInstances.RgmHitCounter.get(String.valueOf(player.getUniqueId())) + 1);
             }else{
                 ClassInstances.RgmHitCounter.put(String.valueOf(player.getUniqueId()), 1);
             }
 
-            return ClassInstances.RgmHitCounter.get(String.valueOf(player.getUniqueId())) >= 3;
-        }
-        return !event.getAttacker().getPlayerObject().isOnGround();
-    }
+            if(ClassInstances.RgmHitCounter.get(String.valueOf(player.getUniqueId())) >= 4){
+                ClassInstances.RgmHitCounter.put(String.valueOf(player.getUniqueId()), 0);
+                return true;
+            }
 
-    public void runIt(Player attacker, Player defender, double health, double trueDmg){
-        ClassInstances.RgmHitCounter.put(String.valueOf(defender.getUniqueId()), 0);
-        attacker.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lRGM! &7Proc'd against " + RankColor.getNameColor(defender) + defender.getDisplayName() + "&7!"));
-        Sounds.RGM.play(attacker.getLocation());
-        Sounds.RGM.play(defender.getLocation());
-        defender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lRGM! &7Procced against " + RankColor.getNameColor(attacker) + attacker.getDisplayName() + "&7!"));
-        defender.setHealth(Math.min(defender.getHealth() + health, defender.getMaxHealth()));
-
-        EntityDamageByEntityEvent events = new EntityDamageByEntityEvent(defender, attacker,
-                EntityDamageEvent.DamageCause.MAGIC, trueDmg);
-        Bukkit.getServer().getPluginManager().callEvent(events);
-        if(!events.isCancelled()) {
-            attacker.setHealth(Math.max(attacker.getHealth() - trueDmg, 0));
+            return false;
         }
+        return false;
     }
 
     @Override

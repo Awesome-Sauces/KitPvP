@@ -306,14 +306,14 @@ public class GeneralEvents implements Listener {
                 if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
                 int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/5);
 
-                event.addBaseDamage(counter*.20);
+                event.addBaseDamage(counter*.15);
             }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
                 if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
                 int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)/5);
 
                 event.getDefender().addPotionEffect(PotionEffectType.SPEED, 32000, 1);
 
-                event.addReduxTrueDamage(counter*.1);
+                event.addReduxAttackerTrueDamage(counter*.1);
             }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID()) >= 50){
                 if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50)<=0) return;
                 int counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-50));
@@ -339,7 +339,7 @@ public class GeneralEvents implements Listener {
                 if((ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-200)<=0) return;
                 counter = (int) Math.round((double)(ClassInstances.streakData.getStreak(event.getDefender().getPlayerUUID())-200)/20);
 
-                event.addReduxTrueDamage(counter*.1);
+                event.addReduxAttackerTrueDamage(counter*.1);
             }
         }
 
@@ -530,10 +530,21 @@ public class GeneralEvents implements Listener {
             }
 
             ReduxDamageEvent mainEvent = new ReduxDamageEvent(playerExists(attacker), playerExists(defender), event.getDamage(), event);
-            if(mainEvent!=null)Bukkit.getPluginManager().callEvent(mainEvent);
+            Bukkit.getPluginManager().callEvent(mainEvent);
             if (!mainEvent.isCancelled()) {
 
+
                 mainEvent.run();
+
+                boolean attackerTrueDamage = new TrueDamageHandler(playerExists(attacker), playerExists(defender), mainEvent.getReduxAttackerTrueDamage(), event.getFinalDamage()).run();
+                boolean defenderTrueDamage = new TrueDamageHandler(playerExists(attacker), playerExists(defender), mainEvent.getReduxDefenderTrueDamage(), 0).run();
+
+
+                if(attackerTrueDamage){
+                    mainEvent.setCancelled(true);
+                    event.setCancelled(true);
+                    return;
+                }
 
                 event.setDamage(mainEvent.getReduxDamage());
 
@@ -553,8 +564,6 @@ public class GeneralEvents implements Listener {
                     }
                 }
 
-
-                new TrueDamageHandler(playerExists(attacker), playerExists(defender), mainEvent.getReduxTrueDamage(), event.getFinalDamage()).run();
             }else{
                 event.setCancelled(true);
             }

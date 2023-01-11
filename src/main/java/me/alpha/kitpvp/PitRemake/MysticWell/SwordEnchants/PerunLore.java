@@ -34,12 +34,12 @@ public class PerunLore extends PitEnchant {
 
         int count = 5;
 
-        if (perunCooldown(event.getAttacker()) && level > 1){count = 4;}
+        if (level > 1){count = 4;}
 
         addCounter(event);
 
         if(trigger(event, count)){
-            event.addReduxTrueDamage(level);
+            event.addReduxAttackerTrueDamage(level*2);
         }
     }
 

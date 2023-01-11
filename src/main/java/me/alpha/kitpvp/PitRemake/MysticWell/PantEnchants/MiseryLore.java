@@ -24,7 +24,7 @@ public class MiseryLore extends PitEnchant {
             if(item.hasKey("misery")) {
                 if(event.getDefender().getLeggings()!=null&&
                 event.getDefender().getLeggings().getType().equals(Material.LEATHER_LEGGINGS)){
-                    event.addReduxTrueDamage(1);
+                    event.addReduxAttackerTrueDamage(1);
                     trueDamage(event.getDefender(), event.getAttacker(), .6);
                 }
             }

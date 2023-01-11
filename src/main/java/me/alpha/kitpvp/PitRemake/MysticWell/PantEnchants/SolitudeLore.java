@@ -29,7 +29,7 @@ public class SolitudeLore extends PitEnchant {
         NBTItem item = new NBTItem(event.getDefender().getPlayerObject().getInventory().getLeggings());
         int level = item.getInteger("solitude");
 
-        double damage = 40+((level-1)*10);
+        double damage = 30+((level-1)*10);
 
         if (solitaryCheck(event.getDefender())) event.subtractReduxDamageMultiplier(damage);
 

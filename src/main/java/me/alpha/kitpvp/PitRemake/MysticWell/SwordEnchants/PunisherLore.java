@@ -35,7 +35,7 @@ public class PunisherLore extends PitEnchant {
     }
 
     private boolean halfHealth(ReduxDamageEvent event){
-        double damage = event.getReduxDamage() + event.getReduxTrueDamage();
+        double damage = event.getReduxDamage() + event.getReduxAttackerTrueDamage();
         return event.getDefender().getPlayerObject().getHealth() <= 10;
     }
     @Override

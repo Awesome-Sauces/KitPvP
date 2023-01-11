@@ -105,7 +105,7 @@ public class ReduxPlayer {
 
     public void addPlayerGold(int amount){
         hasEconomy(this.uuid);
-        addEconomy(this.player.getDisplayName(), amount);
+        addEconomy(this.uuid, amount);
     }
 
     public boolean getEscape(){

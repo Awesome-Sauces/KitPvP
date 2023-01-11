@@ -43,7 +43,7 @@ public class GambleLore extends PitEnchant {
             case 0:
                 if(!gambleCooldown(event.getAttacker())) break;
                 Sounds.GAMBLE_YES.play(event.getAttacker().getPlayerObject());
-                event.addReduxTrueDamage(level*2);
+                event.addReduxAttackerTrueDamage(level*2);
                 break;
             case 1:
                 if(!gambleCooldown(event.getAttacker())) break;

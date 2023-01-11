@@ -28,7 +28,7 @@ public class SoupItem implements Listener {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 7*20, 0, true, true));
 
         player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 4*20, 0, true, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20, 0, true, true));
     }
 
     public void addHearts(Player player){
