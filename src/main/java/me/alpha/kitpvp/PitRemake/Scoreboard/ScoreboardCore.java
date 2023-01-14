@@ -18,11 +18,13 @@ import me.alpha.kitpvp.utils.Sounds;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.inventivetalent.bossbar.BossBar;
 import org.inventivetalent.bossbar.BossBarAPI;
 
@@ -48,9 +50,8 @@ public class ScoreboardCore  implements Listener {
             public void run() {
                 DatabaseConnector.loadPlayer(player);
 
-                for(Player players : Bukkit.getOnlinePlayers()){
-                    players.showPlayer(player);
-                }
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                if(!player.isOp()) player.setGameMode(GameMode.SURVIVAL);
             }
         }, 1L);
 
