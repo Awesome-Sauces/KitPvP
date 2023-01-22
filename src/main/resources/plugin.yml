@@ -15,6 +15,14 @@ commands:
     description: Teleports player to spawn
     usage: /<command>
     aliases: spwn
+  inventory:
+    description: Opens a players inventory
+    usage: /<command>
+    aliases: aopen
+  wipe:
+    description: Wipes a player's inventory
+    usage: /<command>
+    aliases: wipeplayer
   refresh:
     description: Refreshes your inventory
     usage: /<command>

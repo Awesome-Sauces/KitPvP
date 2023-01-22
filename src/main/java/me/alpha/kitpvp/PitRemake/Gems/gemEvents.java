@@ -54,6 +54,13 @@ public class gemEvents implements Listener {
                 return;
             }
 
+            if(!player.getInventory().contains(clicked)){
+                player.sendMessage(ColorUtil.colorCode("&c&lERROR! &7It seems as if you don't have this item in your inventory!"));
+                Sounds.ERROR.play(player);
+                player.closeInventory();
+                return;
+            }
+
             storedMystic.put(player.getUniqueId().toString(), clicked);
             player.openInventory(gemMain.gemItemGUI(player, clicked));
         }

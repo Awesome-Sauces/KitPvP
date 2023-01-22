@@ -65,7 +65,7 @@ public class SqlCore {
         ResultSet resultSet = statement.executeQuery();
         String toReturn = null;
 
-        if(resultSet.next()){
+        while (resultSet.next()){
 
             toReturn = resultSet.getString("playerdata");
         }
@@ -78,10 +78,12 @@ public class SqlCore {
     public void createPlayerData(String uuid, String playerData, String serverID) throws SQLException {
 
         PreparedStatement statement = getConnection()
-                .prepareStatement("INSERT INTO player_data(uuid, playerdata, serverID) VALUES (?, ?, ?)");
+                .prepareStatement("INSERT INTO player_data(uuid, playerdata, serverID) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE playerdata = ?, serverID = ?");
         statement.setString(1, uuid);
         statement.setString(2, playerData);
         statement.setString(3, serverID);
+        statement.setString(4, playerData);
+        statement.setString(5, serverID);
 
         statement.executeUpdate();
 

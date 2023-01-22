@@ -16,8 +16,10 @@ public class CommandRegistrar {
 
 
         KitPvP.INSTANCE.getCommand("stash").setExecutor(stashCommands);
+        KitPvP.INSTANCE.getCommand("inventory").setExecutor(pitCommands);
 
         KitPvP.INSTANCE.getCommand("refresh").setExecutor(pitCommands);
+        KitPvP.INSTANCE.getCommand("wipe").setExecutor(pitCommands);
         KitPvP.INSTANCE.getCommand("cookiemonster").setExecutor(pitCommands);
         KitPvP.INSTANCE.getCommand("crategive").setExecutor(pitCommands);
         KitPvP.INSTANCE.getCommand("enchantPant").setExecutor(pitCommands);

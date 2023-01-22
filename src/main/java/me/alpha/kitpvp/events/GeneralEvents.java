@@ -617,7 +617,7 @@ public class GeneralEvents implements Listener {
             PacketPlayOutTitle title = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE,
                     IChatBaseComponent.ChatSerializer.a("{\"text\":\"LEVEL UP!\",\"bold\":true,\"color\":\"aqua\"}"),100,20,20);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
-            PacketPlayOutTitle sub_title = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + pb + "[" + LevelColor.getLevelColor(randomDUDE[1] - 1) + (randomDUDE[1] -1)  + pb + "]" +  ChatColor.GRAY + " ➟ "  + pb + "[" + LevelColor.getLevelColor(randomDUDE[1]) + (randomDUDE[1])  + pb + "]" +"\"}"),100,20,20);
+            PacketPlayOutTitle sub_title = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a("{\"text\":\" " + pb + "[" + LevelColor.getLevelColor(randomDUDE[1] - 1) + (randomDUDE[1] -1)  + pb + "]" +  ChatColor.GRAY + " \u279F "  + pb + "[" + LevelColor.getLevelColor(randomDUDE[1]) + (randomDUDE[1])  + pb + "]" +"\"}"),100,20,20);
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(sub_title);
         }
 

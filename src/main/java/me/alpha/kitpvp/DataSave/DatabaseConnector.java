@@ -38,7 +38,7 @@ public class DatabaseConnector {
 
     public static void updatePlayer(String uuid, String playerData, String serverID) throws SQLException {
 
-        database.deletePlayerData(uuid);
+        //database.deletePlayerData(uuid);
         database.createPlayerData(uuid, playerData, serverID);
     }
 
@@ -55,6 +55,7 @@ public class DatabaseConnector {
 
             if(playerData==null){
                 player.sendMessage(ColorUtil.colorCode("&cFailed to deserialize player data"));
+                System.out.println("PLAYER DATA NULL=FAILED TO DESERIALIZE PLAYER DATA");
                 Sounds.ERROR.play(player);
                 return;
             }
@@ -65,6 +66,7 @@ public class DatabaseConnector {
         } catch (SQLException | IOException e) {
             player.sendMessage(ColorUtil.colorCode("&cFailed to deserialize player data"));
             Sounds.ERROR.play(player);
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

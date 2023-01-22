@@ -26,8 +26,10 @@ import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashData;
 import me.alpha.kitpvp.PitRemake.PitCommands.View.ViewCore;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import me.alpha.kitpvp.SQL.SqlCore;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.advancedInventory;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.*;
@@ -526,48 +528,46 @@ public class PitCommands implements CommandExecutor {
                             loc = getSpawnLocation(Bukkit.getWorld("lobby2"));
                             player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 3"));
                         }else if(player.getWorld().getName().equals("lobby2")){
-                            deleteBlob(player);
-                            playerExists(player).setMoonXP(0);
-                            refreshInventory(player);
 
-                            String server = "pit-m3";
-                            int port = Bukkit.getServer().getPort();
+                        deleteBlob(player);
+                        playerExists(player).setMoonXP(0);
+                        refreshInventory(player);
 
-                            if(port==25572) server="pit-m2";
-                            if(port==25573) server="pit-m3";
-                            if(port==25574) server="pit-m2";
+                        String server = "pit-m3";
+                        int port = Bukkit.getServer().getPort();
 
-                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m1")) server="pit-m2";
-                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m2")) server="pit-m3";
-                            if(Bukkit.getServer().getName().equalsIgnoreCase("pit-m3")) server="pit-m2";
+                        if(port==25572) server="pit-m2";
+                        if(port==25573) server="pit-m3";
+                        if(port==25574) server="pit-m2";
 
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
-                            player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
-                            Sounds.MEGA_RNGESUS.play(player);
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80,100, true));
+                        player.sendMessage(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&',"&a&lSERVER FOUND! &7Sending to " + server));
+                        Sounds.MEGA_RNGESUS.play(player);
 
 
-                            String finalServer = server;
-                            Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
-                                @Override
-                                public void run() {
-                                    DatabaseConnector.savePlayer(player);
+                        String finalServer = server;
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                            @Override
+                            public void run() {
 
-                                    ByteArrayOutputStream b = new ByteArrayOutputStream();
-                                    DataOutputStream out = new DataOutputStream(b);
+                                DatabaseConnector.savePlayer(player);
+                                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                                DataOutputStream out = new DataOutputStream(b);
 
-                                    try {
-                                        out.writeUTF("Connect");
-                                        out.writeUTF(finalServer); // Target Server
-                                    } catch (IOException e) {
-                                        // Can never happen
-                                    }
-
-                                    getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
-                                    player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+                                try {
+                                    out.writeUTF("Connect");
+                                    out.writeUTF(finalServer); // Target Server
+                                } catch (IOException e) {
+                                    // Can never happen
                                 }
-                            }, 20);
 
-                            return true;
+                                getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                                player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+                            }
+                        }, 20);
+
+                        return true;
+
                         }else{
                             loc = getSpawnLocation(Bukkit.getWorld("world"));
                             player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));
@@ -636,6 +636,7 @@ public class PitCommands implements CommandExecutor {
                         }, 20);
 
                         return true;
+
                     }else{
                         loc = getSpawnLocation(Bukkit.getWorld("world"));
                         player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));
@@ -969,6 +970,73 @@ public class PitCommands implements CommandExecutor {
             return true;
         }
 
+        if(cmd.getName().equalsIgnoreCase("wipe") && player.isOp()){
+
+            try {
+                DatabaseConnector.database.deletePlayerData(args[0]);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+            return true;
+        }
+
+        if(cmd.getName().equalsIgnoreCase("inventory") && player.isOp()){
+            PlayerData playerData = null;
+
+            try {
+                playerData = Converter64.playerDataFrom64(DatabaseConnector.getPlayer(args[0]));
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+
+                throw new RuntimeException(e);
+            }
+
+            if (playerData==null) return true;
+
+            if(args[1].equalsIgnoreCase("inv")){
+                List<ItemStack> inventory = new ArrayList<>();
+
+                try {
+                    inventory = Converter64.inventoryItemsFrom64(playerData.getInventory());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+
+                Inventory new_inv = advancedInventory.inv(player, 36, ChatColor.GRAY + "PLAYER ITEMS");
+
+                player.openInventory(new_inv);
+
+                playerData.setInventory(Converter64.inventoryTo64(new_inv));
+            }else if(args[1].equalsIgnoreCase("ender")){
+                List<ItemStack> inventory = new ArrayList<>();
+
+                try {
+                    inventory = Converter64.inventoryItemsFrom64(playerData.getEnderChest());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+
+                Inventory new_inv = advancedInventory.inv(player, 36, ChatColor.GRAY + "PLAYER ITEMS");
+
+                player.openInventory(new_inv);
+
+                playerData.setEnderChest(Converter64.inventoryTo64(new_inv));
+            }
+
+            try {
+                DatabaseConnector.updatePlayer(args[0], Converter64.playerDataTo64(playerData), "admin");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+            return true;
+        }
+
         if (cmd.getName().equalsIgnoreCase("spawn")) {
 
             FishingRod.getRod(player);FishingRod.getRod(player);
@@ -989,6 +1057,7 @@ public class PitCommands implements CommandExecutor {
                     player.sendMessage(colorCode("&c&lHOLD UP! &7Can't /respawn while fighting (&c" + timeleft + "s &7left)"));
                     return true;
                 }else{
+                    ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis());
                     playerExists(player).setMoonXP(0);
                     player.removePotionEffect(PotionEffectType.WEAKNESS);
                     refreshInventory(player);
@@ -1002,6 +1071,7 @@ public class PitCommands implements CommandExecutor {
                 }
 
             }else{
+                ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis());
                 playerExists(player).setMoonXP(0);
                 player.removePotionEffect(PotionEffectType.WEAKNESS);
                 ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
@@ -1020,6 +1090,7 @@ public class PitCommands implements CommandExecutor {
             if(player.getKiller() != null){
                 KillMan(player.getKiller(), player);
                 refreshInventory(player);
+                ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis());
             }else{
                 player.sendMessage(colorCode("&c&lOOF! &7seems like no one has hit you in a while!"));
                 Sounds.NO.play(player);

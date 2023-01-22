@@ -398,6 +398,10 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         if(!isNPC(attacker.getPlayerObject())) customDrops();
 
+        if(!isNPC(defender)){
+            ClassInstances.CombatTag.put(String.valueOf(defender.getPlayerUUID()), System.currentTimeMillis());
+        }
+
         // Final TICK Scoreboard refresh
         /*
         if(!isNPC(defender.getPlayerObject()) &&
