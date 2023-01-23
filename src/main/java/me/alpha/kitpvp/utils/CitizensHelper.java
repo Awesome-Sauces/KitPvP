@@ -3,10 +3,15 @@ package me.alpha.kitpvp.utils;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CitizensHelper {
     public static boolean isNPC(Player player){
+        return CitizensAPI.getNPCRegistry().isNPC(player);
+    }
+
+    public static boolean isNPC(Entity player){
         return CitizensAPI.getNPCRegistry().isNPC(player);
     }
 

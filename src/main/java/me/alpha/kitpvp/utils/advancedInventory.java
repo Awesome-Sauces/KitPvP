@@ -32,23 +32,57 @@ public class advancedInventory {
         return glass;
     }
 
-    public static ItemStack dGlass(){
+    public static ItemStack dGlass(boolean empty){
         ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (15));
         ItemMeta null_meta = glass.getItemMeta();
-        null_meta.setDisplayName(ChatColor.GRAY + "Item in well!");
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY+"Click it to get it back.");
+        if(empty) null_meta.setDisplayName(ChatColor.GRAY+"Click an item in your inventory!");
+        else {
+            null_meta.setDisplayName(ChatColor.GRAY + "Item in well!");
+            lore.add((ChatColor.GRAY+"Click it to get it back."));
+        }
         null_meta.setLore(lore);
         glass.setItemMeta(null_meta);
         return glass;
     }
 
-    public static ItemStack yGlass(){
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (4));
+    public static ItemStack yGlass(boolean empty, int tier, boolean dark){
+        ItemStack glass = null;
+
+        if(dark) glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (10));
+        else if(tier>=3) glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (14));
+        else if(tier==2) glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (4));
+        else if(tier==1) glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (5));
+        else glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (6));
+
+        ChatColor chatColor = ChatColor.GRAY;
+
+        switch (tier){
+            case 2:
+                chatColor = ChatColor.YELLOW;
+                break;
+            case 1:
+                chatColor = ChatColor.GREEN;
+                break;
+            case 3:
+                chatColor = ChatColor.RED;
+                break;
+            default:
+                chatColor = ChatColor.LIGHT_PURPLE;
+                break;
+        }
+
+        if(dark)chatColor = ChatColor.DARK_PURPLE;
+
         ItemMeta null_meta = glass.getItemMeta();
-        null_meta.setDisplayName(ChatColor.YELLOW + "Item in well!");
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.YELLOW+"Click it to get it back.");
+        if(empty) {
+            null_meta.setDisplayName(chatColor + "Click an item in your inventory!");
+        }else {
+            null_meta.setDisplayName(chatColor + "Item in well!");
+            lore.add((chatColor+"Click it to get it back."));
+        }
+
         null_meta.setLore(lore);
         glass.setItemMeta(null_meta);
         return glass;

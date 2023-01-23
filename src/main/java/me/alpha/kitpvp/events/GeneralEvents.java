@@ -60,6 +60,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 import static me.alpha.kitpvp.Data.XpData.GetCurrentLevel;
 import static me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler.playerExists;
@@ -82,6 +83,19 @@ import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 
 public class GeneralEvents implements Listener {
+    @EventHandler (priority = EventPriority.HIGHEST)
+    public void DropItemEvent(PlayerDropItemEvent event){
+        if(event==null) return;
+
+        UUID uuid = event.getPlayer().getUniqueId();
+
+        if(ClassInstances.LobbyTransfer.containsKey(uuid) &&
+        ClassInstances.LobbyTransfer.get(uuid)){
+            event.setCancelled(true);
+            return;
+        }
+    }
+
     @EventHandler
     public void CloseInv(InventoryCloseEvent event){
         if(event.getInventory()==null && event.getInventory().getTitle()==null) return;
@@ -855,7 +869,8 @@ public class GeneralEvents implements Listener {
                 Sounds.BOOSTER_REMIND.play(event.getPlayer());
                 MysticWellGUI.openMysticWell(event.getPlayer());
 
-                event.getPlayer().getOpenInventory().getTopInventory().setItem(11, advancedInventory.yGlass());
+
+                event.getPlayer().getOpenInventory().getTopInventory().setItem(10, advancedInventory.yGlass(true, 0, false));
 
                 new BukkitRunnable(){
                     @Override
@@ -866,6 +881,20 @@ public class GeneralEvents implements Listener {
                         player.getOpenInventory().getTopInventory().getTitle()!=null &&
                         !player.getOpenInventory().getTopInventory().getTitle().contains(ChatColor.GRAY + "Mystic Well")) this.cancel();
 
+                        ItemStack mystic = event.getPlayer().getOpenInventory().getTopInventory().getItem(20);
+
+                        boolean empty = mystic == null || mystic.getType().equals(Material.AIR);
+
+                        int tier = 0;
+                        boolean dark = false;
+
+                        if(!empty){
+                            NBTItem nbtItem = new NBTItem(mystic);
+
+                            if(nbtItem.hasKey("mysticTier")) tier=nbtItem.getInteger("mysticTier");
+                            if(nbtItem.hasKey("darkPant")) dark = true;
+                        }
+
                         boolean found = false;
 
                         Inventory inventory = player.getOpenInventory().getTopInventory();
@@ -873,48 +902,73 @@ public class GeneralEvents implements Listener {
                         int position = 10;
 
 
-                            if(inventory.getItem(position).
-                                    getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                            if(inventory.getItem(position)!=null &&
+                                    !inventory.getItem(position).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(position).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
-                            }else if(inventory.getItem(11).
+                            }else if(!inventory.getItem(11).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(11).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=11;
-                            }else if(inventory.getItem(12).
+                            }else if(!inventory.getItem(12).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(12).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=12;
-                            }else if(inventory.getItem(19).
+                            }else if(!inventory.getItem(19).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(19).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=19;
-                            }else if(inventory.getItem(21).
+                            }else if(!inventory.getItem(21).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(21).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=21;
-                            }else if(inventory.getItem(28).
+                            }else if(!inventory.getItem(28).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(28).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=28;
-                            }else if(inventory.getItem(29).
+                            }else if(!inventory.getItem(29).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(29).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=29;
-                            }else if(inventory.getItem(30).
+                            }else if(!inventory.getItem(30).
                                     getItemMeta().getDisplayName().
-                                    contains(ChatColor.YELLOW+"Item in well!")){
+                                    contains(ChatColor.GRAY+"Click an item in your inventory!") &&
+                                    !inventory.getItem(30).
+                                            getItemMeta().getDisplayName().
+                                            contains(ChatColor.GRAY + "Item in well!")){
                                 found=true;
                                 position=30;
                             }
 
-                        inventory.setItem(position, advancedInventory.dGlass());
+                        inventory.setItem(position, advancedInventory.dGlass(empty));
 
                         switch (position){
                             case 10:
@@ -943,7 +997,8 @@ public class GeneralEvents implements Listener {
                                 break;
                         }
 
-                        inventory.setItem(position, advancedInventory.yGlass());
+
+                        inventory.setItem(position, advancedInventory.yGlass(empty, tier, dark));
 
                     }
                 }.runTaskTimer(KitPvP.INSTANCE,  3L, 3L);

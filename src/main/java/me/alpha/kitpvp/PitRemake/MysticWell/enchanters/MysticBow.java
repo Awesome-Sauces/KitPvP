@@ -50,19 +50,20 @@ public class MysticBow {
         Player player = (Player) event.getWhoClicked();
         ItemStack items = event.getClickedInventory().getItem(20);
 
-        if (items.getItemMeta().getDisplayName().contains("Tier III")){
+        NBTItem nbtItem = new NBTItem(items);
+
+        if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")>=3){
             player.sendMessage(ChatColor.RED + "This bow is already max tier!");
             return;
-        } else if (items.getItemMeta().getDisplayName().contains("Tier II") && removeGold(player, uuid, 8000)) {
+        } else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==2 && removeGold(player, uuid, 8000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createBow(player, 3, event.getClickedInventory().getItem(20)));
-        }else if (!items.getItemMeta().getDisplayName().contains("Tier II") &&
-                items.getItemMeta().getDisplayName().contains("Tier I") && removeGold(player, uuid, 4000)) {
+        }else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==1 && removeGold(player, uuid, 4000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createBow(player, 2, event.getClickedInventory().getItem(20)));
-        } else if (items.getItemMeta().getDisplayName().contains("Mystic Bow") && removeGold(player, uuid, 1000)) {
+        } else {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createBow(player, 1, null));
@@ -116,6 +117,7 @@ public class MysticBow {
         NBTItem nbtItem = new NBTItem(itemStack);
 
         nbtItem.addCompound("enchants");
+        nbtItem.setInteger("mysticTier", tier);
 
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
         NBTCompound nbtCompoundPit = nbtItem.getOrCreateCompound("pitdata");

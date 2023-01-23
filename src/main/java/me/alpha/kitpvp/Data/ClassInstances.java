@@ -35,7 +35,7 @@ public class ClassInstances {
 
     public static HashMap<String, Boolean> NightQuestsToggle = new HashMap<>();
 
-
+    public static HashMap<UUID, Boolean> LobbyTransfer = new HashMap<>();
     public static List<Integer> XpAmounts = new ArrayList<Integer>();
 
     // Save

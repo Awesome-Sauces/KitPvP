@@ -279,6 +279,14 @@ public class loreChecker {
             list.add("fancyraiderI");
         }
 
+        if (lore.contains(colorCode("&9Speedy Kill III"))){
+            list.add("speedykillIII");
+        }else if (lore.contains(colorCode("&9Speedy Kill II"))){
+            list.add("speedykillII");
+        }else if (lore.contains(colorCode("&9Speedy Kill"))){
+            list.add("speedykillI");
+        }
+
         if (lore.contains(colorCode("&9Pitpocket III"))){
             list.add("pitpocketIII");
         }else if (lore.contains(colorCode("&9Pitpocket II"))){

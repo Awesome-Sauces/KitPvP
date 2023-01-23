@@ -4,12 +4,16 @@ import com.nametagedit.plugin.NametagEdit;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.DataSave.DatabaseConnector;
+import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.InventoryManager.NonPermanentItems;
 import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -18,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
@@ -26,6 +31,13 @@ public class OnJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        ClassInstances.LobbyTransfer.put(player.getUniqueId(), true);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+            @Override
+            public void run() {
+                ClassInstances.LobbyTransfer.put(player.getUniqueId(), false);
+            }
+        }, 20L);
         GiveChain(player);
         // Make a new component (Bungee API).
         TextComponent component = new TextComponent(TextComponent.fromLegacyText(colorCode("&e&lPIT! &fLatest update: &ev1.5.7 &bBug Patch! &7[&e&lCLICK&7]")));

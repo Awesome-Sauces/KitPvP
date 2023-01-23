@@ -5,6 +5,7 @@ import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,8 +33,16 @@ public class MysticWellGUI {
     }
 
     public static ItemStack getMysticWellItem(String uuid, ItemStack itemStack){
+        if(itemStack==null||
+        itemStack.getType().equals(Material.AIR)) return getMysticWellItem("");
+
         if(itemStack.getType().equals(Material.GOLD_SWORD)){
             GoldData.hasEconomy(uuid);
+
+            NBTItem nbtItem = new NBTItem(itemStack);
+
+            if(nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")>=3) return ClayMaker((short) 14, ChatColor.RED + "Mystic Well",
+                    ColorUtil.colorCode("&7This item cannot be upgraded any\n&7further.\n\n&cMaxed out upgrade tier!"));
 
             int tokens = MysticSword.getTokens(itemStack.getItemMeta().getLore());
 
@@ -80,6 +89,11 @@ public class MysticWellGUI {
             }
         }else if(itemStack.getType().equals(Material.BOW)){
             GoldData.hasEconomy(uuid);
+
+            NBTItem nbtItem = new NBTItem(itemStack);
+
+            if(nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")>=3) return ClayMaker((short) 14, ChatColor.RED + "Mystic Well",
+                    ColorUtil.colorCode("&7This item cannot be upgraded any\n&7further.\n\n&cMaxed out upgrade tier!"));
 
             if(itemStack.getItemMeta().getDisplayName().contains("Mystic Bow")  && GoldData.getEconomy(uuid)>=1000){
                 return ItemMaker(Material.ENCHANTMENT_TABLE, ChatColor.LIGHT_PURPLE + "Mystic Well",
@@ -128,6 +142,9 @@ public class MysticWellGUI {
             GoldData.hasEconomy(uuid);
 
             NBTItem nbtItem = new NBTItem(itemStack);
+
+            if(nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")>=3) return ClayMaker((short) 14, ChatColor.RED + "Mystic Well",
+                    ColorUtil.colorCode("&7This item cannot be upgraded any\n&7further.\n\n&cMaxed out upgrade tier!"));
 
             if(nbtItem.hasKey("darkPant")){
 
@@ -222,7 +239,11 @@ public class MysticWellGUI {
         String uuid = player.getUniqueId().toString();
         Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Mystic Well");
         ItemStack base_glass = advancedInventory.cGlass();
-        ItemStack dGlass = advancedInventory.dGlass();
+        ItemStack mystic = gui.getItem(20);
+
+        boolean empty = mystic == null || mystic.getType().equals(Material.AIR);
+
+        ItemStack dGlass = advancedInventory.dGlass(empty);
 
         for (int i = 0; i < 10; i++) {
             advancedInventory.addInv(gui, base_glass, i, 1, false);
@@ -255,7 +276,12 @@ public class MysticWellGUI {
         String uuid = player.getUniqueId().toString();
         Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Mystic Well");
         ItemStack base_glass = advancedInventory.cGlass();
-        ItemStack dGlass = advancedInventory.dGlass();
+
+        ItemStack mystic = gui.getItem(20);
+
+        boolean empty = mystic == null || mystic.getType().equals(Material.AIR);
+
+        ItemStack dGlass = advancedInventory.dGlass(empty);
 
         for (int i = 0; i < 10; i++) {
             advancedInventory.addInv(gui, base_glass, i, 1, false);

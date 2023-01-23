@@ -100,6 +100,13 @@ public class gemEvents implements Listener {
 
             NBTItem nbtItem = new NBTItem(item);
 
+            if(!player.getInventory().contains(item)){
+                player.sendMessage(ColorUtil.colorCode("&c&lERROR! &7It seems as if you don't have the mystic in your inventory!"));
+                Sounds.ERROR.play(player);
+                player.closeInventory();
+                return;
+            }
+
             String enchant = ChatColor.stripColor(clicked.getItemMeta().getLore().get(1)).replaceAll("Upgrade: ", "");
 
             NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");

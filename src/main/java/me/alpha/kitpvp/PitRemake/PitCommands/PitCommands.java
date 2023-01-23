@@ -546,25 +546,23 @@ public class PitCommands implements CommandExecutor {
 
 
                         String finalServer = server;
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
-                            @Override
-                            public void run() {
+                        UUID uuid = player.getUniqueId();
 
-                                DatabaseConnector.savePlayer(player);
-                                ByteArrayOutputStream b = new ByteArrayOutputStream();
-                                DataOutputStream out = new DataOutputStream(b);
+                        ClassInstances.LobbyTransfer.put(uuid, true);
 
-                                try {
-                                    out.writeUTF("Connect");
-                                    out.writeUTF(finalServer); // Target Server
-                                } catch (IOException e) {
-                                    // Can never happen
-                                }
+                        ByteArrayOutputStream b = new ByteArrayOutputStream();
+                        DataOutputStream out = new DataOutputStream(b);
 
-                                getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
-                                player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
-                            }
-                        }, 20);
+                        try {
+                            out.writeUTF("Connect");
+                            out.writeUTF(finalServer); // Target Server
+                        } catch (IOException e) {
+                                // Can never happen
+                        }
+
+                        DatabaseConnector.savePlayer(player);
+                        getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                        player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
 
                         return true;
 
@@ -615,25 +613,24 @@ public class PitCommands implements CommandExecutor {
 
 
                         String finalServer = server;
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
-                            @Override
-                            public void run() {
+                        UUID uuid = player.getUniqueId();
 
-                                DatabaseConnector.savePlayer(player);
-                                ByteArrayOutputStream b = new ByteArrayOutputStream();
-                                DataOutputStream out = new DataOutputStream(b);
+                        ClassInstances.LobbyTransfer.put(uuid, true);
 
-                                try {
-                                    out.writeUTF("Connect");
-                                    out.writeUTF(finalServer); // Target Server
-                                } catch (IOException e) {
-                                    // Can never happen
-                                }
+                        ByteArrayOutputStream b = new ByteArrayOutputStream();
+                        DataOutputStream out = new DataOutputStream(b);
 
-                                getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
-                                player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
-                            }
-                        }, 20);
+                        try {
+                            out.writeUTF("Connect");
+                            out.writeUTF(finalServer); // Target Server
+                        } catch (IOException e) {
+                            // Can never happen
+                        }
+
+                        DatabaseConnector.savePlayer(player);
+                        getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
+                        player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
+
 
                         return true;
 
@@ -649,6 +646,8 @@ public class PitCommands implements CommandExecutor {
         }
 
         if(cmd.getName().equalsIgnoreCase("hub")){
+
+            if(!player.isOp()) return true;
 
             FishingRod.getRod(player);
 

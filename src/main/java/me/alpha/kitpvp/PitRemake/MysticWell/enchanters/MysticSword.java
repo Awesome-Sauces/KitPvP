@@ -137,6 +137,7 @@ public class MysticSword {
     public static ItemStack enchantMystic(Player player, ItemStack itemStack, int tier){
         NBTItem nbtItem = new NBTItem(itemStack);
 
+        nbtItem.setInteger("mysticTier", tier);
         nbtItem.addCompound("enchants");
 
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");

@@ -220,6 +220,7 @@ public class FreshPants {
         NBTItem nbtItem = new NBTItem(itemStack);
 
         nbtItem.addCompound("enchants");
+        nbtItem.setInteger("mysticTier", tier);
 
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
