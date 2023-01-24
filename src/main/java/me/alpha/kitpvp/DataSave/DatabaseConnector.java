@@ -16,8 +16,8 @@ public class DatabaseConnector {
 
     public static void startConnection(){
         database = new SqlCore("jdbc:mysql://212.192.28.145:3306/s1_playerdata",
-                "u1_wiZAynLC0j",
-                "JlOlCvOz..j^9.EZ2we.22nG");
+                "u1_ziqKYEfvLL",
+                "8!4.=gRCmg4VmioGXsKcsbFS");
 
         try {
             database.initializeDatabase();
