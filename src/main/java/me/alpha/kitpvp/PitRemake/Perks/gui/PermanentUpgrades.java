@@ -322,7 +322,7 @@ public class PermanentUpgrades implements Listener {
                     getMagnum() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,70) + "\n" +
                             "&cor higher."), 1, true);
         }else{
-            return ItemMaker(Material.NETHER_STAR, ChatColor.RED + "Magnum Opus",
+            return ItemMaker(Material.BEDROCK, ChatColor.RED + "Magnum Opus",
                     getMagnum() + "\n\n" + ChatColor.RED + "Unlocked in Renown Shop!\n" + ChatColor.RED +
                             "Bundle: " + ChatColor.GREEN + "Magnum Opus", 1, true);
         }
@@ -850,7 +850,7 @@ public class PermanentUpgrades implements Listener {
 
         if(clicked.equals(uber) &&
             !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("uber") &&
-            ClassInstances.uberStreak.hasValue(uuid) &&
+                ((int)ClassInstances.uberStreak.getValue(uuid, 0)) >=1 &&
             level >= 100){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"uber");
@@ -858,7 +858,7 @@ public class PermanentUpgrades implements Listener {
             player.openInventory(getKillstreakUpgrades(player));
         }if(clicked.equals(magnum) &&
                 !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("magnum") &&
-                ClassInstances.magnumOpus.hasValue(uuid) &&
+                ((int)ClassInstances.magnumOpus.getValue(uuid, 0)) >=1 &&
                 level >= 70){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"magnum");
@@ -866,7 +866,7 @@ public class PermanentUpgrades implements Listener {
             player.openInventory(getKillstreakUpgrades(player));
         }else if(clicked.equals(moon) &&
                 !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("moon") &&
-                ClassInstances.moonStreak.hasValue(uuid) &&
+                ((int)ClassInstances.moonStreak.getValue(uuid, 0)) >=1 &&
                 level >= 50){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"moon");
@@ -874,7 +874,7 @@ public class PermanentUpgrades implements Listener {
             player.openInventory(getKillstreakUpgrades(player));
         }else if(clicked.equals(highlander) &&
                 !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("highlander") &&
-                ClassInstances.highlanderStreak.hasValue(uuid) &&
+                ((int)ClassInstances.highlanderStreak.getValue(uuid, 0)) >=1 &&
                 level >= 50){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"highlander");
@@ -882,7 +882,7 @@ public class PermanentUpgrades implements Listener {
             player.openInventory(getKillstreakUpgrades(player));
         }if(clicked.equals(beastmode) &&
                 !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("beastmode") &&
-                ClassInstances.beastmodeStreak.hasValue(uuid) &&
+                ((int)ClassInstances.beastmodeStreak.getValue(uuid, 0)) >=1 &&
                 level >= 25){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"beastmode");
@@ -890,7 +890,7 @@ public class PermanentUpgrades implements Listener {
             player.openInventory(getKillstreakUpgrades(player));
         }if(clicked.equals(hermit) &&
                 !ClassInstances.megaStreakData.getMegaStreak(uuid).equals("hermit") &&
-                ClassInstances.beastmodeStreak.hasValue(uuid) &&
+                ((int)ClassInstances.hermitStreak.getValue(uuid, 0)) >=1 &&
                 level >= 50){
             Sounds.SUCCESS.play(player);
             ClassInstances.megaStreakData.setMegaStreak(uuid,"hermit");

@@ -54,13 +54,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private static final HandlerList HANDLERS = new HandlerList();
     private final ReduxPlayer attacker;
     private final ReduxPlayer defender;
-    private double xp_base = 14;
-    private int xp_cap = 200;
+    private double xp_base = 5;
+    private int xp_cap = 400;
 
     private int final_xp = (int) xp_base;
     private double mystic_chance=0;
     private double baseMysticChance=0;
-    private double gold = 18;
+    private double gold = 10;
     private double gold_cap = 2500;
     private boolean isCancelled;
 
@@ -267,7 +267,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         if(Booster.xpActive) XP_BOOSTER+=1;
         if(Booster.goldActive) GOLD_BOOSTER+=1;
 
-        if(ClassInstances.experienceIndustrialComplex.hasValue(attacker.getPlayerUUID())){
+        if(((int)ClassInstances.experienceIndustrialComplex.getValue(attacker.getPlayerUUID(), 0)) >=1){
             addXpIncrease(25);
         }
 
@@ -282,25 +282,25 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Celebrity
         if(!isNPC(attacker.getPlayerObject())){
-            if(ClassInstances.celebrity.hasValue(attacker.getPlayerUUID())) {
+            if(((int)ClassInstances.celebrity.getValue(attacker.getPlayerUUID(), 0)) >=1) {
                 gold += gold;
             }
         }
 
         if(!isNPC(attacker.getPlayerObject())){
-            if(ClassInstances.renownXpBump.hasValue(attacker.getPlayerUUID())){
+            if(((int)ClassInstances.renownXpBump.getValue(attacker.getPlayerUUID(), 0)) >=1){
                 addBaseXp(((Integer)ClassInstances.renownXpBump.getValue(attacker.getPlayerUUID())));
             }
 
-            if(ClassInstances.experienceIndustrialComplex.hasValue(attacker.getPlayerUUID())){
+            if(((int)ClassInstances.experienceIndustrialComplex.getValue(attacker.getPlayerUUID(), 0)) >=1){
                 this.xp_cap += 50;
             }
 
-            if(ClassInstances.renownGoldBoost.hasValue(attacker.getPlayerUUID())){
+            if(((int)ClassInstances.renownGoldBoost.getValue(attacker.getPlayerUUID(), 0)) >=1){
                 this.gold += gold*(((double)((Integer)ClassInstances.renownGoldBoost.getValue(attacker.getPlayerUUID())))/100);
             }
 
-            if(ClassInstances.tenacity.hasValue(attacker.getPlayerUUID())){
+            if(((int)ClassInstances.tenacity.getValue(attacker.getPlayerUUID(), 0)) >=1){
                 attacker.getPlayerObject().setHealth(Math.min(attacker.getPlayerObject().getMaxHealth(),
                         attacker.getPlayerObject().getHealth()+
                                 (((double)((Integer)ClassInstances.tenacity.getValue(attacker.getPlayerUUID())))/10)));

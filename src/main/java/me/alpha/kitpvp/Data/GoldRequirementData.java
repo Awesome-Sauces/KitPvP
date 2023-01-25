@@ -21,9 +21,29 @@ public class GoldRequirementData extends DataStore {
 
     public static int getGoldRequirement(int prestige){
 
-        if(prestige <= 10) return prestige*5000;
+        if(prestige==0) return 0;
+        if(prestige==1) return 10000;
+        if(prestige==2) return 20000;
+        if(prestige==3) return 20000;
+        if(prestige==4) return 20000;
+        if(prestige==5) return 30000;
+        if(prestige==6) return 35000;
+        if(prestige==7) return 40000;
+        if(prestige==8) return 45000;
+        if(prestige==9) return 50000;
+        if(prestige==10) return 60000;
 
-        if(prestige <= 20) return prestige*10000;
+        if(prestige==11) return 70000;
+        if(prestige==12) return 80000;
+        if(prestige==13) return 90000;
+        if(prestige==14) return 100000;
+        if(prestige==15) return 125000;
+        if(prestige==16) return 150000;
+        if(prestige==17) return 175000;
+        if(prestige==18) return 200000;
+        if(prestige==19) return 250000;
+        if(prestige==20) return 300000;
+
 
         if (prestige <= 25) return prestige*15000;
 

@@ -24,60 +24,60 @@ public class XpData extends DataStore {
     public static void XpLevelCalculation(){
         // Total XP = 59355
         // Simple For loop
-        // Levels 1-9 = 135 xp
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        ClassInstances.XpAmounts.add(15);
-        // Levels 10-19 = 270 xp
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        ClassInstances.XpAmounts.add(30);
-        // Levels 20-29 = 450 xp
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
-        ClassInstances.XpAmounts.add(50);
+        // Levels 1-9 = 135 xp -> 180
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        ClassInstances.XpAmounts.add(20);
+        // Levels 10-19 = 270 xp -> 360
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        ClassInstances.XpAmounts.add(40);
+        // Levels 20-29 = 450 xp -> 585
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
+        ClassInstances.XpAmounts.add(65);
         // Levels 30-39 = 675 xp
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
-        ClassInstances.XpAmounts.add(75);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
+        ClassInstances.XpAmounts.add(95);
         // Levels 40-49 = 1125 xp
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
-        ClassInstances.XpAmounts.add(125);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
+        ClassInstances.XpAmounts.add(190);
         // Levels 50-59 = 2700 xp
         ClassInstances.XpAmounts.add(300);
         ClassInstances.XpAmounts.add(300);
@@ -123,40 +123,40 @@ public class XpData extends DataStore {
         ClassInstances.XpAmounts.add(900);
         ClassInstances.XpAmounts.add(900);
         // Levels 90-99 = 9000 xp
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
-        ClassInstances.XpAmounts.add(1000);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1200);
         // 100-109 = 10800 xp
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
-        ClassInstances.XpAmounts.add(1200);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
+        ClassInstances.XpAmounts.add(1300);
         // 110 - 119 = 13500 xp
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
-        ClassInstances.XpAmounts.add(1500);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
+        ClassInstances.XpAmounts.add(1700);
 
     }
 
