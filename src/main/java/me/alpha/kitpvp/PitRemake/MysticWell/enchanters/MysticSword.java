@@ -137,6 +137,40 @@ public class MysticSword {
     public static ItemStack enchantMystic(Player player, ItemStack itemStack, int tier){
         NBTItem nbtItem = new NBTItem(itemStack);
 
+        if(tier<=1){
+            while (true){
+                if(percentChance(.50)){
+                    nbtItem.setInteger("maxLives", 7);
+                    nbtItem.setInteger("lives", 7);
+                    break;
+                }else if(percentChance(.05)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.04)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.03)){
+                    nbtItem.setInteger("maxLives", 15);
+                    nbtItem.setInteger("lives", 15);
+                    break;
+                }else if(percentChance(.02)){
+                    nbtItem.setInteger("maxLives", 20);
+                    nbtItem.setInteger("lives", 20);
+                    break;
+                }else if(percentChance(.01)){
+                    nbtItem.setInteger("maxLives", 25);
+                    nbtItem.setInteger("lives", 25);
+                    break;
+                }else if(percentChance(.001)){
+                    nbtItem.setInteger("maxLives", 100);
+                    nbtItem.setInteger("lives", 100);
+                    break;
+                }
+            }
+        }
+
         nbtItem.setInteger("mysticTier", tier);
         nbtItem.addCompound("enchants");
 

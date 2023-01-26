@@ -51,7 +51,7 @@ public class ClickHandler implements Listener {
 
 
 
-                            meta.setLore(MysticRepairs(meta.getLore()));
+                            meta.setLore(MysticRepairs(event.getClickedInventory().getItem(13)));
 
                             event.getClickedInventory().getItem(13).setItemMeta(meta);
                             StashCore.safeRemove(player, enchants.vile);

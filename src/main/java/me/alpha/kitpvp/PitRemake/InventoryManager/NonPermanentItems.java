@@ -57,13 +57,10 @@ public class NonPermanentItems {
                 return;
             }
 
-                try{
-                    if(player.getInventory().getLeggings().getType().equals(Material.LEATHER_LEGGINGS)){
-                        MysticLivesHandler.MysticLivesHandler(player, player.getInventory().getLeggings());
-                    }
-                } catch (Exception e) {
-
-                }
+                if(player.getInventory().getLeggings()!=null&&
+            player.getInventory().getLeggings().getType().equals(Material.LEATHER_LEGGINGS)){
+                MysticLivesHandler.MysticLivesHandler(player, player.getInventory().getLeggings());
+            }
 
                 registerCommonItems(player);
 

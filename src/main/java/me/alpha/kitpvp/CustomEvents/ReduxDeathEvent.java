@@ -54,13 +54,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private static final HandlerList HANDLERS = new HandlerList();
     private final ReduxPlayer attacker;
     private final ReduxPlayer defender;
-    private double xp_base = 5;
+    private double xp_base = 10;
     private int xp_cap = 400;
 
     private int final_xp = (int) xp_base;
     private double mystic_chance=0;
     private double baseMysticChance=0;
-    private double gold = 10;
+    private double gold = 14;
     private double gold_cap = 2500;
     private boolean isCancelled;
 

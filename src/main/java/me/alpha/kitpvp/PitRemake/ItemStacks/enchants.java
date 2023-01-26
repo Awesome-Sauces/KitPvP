@@ -97,6 +97,9 @@ public class enchants {
 
         NBTItem nbtItem = new NBTItem(item);
 
+        nbtItem.setInteger("maxLives", 5);
+        nbtItem.setInteger("lives", 5);
+
         nbtItem.setInteger("arma", 1);
 
         item = nbtItem.getItem();
@@ -203,6 +206,13 @@ public class enchants {
     private static void createArchAngel() {
         ItemStack item = new ItemStack(Material.DIAMOND_CHESTPLATE, 1);
 
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("maxLives", 5);
+        nbtItem.setInteger("lives", 5);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(colorCode("&bArchangel Chestplate"));
         List<String> lore = new ArrayList<>();
@@ -221,6 +231,14 @@ public class enchants {
 
     private static void createKingsHelmet() {
         ItemStack item = new ItemStack(Material.GOLD_HELMET, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("maxLives", 5);
+        nbtItem.setInteger("lives", 5);
+
+        item = nbtItem.getItem();
+
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
         meta.setDisplayName(colorCode("&6Golden Helmet"));

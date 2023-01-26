@@ -71,6 +71,9 @@ public class FreshPants {
                     nbtCompound.setInteger(enchant, 1);
                     nbtItem.setInteger("darktier", 2);
 
+                    nbtItem.setInteger("maxLives", 5);
+                    nbtItem.setInteger("lives", 5);
+
                     nbtItem.mergeCompound(nbtCompound);
 
                     items = nbtItem.getItem();
@@ -104,6 +107,8 @@ public class FreshPants {
 
                 nbtCompound.setInteger("somber", 1);
                 nbtItem.setInteger("darktier", 1);
+                nbtItem.setInteger("maxLives", 5);
+                nbtItem.setInteger("lives", 5);
 
                 nbtItem.mergeCompound(nbtCompound);
 
@@ -218,6 +223,40 @@ public class FreshPants {
 
     public static ItemStack enchantMystic(Player player, ItemStack itemStack, int tier){
         NBTItem nbtItem = new NBTItem(itemStack);
+
+        if(tier<=1){
+            while (true){
+                if(percentChance(.50)){
+                    nbtItem.setInteger("maxLives", 7);
+                    nbtItem.setInteger("lives", 7);
+                    break;
+                }else if(percentChance(.05)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.04)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.03)){
+                    nbtItem.setInteger("maxLives", 15);
+                    nbtItem.setInteger("lives", 15);
+                    break;
+                }else if(percentChance(.02)){
+                    nbtItem.setInteger("maxLives", 20);
+                    nbtItem.setInteger("lives", 20);
+                    break;
+                }else if(percentChance(.01)){
+                    nbtItem.setInteger("maxLives", 25);
+                    nbtItem.setInteger("lives", 25);
+                    break;
+                }else if(percentChance(.001)){
+                    nbtItem.setInteger("maxLives", 100);
+                    nbtItem.setInteger("lives", 100);
+                    break;
+                }
+            }
+        }
 
         nbtItem.addCompound("enchants");
         nbtItem.setInteger("mysticTier", tier);
