@@ -199,21 +199,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease(50);
             addGold((int) Math.round(gold*.75));
-            setXp_cap(getXp_cap()+200);
 
-            addBaseXp(100);
-            addBaseXp(Math.min(Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3), 200));
         }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
-            addXpIncrease(100);
-            addGold((int) Math.round(getGold()*.5));
-            setXp_cap(getXp_cap()+100);
-
-            addBaseXp(50);
-            addBaseXp(Math.min(Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3), 100));
+            addXpIncrease(50);
+            addGold(getGold());
         }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
-            addBaseXp((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
-            addGold((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5);
-            setXp_cap(getXp_cap()+200);
+            addXpIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
+            addGold(getGold()*(((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5)/100));
 
             if(ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())==50){
                 StashCore.safeGiveMultiple(getAttacker().getPlayerObject(), new ItemStack(Material.OBSIDIAN), 32);
@@ -225,10 +217,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
                 StashCore.safeGiveMultiple(getAttacker().getPlayerObject(), new ItemStack(Material.OBSIDIAN), 16);
             }
         }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
-            addBaseXp(100);
             addXpIncrease(20);
-            setXp_cap(getXp_cap()+550);
-            addBaseXp(Math.min(Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/2), 350));
+            setXp_cap(getXp_cap()+100);
         }
 
         // Gold/XP calculations
@@ -247,8 +237,6 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         if(streak.equals("highlander") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addGold((int) Math.round(getGold()*1.1));
-
-            addGold(Math.min(100, Math.round((float)ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())/3)));
         }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addMysticChance(5);
         }else if(streak.equals("magnum") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){

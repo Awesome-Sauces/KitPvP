@@ -30,8 +30,8 @@ public class XpboostLore extends PitEnchant {
             if(item.hasKey("xpboost")) {
                 int level = item.getInteger("xpboost");
 
-                double xp = (10*level);
-                event.addXpIncrease((int) xp);
+                int xp = (10*level);
+                event.addXpIncrease(xp);
             }
 
         }
@@ -45,8 +45,8 @@ public class XpboostLore extends PitEnchant {
 
             int level = item.getInteger("xpboost");
 
-            double xp = (10*level);
-            event.addXpIncrease((int) xp);
+            int xp = (10*level);
+            event.addXpIncrease(xp);
 
 
         }

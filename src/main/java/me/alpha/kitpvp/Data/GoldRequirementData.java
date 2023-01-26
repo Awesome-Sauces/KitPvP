@@ -44,32 +44,53 @@ public class GoldRequirementData extends DataStore {
         if(prestige==19) return 250000;
         if(prestige==20) return 300000;
 
+        if(prestige==21) return 350000;
+        if(prestige==22) return 400000;
+        if(prestige==23) return 500000;
+        if(prestige==24) return 600000;
+        if(prestige==25) return 700000;
 
-        if (prestige <= 25) return prestige*15000;
+        if(prestige==26) return 800000;
+        if(prestige==27) return 900000;
+        if(prestige==28) return 1000000;
+        if(prestige==29) return 1000000;
+        if(prestige==30) return 1000000;
 
-        if (prestige <= 30) return prestige*100000;
+        if(prestige==31) return 1000000;
+        if(prestige==32) return 1000000;
+        if(prestige==33) return 1000000;
+        if(prestige==34) return 1000000;
+        if(prestige==35) return 1000000;
+        if(prestige==36) return 2000000;
+        if(prestige==37) return 2000000;
+        if(prestige==38) return 2000000;
+        if(prestige==39) return 2000000;
+        if(prestige==40) return 2000000;
 
-        if(prestige <= 35) return prestige*150000;
+        if(prestige==41) return 2000000;
+        if(prestige==42) return 2000000;
+        if(prestige==43) return 2000000;
+        if(prestige==44) return 2000000;
+        if(prestige==45) return 2000000;
+        if(prestige==46) return 2000000;
+        if(prestige==47) return 2000000;
+        if(prestige==48) return 2000000;
+        if(prestige==49) return 2000000;
+        if(prestige==50) return 2000000;
 
-        if(prestige <= 40) return prestige*200000;
+        if(prestige <= 55) return prestige*50000;
 
-        if(prestige <= 45) return prestige*250000;
+        if(prestige <= 60) return prestige*60000;
 
-        if(prestige <= 50) return prestige*500000;
+        if(prestige <= 65) return prestige*65000;
 
-        if(prestige <= 55) return prestige*600000;
+        if(prestige <= 80) return prestige*80000;
 
-        if(prestige <= 60) return prestige*700000;
+        if(prestige <= 85) return prestige*85000;
 
-        if(prestige <= 65) return prestige*800000;
+        if(prestige <= 94) return prestige*95000;
 
-        if(prestige <= 80) return prestige*850000;
-
-        if(prestige <= 85) return prestige*900000;
-
-        if(prestige <= 94) return prestige*950000;
-
-        if(prestige <= 100) return prestige*1000000;
+        if(prestige <= 100) return prestige*250000;
 
 
         return 1;

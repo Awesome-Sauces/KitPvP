@@ -28,7 +28,7 @@ public class GoldbumpLore extends PitEnchant {
 
             if(item.hasKey("goldbump")) {
                 int level = item.getInteger("goldbump");
-                double gold = (double) (2*level)+2;
+                double gold = level*4;
                 event.addGold((int) gold);
             }
 
@@ -42,7 +42,7 @@ public class GoldbumpLore extends PitEnchant {
             if(!item.hasKey("goldbump")) return;
 
             int level = item.getInteger("goldbump");
-            double gold = (double) (2*level)+2;
+            double gold = level*4;
             event.addGold((int) gold);
 
 
