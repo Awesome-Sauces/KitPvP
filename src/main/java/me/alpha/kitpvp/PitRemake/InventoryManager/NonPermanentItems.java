@@ -59,7 +59,7 @@ public class NonPermanentItems {
 
                 if(player.getInventory().getLeggings()!=null&&
             player.getInventory().getLeggings().getType().equals(Material.LEATHER_LEGGINGS)){
-                MysticLivesHandler.MysticLivesHandler(player, player.getInventory().getLeggings());
+                player.getInventory().setLeggings(MysticLivesHandler.MysticLivesHandler(player, player.getInventory().getLeggings()));
             }
 
                 registerCommonItems(player);

@@ -49,11 +49,8 @@ public class ClickHandler implements Listener {
                                 return;
                             }
 
+                            event.getClickedInventory().setItem(13,MysticRepairs(event.getClickedInventory().getItem(13)));
 
-
-                            meta.setLore(MysticRepairs(event.getClickedInventory().getItem(13)));
-
-                            event.getClickedInventory().getItem(13).setItemMeta(meta);
                             StashCore.safeRemove(player, enchants.vile);
                             player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
                         }else{

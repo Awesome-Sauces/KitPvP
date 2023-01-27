@@ -34,7 +34,7 @@ public class swordJewl {
 
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
-        String enchant = MysticSword.getEnchant(new ArrayList<>());
+        String enchant = MysticSword.getJewelEnchant(new ArrayList<>());
 
         nbtCompound.setInteger(enchant, 3);
 

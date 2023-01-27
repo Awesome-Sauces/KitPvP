@@ -242,7 +242,15 @@ public class MysticSword {
 
         ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
 
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        int currentLives = nbtItem.getInteger("lives");
+        int maxLives = nbtItem.getInteger("maxLives");
+        String currentLivesColor = "&a";
+
+        if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
+
+        String livesTemplate = colorCode("&7Lives: " + currentLivesColor + currentLives+"&7/"+maxLives);
+
+        lore.add(livesTemplate);
         lore.add("   ");
 
         for (String key : nbtItem.getCompound("enchants").getKeys()){
@@ -669,6 +677,141 @@ public class MysticSword {
 
         // Resource - Misc
         double pantsRadar = .0425 * calcEnchant(lore, "pantsradar");
+
+        while (true) {
+            if(percentChance(pantsRadar)){
+                // Pants radar
+                // 5.25% of being here
+                return "pantsradar";
+            }else if (percentChance(xpboost)){
+                // Xp Boost
+                // 5% chance of being here
+                return "xpboost";
+            }else if (percentChance(painfocus)){
+                // Pain Focus
+                // 5.25% chance of being here
+                return "painfocus";
+            }else if(percentChance(punisher)){
+                return "punisher";
+            }else if(percentChance(goldandboosted)){
+                return "goldandboosted";
+            }else if(percentChance(pitpocket)){
+                return "pitpocket";
+            }else if(percentChance(grasshopper)){
+                return "grasshopper";
+            }else if(percentChance(berserker)){
+                return "berserker";
+            }else if (percentChance(lifesteal)){
+                // Lifesteal
+                // 6.25% chance of being here
+                return "lifesteal";
+            }else if (percentChance(goldboost)){
+                // Gold Boost
+                // 6.5% chance of being here
+                return "goldboost";
+            }else if (percentChance(combodamage)){
+                // Combo Damage
+                // Huys is the best Pit Pvper!!!!
+                // 4.35% chance of being here
+                return "combodamage";
+            }else if (percentChance(fancyraider)){
+                // Fancy Raider
+                // U Need to learn to get females. (Like huys does)
+                // 5.35% chance of being here
+                return "fancyraider";
+            }else if (percentChance(sharp)){
+                // Sharp
+                // 6.75% chance of being here
+                return "sharp";
+            }else if (percentChance(shark)){
+                // Shark
+                // 7.25% chance of being here
+                return "shark";
+            }else if (percentChance(xpbump)){
+                // Xp Bump
+                // 7.50% chance of being here
+                return "xpbump";
+            }else if (percentChance(goldbump)){
+                // Gold Bump
+                // 7.75% chance of being here
+                return "goldbump";
+            }else if (percentChance(diamondstomp)){
+                // Diamond Stomp
+                // 8.25% chance of being here
+                return "diamondstomp";
+            }else if (percentChance(sweaty)){
+                // Sweaty
+                // 9.25% chance of being here
+                return "sweaty";
+            }else if (percentChance(moctezuma)){
+                // Moctezuma
+                // 10.25% chance of being here
+                return "moctezuma";
+            }else if (percentChance(kingbuster)){
+                // King Buster
+                // 11.25% chance of being here
+                return "kingbuster";
+            }else if (percentChance(billionaire)){
+                // Billionaire
+                // 1% chance of being here
+                return "billionaire";
+            } else if (percentChance(perun)){
+                // Perun
+                // 2% chance of being here
+                return "perun";
+            }else if (percentChance(executioner)){
+                // Executioner
+                // 2.5% chance of being here
+                return "executioner";
+            }else if (percentChance(gamble)){
+                // Gamble
+                // 3.25% chance of being here
+                return "gamble";
+            }
+        }
+    }
+
+    public static String getJewelEnchant(List<String> lore){
+
+        for (String ench : lore){
+            lore.set(lore.indexOf(ench), convertEnchant(ench.replaceAll("I", "")));
+        }
+
+        // Rare
+        double billionaire = .02 * calcEnchant(lore, "billionaire");
+        double perun = .02 * calcEnchant(lore, "perun");
+        double executioner = .02 * calcEnchant(lore, "executioner");
+        double gamble = .02 * calcEnchant(lore, "gamble");
+
+        // Common Normal
+        double combodamage = .0735 * calcEnchant(lore, "combodamage");
+        double sharp = .0735 * calcEnchant(lore, "sharp");
+        double kingbuster = .0735 * calcEnchant(lore, "kingbuster");
+        double fancyraider = .0735 * calcEnchant(lore, "fancyraider");
+        double punisher = .0735 * calcEnchant(lore, "punisher");
+        double pitpocket = .0535 * calcEnchant(lore, "pitpocket");
+        double berserker = .0535 * calcEnchant(lore, "berserker");
+        double grasshopper = .0535 * calcEnchant(lore, "grasshopper");
+
+        // Uncommon Normal
+        double painfocus = .0525 * calcEnchant(lore, "painfocus");
+        double lifesteal = .0525 * calcEnchant(lore, "lifesteal");
+        double diamondstomp = .0525 * calcEnchant(lore, "diamondstomp");
+        double shark = .0525 * calcEnchant(lore, "shark");
+        double goldandboosted = .0625 * calcEnchant(lore, "goldandboosted");
+
+        // Resource - Gold
+        double goldbump = .0575 * calcEnchant(lore, "goldbump");
+        double goldboost = .0550 * calcEnchant(lore, "goldboost");
+        double moctezuma = .0525 * calcEnchant(lore, "moctezuma");
+
+        // Resource - Sweaty
+        double sweaty = .0525 * calcEnchant(lore, "sweaty");
+        double xpbump = .0575 * calcEnchant(lore, "xpbump");
+        double xpboost = .0575 * calcEnchant(lore, "xpboost");
+
+        // Resource - Misc
+        double pantsRadar = .0325 * calcEnchant(lore, "pantsradar");
 
         while (true) {
             if(percentChance(pantsRadar)){

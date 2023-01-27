@@ -151,6 +151,11 @@ public class ReduxEvents implements Listener {
                     return;
                 }
 
+                if(event.getBlock().getY()>=(Locations.getMidLocation(event.getBlock().getWorld()).getY()+7)){
+                    event.setCancelled(true);
+                    return;
+                }
+
                 if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))>=10){
                     event.setCancelled(true);
                     return;

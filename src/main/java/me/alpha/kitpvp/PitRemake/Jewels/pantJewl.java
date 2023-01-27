@@ -71,7 +71,7 @@ public class pantJewl {
 
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
-        String enchant = FreshPants.getEnchant(new ArrayList<>());
+        String enchant = FreshPants.getJewelEnchant(new ArrayList<>());
 
         nbtCompound.setInteger(enchant, 3);
 

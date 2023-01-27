@@ -63,7 +63,7 @@ public class MysticBow {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createBow(player, 2, event.getClickedInventory().getItem(20)));
-        } else {
+        } else if(!nbtItem.hasKey("mysticTier") && removeGold(player, uuid, 1000)){
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createBow(player, 1, null));
@@ -225,7 +225,15 @@ public class MysticBow {
 
         ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
 
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        int currentLives = nbtItem.getInteger("lives");
+        int maxLives = nbtItem.getInteger("maxLives");
+        String currentLivesColor = "&a";
+
+        if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
+
+        String livesTemplate = colorCode("&7Lives: " + currentLivesColor + currentLives+"&7/"+maxLives);
+
+        lore.add(livesTemplate);
         lore.add("   ");
 
         for (String key : nbtItem.getCompound("enchants").getKeys()){

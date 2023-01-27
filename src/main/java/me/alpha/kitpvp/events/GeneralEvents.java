@@ -57,6 +57,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
 import java.util.Random;
@@ -75,6 +76,8 @@ import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.getPlayerFromBlob;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.QuestMaster.questMenu.makeMainMenu;
 import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.boardMap;
+import static me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore.updateBoard;
 import static me.alpha.kitpvp.PitRemake.StreakManager.UberRewards.claimUberReward;
 import static me.alpha.kitpvp.events.InventoryClickEvents.NonPermItems;
 import static me.alpha.kitpvp.events.InventoryClickEvents.PrestigeItems;
@@ -541,6 +544,18 @@ public class GeneralEvents implements Listener {
                     ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)
             ){
                 event.setDamage(Math.max(0,event.getDamage())-2.5);
+            }
+
+
+            if(CitizensHelper.isNPC(defender) && !defender.isOnGround()){
+
+                Player tempDefender = defender;
+                if(percentChance(.25)) Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {
+                    @Override
+                    public void run() {
+                        tempDefender.setVelocity(new Vector());
+                    }
+                }, 1L);
             }
 
             ReduxDamageEvent mainEvent = new ReduxDamageEvent(playerExists(attacker), playerExists(defender), event.getDamage(), event);

@@ -44,18 +44,22 @@ public class MysticLivesHandler {
 
         lore.set(0,livesTemplate);
 
-        if(currentLives<=0) player.getInventory().removeItem(itemStack);
-
         nbtItem.setInteger("lives", currentLives);
 
+        ItemMeta meta = nbtItem.getItem().getItemMeta();
 
+        meta.setLore(lore);
+
+        nbtItem.getItem().setItemMeta(meta);
+
+        if(currentLives<=0) return null;
         return nbtItem.getItem();
 
     }
 
 
-    public static List<String> MysticRepairs(ItemStack itemStack){
-        if(itemStack==null||itemStack.getType().equals(Material.AIR)) return new ArrayList<>();
+    public static ItemStack MysticRepairs(ItemStack itemStack){
+        if(itemStack==null||itemStack.getType().equals(Material.AIR)) return itemStack;
 
         List<String> lore = new ArrayList<>();
 
@@ -69,10 +73,16 @@ public class MysticLivesHandler {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if(!nbtItem.hasKey("maxLives")) return itemStack.getItemMeta().getLore();
+        if(!nbtItem.hasKey("maxLives")) return itemStack;
 
         currentLives = nbtItem.getInteger("lives");
         maxLives = nbtItem.getInteger("maxLives");
+
+        currentLives++;
+
+        currentLives = Math.min(maxLives, currentLives);
+
+        nbtItem.setInteger("lives", currentLives);
 
         if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
 
@@ -80,7 +90,13 @@ public class MysticLivesHandler {
 
         lore.set(0,livesTemplate);
 
-        return lore;
+        ItemMeta meta = nbtItem.getItem().getItemMeta();
+
+        meta.setLore(lore);
+
+        nbtItem.getItem().setItemMeta(meta);
+
+        return nbtItem.getItem();
     }
 
 

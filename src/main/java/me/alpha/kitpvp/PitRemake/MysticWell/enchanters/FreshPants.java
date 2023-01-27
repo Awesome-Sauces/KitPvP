@@ -143,11 +143,10 @@ public class FreshPants {
 
         int tokens = getTokens(items.getItemMeta().getLore());
 
-        if (items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS) && tokens>0){
+        if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")>=3){
             player.sendMessage(ChatColor.RED + "This pant is already max tier!");
             return;
-        } else if (items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES) &&
-                !items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS) && removeGold(player, uuid, 8000)) {
+        } else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==2 && removeGold(player, uuid, 8000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
 
@@ -156,12 +155,11 @@ public class FreshPants {
             meta.hasItemFlag(ItemFlag.HIDE_ENCHANTS);
 
             event.getClickedInventory().setItem(20, createPant(player,3, event.getClickedInventory().getItem(20), null));
-        }else if (loreChecker.CheckEnchantOnPant(items.getItemMeta().getLore()).size()==1&&
-        !items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES)&& removeGold(player, uuid, 4000)) {
+        }else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==1 && removeGold(player, uuid, 4000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createPant(player,2, event.getClickedInventory().getItem(20), null));
-        } else if (tokens == 0 && removeGold(player, uuid, 1000)) {
+        } else if (!nbtItem.hasKey("mysticTier") && removeGold(player, uuid, 1000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             event.getClickedInventory().setItem(20, createPant(player,1, null, event.getClickedInventory().getItem(20)));
@@ -329,7 +327,15 @@ public class FreshPants {
 
         ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
 
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        int currentLives = nbtItem.getInteger("lives");
+        int maxLives = nbtItem.getInteger("maxLives");
+        String currentLivesColor = "&a";
+
+        if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
+
+        String livesTemplate = colorCode("&7Lives: " + currentLivesColor + currentLives+"&7/"+maxLives);
+
+        lore.add(livesTemplate);
         lore.add("   ");
 
         for (String key : nbtItem.getCompound("enchants").getKeys()){
@@ -704,6 +710,158 @@ public class FreshPants {
 
         // Resource - Misc
         double pantsRadar = .0425 * calcEnchant(lore, "pantsradar");
+
+
+        while (true) {
+            if(percentChance(pantsRadar)){
+                // Pants radar
+                // 5.25% of being here
+                return "pantsradar";
+            }else if(percentChance(davidGoliath)){
+                return "davidgoliath";
+            }else if(percentChance(prick)){
+                return "prick";
+            }else if(percentChance(selfCheckout)){
+                return "self-checkout";
+            }else if(percentChance(pebble)){
+                return "pebble";
+            }else if(percentChance(gottaGoFast)){
+                return "gottagofast";
+            }else if(percentChance(cricket)){
+                return "cricket";
+            }else if(percentChance(billy)){
+                return "billy";
+            }else if(percentChance(diamondAllergy)){
+                return "diamondallergy";
+            }else if (percentChance(criticallyFunky)){
+                // Perun
+                // 2% chance of being here
+                return "criticallyfunky";
+            }else if (percentChance(protection)){
+                // Gamble
+                // 3.25% chance of being here
+                return "protection";
+            }else if (percentChance(booBoo)){
+                // Gamble
+                // 3.25% chance of being here
+                return "booboo";
+            }else if (percentChance(goldenHeart)){
+                // Golden Heart
+                // 7.35% chance of being here
+                return "goldenheart";
+            }else if (percentChance(xpboost)){
+                // Xp Boost
+                // 5% chance of being here
+                return "xpboost";
+            }else if (percentChance(notGladiator)){
+                // Lifesteal
+                // 6.25% chance of being here
+                return "notgladiator";
+            }else if (percentChance(goldboost)){
+                // Gold Boost
+                // 6.5% chance of being here
+                return "goldboost";
+            }else if (percentChance(peroxide)){
+                // Shark
+                // 7.25% chance of being here
+                return "peroxide";
+            }else if (percentChance(xpbump)){
+                // Xp Bump
+                // 7.50% chance of being here
+                return "xpbump";
+            }else if (percentChance(pitBlob)){
+                // Pitblob
+                // .1% chance of being here
+                return "pitblob";
+            }else if (percentChance(goldbump)){
+                // Gold Bump
+                // 7.75% chance of being here
+                return "goldbump";
+            }else if (percentChance(mirror)){
+                // Diamond Stomp
+                // 8.25% chance of being here
+                return "mirror";
+            }else if (percentChance(sweaty)){
+                // Sweaty
+                // 9.25% chance of being here
+                return "sweaty";
+            }else if (percentChance(moctezuma)){
+                // Moctezuma
+                // 10.25% chance of being here
+                return "moctezuma";
+            }else if (percentChance(fractionalReserve)){
+                // King Buster
+                // 11.25% chance of being here
+                return "fractionalreserve";
+            }else if (percentChance(retroGravityMicrocosm)){
+                // Billionaire
+                // 1% chance of being here
+                return "retro-gravitymicrocosm";
+            }else if (percentChance(regularity)){
+                // Executioner
+                // 2.5% chance of being here
+                return "regularity";
+            }else if (percentChance(solitude)){
+                // Pain Focus
+                // 5.25% chance of being here
+                return "solitude";
+            }else if (percentChance(escapePod)){
+                // Sharp
+                // 6.75% chance of being here
+                return "escapepod";
+            }
+        }
+    }
+
+    public static String getJewelEnchant(List<String> lore){
+
+        for (String ench : lore){
+            lore.set(lore.indexOf(ench), convertEnchant(ench.replaceAll("I", "")));
+        }
+
+        // Normal Pants
+
+        // Super Rare
+        double pitBlob = .0005 * calcEnchant(lore, "pitblob");
+
+        // Rare
+        double retroGravityMicrocosm = .02 * calcEnchant(lore, "retro-gravitymicrocosm");
+        double regularity = .02 * calcEnchant(lore, "regularity");
+        double solitude = .02 * calcEnchant(lore, "solitude");
+        double escapePod = .02 * calcEnchant(lore, "escapepod");
+
+        // Common Normal
+        double protection = .0735 * calcEnchant(lore, "protection");
+        double booBoo = .0735 * calcEnchant(lore, "booboo");
+        double peroxide = .0735 * calcEnchant(lore, "peroxide");
+        double diamondAllergy = .0735 * calcEnchant(lore , "diamondallergy");
+        double cricket = .0535 * calcEnchant(lore, "cricket");
+        double billy = .0535 * calcEnchant(lore, "billy");
+
+        // Uncommon Normal
+        double criticallyFunky = .0525 * calcEnchant(lore, "criticallyfunky");
+        double davidGoliath = .0525 * calcEnchant(lore , "davidgoliath");
+        double goldenHeart = .0525 * calcEnchant(lore, "goldenheart");
+        double fractionalReserve = .0425 * calcEnchant(lore, "fractionalreserve");
+        double mirror = .0425 * calcEnchant(lore, "mirror");
+        double notGladiator = .0725 * calcEnchant(lore, "notgladiator");
+        double selfCheckout = .0425 * calcEnchant(lore, "self-checkout");
+        double pebble = .0425 * calcEnchant(lore, "pebble");
+        double gottaGoFast = .0525 * calcEnchant(lore, "gottagofast");
+        double prick = .0725 * calcEnchant(lore, "prick");
+
+        // Resource - Gold
+        double goldbump = .0575 * calcEnchant(lore, "goldbump");
+        double goldboost = .0550 * calcEnchant(lore, "goldboost");
+        double moctezuma = .0525 * calcEnchant(lore, "moctezuma");
+
+        // Resource - Sweaty
+        double sweaty = .0525 * calcEnchant(lore, "sweaty");
+        double xpbump = .0575 * calcEnchant(lore, "xpbump");
+        double xpboost = .0575 * calcEnchant(lore, "xpboost");
+
+        // Resource - Misc
+        double pantsRadar = .0325 * calcEnchant(lore, "pantsradar");
 
 
         while (true) {

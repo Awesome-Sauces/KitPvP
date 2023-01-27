@@ -16,6 +16,9 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
+import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
+
 public class CrateItems {
 
     public String colorCode(String text){
@@ -38,15 +41,59 @@ public class CrateItems {
 
         nbtCompound.setInteger("pitblob", 3);
 
+            while (true){
+                if(percentChance(.25)){
+                    nbtItem.setInteger("maxLives", 7);
+                    nbtItem.setInteger("lives", 7);
+                    break;
+                }else if(percentChance(.05)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.04)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.03)){
+                    nbtItem.setInteger("maxLives", 15);
+                    nbtItem.setInteger("lives", 15);
+                    break;
+                }else if(percentChance(.02)){
+                    nbtItem.setInteger("maxLives", 20);
+                    nbtItem.setInteger("lives", 20);
+                    break;
+                }else if(percentChance(.01)){
+                    nbtItem.setInteger("maxLives", 25);
+                    nbtItem.setInteger("lives", 25);
+                    break;
+                }else if(percentChance(.001)){
+                    nbtItem.setInteger("maxLives", 100);
+                    nbtItem.setInteger("lives", 100);
+                    break;
+                }
+            }
+
+
+        nbtItem.addCompound("enchants");
+        nbtItem.setInteger("mysticTier", 1);
+
         nbtItem.mergeCompound(nbtCompound);
 
         item = nbtItem.getItem();
+
+        int currentLives = nbtItem.getInteger("lives");
+        int maxLives = nbtItem.getInteger("maxLives");
+        String currentLivesColor = "&a";
+
+        if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
+
+        String livesTemplate = colorCode("&7Lives: " + currentLivesColor + currentLives+"&7/"+maxLives);
 
         LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
         meta.setColor(Color.AQUA);
         meta.setDisplayName(colorCode("&cTier I Aqua Pants"));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+        lore.add(livesTemplate);
         lore.add(" ");
         lore.add(colorCode("&dRARE! &9Pit Blob III"));
         lore.add(colorCode("&7Kills respawn &aThe Blob&7. This"));
