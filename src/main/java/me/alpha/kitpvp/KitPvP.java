@@ -103,20 +103,6 @@ public class KitPvP extends JavaPlugin {
                         Sounds.BOOSTER_REMIND.play(player);
                     }
                 },0,7000);
-
-                getServer().getScheduler().runTaskTimer(INSTANCE, () -> {
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                        player.sendMessage(" ");
-                        player.sendMessage(ColorUtil.colorCode("&c&l[BETTER PIT ANNOUNCEMENT]"));
-                        player.sendMessage(ColorUtil.colorCode("&7Better Pit is a Pit Remake server dedicated to providing you with the best experience possible!" +
-                                " &7Although there may be some bugs rest assured that you can report them on the discord! If you wish" +
-                                " &7to support Better Pit you can purchase something at the store: &bstore.pitredux.net"));
-                        player.sendMessage(" ");
-                        player.sendMessage(ColorUtil.colorCode("&7Make sure to join the discord here: &bdiscord.gg/XyY2tUvT"));
-                        player.sendMessage(" ");
-                        Sounds.BOOSTER_REMIND.play(player);
-                    }
-                },0,14000);
             }
         }, 200L);
 
@@ -141,7 +127,7 @@ public class KitPvP extends JavaPlugin {
         }, 0L, 36000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
 
-/*
+
         for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
@@ -149,8 +135,6 @@ public class KitPvP extends JavaPlugin {
 
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
-
- */
 
 
 

@@ -25,11 +25,7 @@ public class advancedInventory {
     }
 
     public static ItemStack cGlass(){
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) (7));
-        ItemMeta null_meta = glass.getItemMeta();
-        null_meta.setDisplayName(ChatColor.GRAY + " ");
-        glass.setItemMeta(null_meta);
-        return glass;
+        return new ItemStack(Material.AIR);
     }
 
     public static ItemStack dGlass(boolean empty){

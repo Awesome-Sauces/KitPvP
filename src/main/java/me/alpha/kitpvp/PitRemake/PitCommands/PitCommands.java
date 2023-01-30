@@ -176,18 +176,8 @@ public class PitCommands implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("patchnotes")){
 
-            player.sendMessage(colorCode("&eBetter Pit Update - v1.5.7\n" +
-                    "&7- &e(#) &7Made regularity deal its knockback\n" +
-                    "&7- &e(#) &7Fixed dupes related to Uber drops and Gems\n" +
-                    "&7- &a(+) &7Switched map to a custom built one\n" +
-                    "&7- &e(#) &7Changed Mystic drop chances\n" +
-                    "&7- &e(#) &7Changed bot AI\n" +
-                    "&7- &e(#) &7Fixed Damage related to Mystic Swords\n" +
-                    "&7- &e(#) &7Made leather leggings AS STRONG AS IRON\n" +
-                    "&7- &e(#) &7Changed Vile drop from kill message\n" +
-                    "&7- &e(#) &7Fixed Drops giving too much and Removing too much\n" +
-                    "&7- &5(+) &7Added Dark Pants\n" +
-                    "&7- &e(#) &7Made Telebow not need you to shift\n\n" +
+            player.sendMessage(colorCode("&eBetter Pit Update - BETA\n" +
+                    "&7- &eWiped the server\n\n" +
                     "&eJoin the discord: &bdiscord.gg/XyY2tUvT"));
 
             return true;

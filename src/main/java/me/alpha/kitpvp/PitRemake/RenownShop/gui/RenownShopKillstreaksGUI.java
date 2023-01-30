@@ -196,7 +196,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.highlanderStreak.hasValue(uuid) &&
                     ((Integer)ClassInstances.highlanderStreak.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=50 && !ClassInstances.highlanderStreak.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=50){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-50);
                 ClassInstances.highlanderStreak.setValue(uuid, (Integer) 1);
@@ -210,7 +210,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.beastmodeStreak.hasValue(uuid) &&
                     ((Integer)ClassInstances.beastmodeStreak.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=20 && !ClassInstances.beastmodeStreak.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=20){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-20);
                 ClassInstances.beastmodeStreak.setValue(uuid, (Integer) 1);
@@ -224,7 +224,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.hermitStreak.hasValue(uuid) &&
                     ((Integer)ClassInstances.hermitStreak.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=100 && !ClassInstances.hermitStreak.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=100){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-100);
                 ClassInstances.hermitStreak.setValue(uuid, (Integer) 1);
@@ -238,7 +238,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.moonStreak.hasValue(uuid) &&
                     ((Integer)ClassInstances.moonStreak.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=70 && !ClassInstances.moonStreak.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=70){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-70);
                 ClassInstances.moonStreak.setValue(uuid, (Integer) 1);
@@ -252,7 +252,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.magnumOpus.hasValue(uuid) &&
                     ((Integer)ClassInstances.magnumOpus.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=5 && !ClassInstances.magnumOpus.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=15){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5);
                 ClassInstances.magnumOpus.setValue(uuid, (Integer) 1);
@@ -266,7 +266,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.uberStreak.hasValue(uuid) &&
                     ((Integer)ClassInstances.uberStreak.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=100 && !ClassInstances.uberStreak.hasValue(uuid)){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=100){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-100);
                 ClassInstances.uberStreak.setValue(uuid, (Integer) 1);

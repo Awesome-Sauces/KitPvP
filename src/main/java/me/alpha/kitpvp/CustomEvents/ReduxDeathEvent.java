@@ -83,7 +83,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public void run(){
 
         if(!isNPC(defender.getPlayerObject())){
-            if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ClassInstances.promotion.hasValue(defender.getPlayerUUID()) &&
+            if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ((int)ClassInstances.promotion.getValue(defender.getPlayerUUID(),0))>=1 &&
                     ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=100){
                 ClearRegular(defender.getPlayerObject());
                 defender.getPlayerObject().sendMessage(colorCode("&e&lPROMOTION! &7you managed to reach a &c100 killstreak &7and kept your mystic lives!"));
@@ -197,12 +197,20 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Megastreak calcs
         if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
-            addXpIncrease(50);
+            addXpIncrease(75);
             addGold((int) Math.round(gold*.75));
+
+            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
+
+            addBaseXp(Math.min(50, xpAmount));
 
         }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease(50);
             addGold(getGold());
+
+            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
+
+            addBaseXp(Math.min(25, xpAmount));
         }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
             addGold(getGold()*(((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5)/100));
@@ -219,6 +227,10 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addXpIncrease(20);
             setXp_cap(getXp_cap()+100);
+
+            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
+
+            addBaseXp(Math.min(100, xpAmount));
         }
 
         // Gold/XP calculations

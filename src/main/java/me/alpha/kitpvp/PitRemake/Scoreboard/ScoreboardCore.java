@@ -196,7 +196,7 @@ public class ScoreboardCore  implements Listener {
 
         lobby=server;
 
-        String version = ChatColor.GRAY + "v1.5.7 " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
+        String version = ChatColor.GRAY + "BETA " + ChatColor.DARK_GRAY + lobby; // Pit Redux Version
 
         String spacer1 = " "; //blank space
         String spacer2 = "  "; //blank space

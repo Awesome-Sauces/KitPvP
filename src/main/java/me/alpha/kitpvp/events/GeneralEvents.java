@@ -100,6 +100,22 @@ public class GeneralEvents implements Listener {
     }
 
     @EventHandler
+    public void cancelInventoryMove(InventoryClickEvent event){
+        if(event==null) return;
+        if(event.getClickedInventory()==null) return;
+
+        Player player = (Player) event.getWhoClicked();
+
+        if(player.isOp()) return;
+
+        if(ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("inventory")) return;
+        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("enderchest")) return;
+        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("crafting")) return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void CloseInv(InventoryCloseEvent event){
         if(event.getInventory()==null && event.getInventory().getTitle()==null) return;
         Player player = (Player) event.getPlayer();
@@ -246,8 +262,7 @@ public class GeneralEvents implements Listener {
 
     @EventHandler
     public void HandleFishEvent(PlayerFishEvent event){
-        if(event.getState().equals(PlayerFishEvent.State.CAUGHT_ENTITY)||
-                event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
+        if(event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
             Player player = event.getPlayer();
             NBTItem nbtItem = new NBTItem(event.getPlayer().getItemInHand());
 
@@ -1118,7 +1133,7 @@ public class GeneralEvents implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         try {
-            if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Non-permanent items")) {
+            if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY +  "Non-permanent items")) {
                 event.setCancelled(true);
                 NonPermItems(event);
             } else if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Prestige & Renown")) {
@@ -1175,11 +1190,13 @@ public class GeneralEvents implements Listener {
         }else if(Objects.equals(npc, CreateVillagers.quest_npc) ||
                 Objects.equals(npc, CreateVillagers.lobby_quest_npc) ||
                 Objects.equals(npc, CreateVillagers.lobby2_quest_npc)){
-            if(ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId())) >= 15){
-                player.openInventory(makeMainMenu(player));
-            }else{
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bQuest Master&8 >> &7Hey you need at least prestige &eXV&7 to talk to me!"));
-            }
+            player.sendMessage(ColorUtil.colorCode("&c&lERROR! &7This NPC is currently disabled!"));
+            Sounds.NO.play(player);
+            //if(ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId())) >= 15){
+              //  player.openInventory(makeMainMenu(player));
+            //}else{
+              //  player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bQuest Master&8 >> &7Hey you need at least prestige &eXV&7 to talk to me!"));
+            //}
 
             //Perks(player);
         }else if(npc != null && npc.getName() != null && npc.getName().contains("Merchant")){

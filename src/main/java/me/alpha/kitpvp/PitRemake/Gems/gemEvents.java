@@ -122,7 +122,15 @@ public class gemEvents implements Listener {
 
             List<String> lore = new ArrayList<>();
 
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Lives: &a5&7/5"));
+            int currentLives = nbtItem.getInteger("lives");
+            int maxLives = nbtItem.getInteger("maxLives");
+            String currentLivesColor = "&a";
+
+            if(currentLives<=(maxLives/3)) currentLivesColor = "&c";
+
+            String livesTemplate = colorCode("&7Lives: " + currentLivesColor + currentLives+"&7/"+maxLives);
+
+            lore.add(livesTemplate);
             lore.add("   ");
 
             for (String key : nbtCompound.getKeys()){

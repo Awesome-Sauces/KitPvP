@@ -233,10 +233,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.highlanderStreak.hasValue(uuid) && level>=50){
+        if(((int)ClassInstances.highlanderStreak.getValue(uuid, 0))>=1 && level>=50){
             return ItemMaker(Material.GOLD_BOOTS, ChatColor.YELLOW + "Highlander",
                     getHighLanderLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.highlanderStreak.hasValue(uuid) && level<50){
+        }else if(((int)ClassInstances.highlanderStreak.getValue(uuid, 0))>=1 && level<50){
             return ItemMaker(Material.GOLD_BOOTS, ChatColor.YELLOW + "Highlander",
                     getHighLanderLore() + "\n\n" + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,50) + "\n" +
                             "&cor higher."), 1, true);
@@ -260,10 +260,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.moonStreak.hasValue(uuid) && level>= 50){
+        if(((int)ClassInstances.moonStreak.getValue(uuid, 0))>=1 && level>= 50){
             return ItemMaker(Material.ENDER_STONE, ChatColor.YELLOW + "To the Moon",
                     getToTheMoonLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.moonStreak.hasValue(uuid) && level<50){
+        }else if(((int)ClassInstances.moonStreak.getValue(uuid, 0))>=1 && level<50){
             return ItemMaker(Material.ENDER_STONE, ChatColor.YELLOW + "To the Moon",
                     getToTheMoonLore() + "\n\n" + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,50) + "\n" +
                             "&cor higher."), 1, true);
@@ -287,10 +287,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.uberStreak.hasValue(uuid) && level>=100){
+        if(((int)ClassInstances.uberStreak.getValue(uuid, 0))>=1 && level>=100){
             return ItemMaker(Material.GOLD_SWORD, ChatColor.YELLOW + "Uberstreak",
                     getUberLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.uberStreak.hasValue(uuid) && level<100){
+        }else if(((int)ClassInstances.uberStreak.getValue(uuid, 0))>=1 && level<100){
             return ItemMaker(Material.GOLD_SWORD, ChatColor.YELLOW + "Uberstreak",
                     getUberLore() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,100) + "\n" +
                             "&cor higher."), 1, true);
@@ -314,10 +314,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.magnumOpus.hasValue(uuid) && level>=70){
+        if(((int)ClassInstances.magnumOpus.getValue(uuid, 0))>=1 && level>=70){
             return ItemMaker(Material.NETHER_STAR, ChatColor.YELLOW + "Magnum Opus",
                     getMagnum() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.magnumOpus.hasValue(uuid) && level<70){
+        }else if(((int)ClassInstances.magnumOpus.getValue(uuid, 0))>=1 && level<70){
             return ItemMaker(Material.NETHER_STAR, ChatColor.RED + "Magnum Opus",
                     getMagnum() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,70) + "\n" +
                             "&cor higher."), 1, true);
@@ -341,10 +341,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.beastmodeStreak.hasValue(uuid) && level>=25){
+        if(((int)ClassInstances.beastmodeStreak.getValue(uuid, 0))>=1 && level>=25){
             return ItemMaker(Material.DIAMOND_HELMET, ChatColor.YELLOW + "Beastmode",
                     getBeastModeLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.beastmodeStreak.hasValue(uuid) && level<25){
+        }else if(((int)ClassInstances.beastmodeStreak.getValue(uuid, 0))>=1 && level<25){
             return ItemMaker(Material.DIAMOND_HELMET, ChatColor.RED + "Beastmode",
                     getBeastModeLore() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,25) + "\n" +
                             "&cor higher."), 1, true);
@@ -368,10 +368,10 @@ public class PermanentUpgrades implements Listener {
         int level = playerData[1];
         int neededXP = playerData[0];
 
-        if(ClassInstances.beastmodeStreak.hasValue(uuid) && level>=50){
+        if(((int)ClassInstances.hermitStreak.getValue(uuid, 0))>=1 && level>=50){
             return ItemMaker(Material.BED, ChatColor.YELLOW + "Hermit",
                     getHermitLore() + "\n\n" + ChatColor.YELLOW + "Click to select!", 1, true);
-        }else if(ClassInstances.beastmodeStreak.hasValue(uuid) && level<50){
+        }else if(((int)ClassInstances.hermitStreak.getValue(uuid, 0))>=1 && level<50){
             return ItemMaker(Material.BED, ChatColor.RED + "Hermit",
                     getHermitLore() + "\n\n" + ChatColor.RED + colorCode("&cThis requires level " + ChatManager.getBracketsWithLevel(uuid,50) + "\n" +
                             "&cor higher."), 1, true);
