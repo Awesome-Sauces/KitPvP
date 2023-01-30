@@ -109,6 +109,8 @@ public class GeneralEvents implements Listener {
         if(player.isOp()) return;
 
         if(ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("inventory")) return;
+        if(ChatColor.stripColor(player.getOpenInventory().getTopInventory().getName()).contains("Vault #")) return;
+        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("inventory")) return;
         if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("enderchest")) return;
         if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("crafting")) return;
 

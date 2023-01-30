@@ -54,7 +54,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private static final HandlerList HANDLERS = new HandlerList();
     private final ReduxPlayer attacker;
     private final ReduxPlayer defender;
-    private double xp_base = 10;
+    private double xp_base = 12;
     private int xp_cap = 400;
 
     private int final_xp = (int) xp_base;
@@ -200,17 +200,17 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             addXpIncrease(75);
             addGold((int) Math.round(gold*.75));
 
-            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
+            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/5);
 
-            addBaseXp(Math.min(50, xpAmount));
+            addBaseXp(Math.min(70, xpAmount));
 
         }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
-            addXpIncrease(50);
+            addXpIncrease(55);
             addGold(getGold());
 
             int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
 
-            addBaseXp(Math.min(25, xpAmount));
+            addBaseXp(Math.min(30, xpAmount));
         }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
             addGold(getGold()*(((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5)/100));
@@ -226,11 +226,11 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             }
         }else if(streak.equals("moon") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addXpIncrease(20);
-            setXp_cap(getXp_cap()+100);
+            setXp_cap(getXp_cap()+150);
 
-            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
+            int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/5);
 
-            addBaseXp(Math.min(100, xpAmount));
+            addBaseXp(Math.min(300, xpAmount));
         }
 
         // Gold/XP calculations

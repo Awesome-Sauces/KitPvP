@@ -12,6 +12,7 @@ import me.alpha.kitpvp.DataSave.PlayerData;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.Mobs.CustomZombie;
 import me.alpha.kitpvp.PitRemake.Boosters.Booster;
+import me.alpha.kitpvp.PitRemake.InventoryManager.MysticLivesHandler;
 import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
@@ -357,38 +358,49 @@ public class PitCommands implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("repairs")){
 
-            player.openInventory(menu.confirmationGui(player));
-            return true;
-            /*
-            if(player.getInventory().containsAtLeast(enchants.vile, 1)){
-                try{
-                    ItemMeta meta = player.getInventory().getItemInHand().getItemMeta();
+            if(player.getInventory().getItemInHand()==null||
+                    player.getInventory().getItemInHand().getType().equals(Material.AIR)) return true;
 
-                    String lives = meta.getLore().get(0);
+            NBTItem nbtItem = new NBTItem(player.getItemInHand());
 
-                    if(ChatColor.stripColor(lives).contains("Lives: 20/20")){
-                        player.sendMessage(Chat Color.RED + "This mystic has the max lives!");
+            int currentLives = nbtItem.getInteger("lives");
+            int maxLives = nbtItem.getInteger("maxLives");
+
+            if(player.getInventory().containsAtLeast(enchants.vile, 8)){
+                if(!player.getItemInHand().getType().equals(Material.BOW) &&
+                        !player.getItemInHand().getType().equals(Material.LEATHER_LEGGINGS) &&
+                        !player.getItemInHand().getType().equals(Material.GOLD_SWORD)){
+                    player.sendMessage(ChatColor.RED + "Please hold a mystic!");
+                    Sounds.ERROR.play(player);
+                    return true;
+                }
+
+
+                    if(currentLives>=maxLives){
+                        player.sendMessage(ChatColor.RED + "This mystic has the max lives!");
+                        Sounds.NO.play(player);
                         return true;
                     }
 
-
-
-                    meta.setLore(MysticRepairs(meta.getLore()));
-
-                    player.getInventory().getItemInHand().setItemMeta(meta);
+                    player.setItemInHand(MysticLivesHandler.MysticRepairs(player.getItemInHand()));
                     StashCore.safeRemove(player, enchants.vile);
-                    player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
-                    return true;
-                } catch (Exception e) {
-                    player.sendMessage(ChatColor.RED + "Please hold a mystic!");
-                    return true;
-                }
-            }else{
-                player.sendMessage(ChatColor.RED + "You don't have any vile!");
-                return true;
-            }
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
+                StashCore.safeRemove(player, enchants.vile);
 
-             */
+                    player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
+                    Sounds.SUCCESS.play(player);
+
+            }else{
+                player.sendMessage(ChatColor.RED + "You need " + ChatColor.DARK_PURPLE + "8 Vile" + ChatColor.RED + " to repair!");
+                Sounds.ERROR.play(player);
+            }
+            return true;
+
         }
 
         if(cmd.getName().equalsIgnoreCase("damage") && player.isOp()){

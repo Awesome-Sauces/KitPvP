@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnPant;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.FancyText.compileListToString;
@@ -69,11 +70,45 @@ public class pantJewl {
 
         NBTItem nbtItem = new NBTItem(item);
 
+        nbtItem.setInteger("mysticTier", 1);
+
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
         String enchant = FreshPants.getJewelEnchant(new ArrayList<>());
 
         nbtCompound.setInteger(enchant, 3);
+
+            while (true){
+                if(percentChance(.15)){
+                    nbtItem.setInteger("maxLives", 7);
+                    nbtItem.setInteger("lives", 7);
+                    break;
+                }else if(percentChance(.10)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.08)){
+                    nbtItem.setInteger("maxLives", 10);
+                    nbtItem.setInteger("lives", 10);
+                    break;
+                }else if(percentChance(.05)){
+                    nbtItem.setInteger("maxLives", 15);
+                    nbtItem.setInteger("lives", 15);
+                    break;
+                }else if(percentChance(.04)){
+                    nbtItem.setInteger("maxLives", 20);
+                    nbtItem.setInteger("lives", 20);
+                    break;
+                }else if(percentChance(.025)){
+                    nbtItem.setInteger("maxLives", 25);
+                    nbtItem.setInteger("lives", 25);
+                    break;
+                }else if(percentChance(.01)){
+                    nbtItem.setInteger("maxLives", 100);
+                    nbtItem.setInteger("lives", 100);
+                    break;
+                }
+            }
 
         nbtItem.mergeCompound(nbtCompound);
         item = nbtItem.getItem();

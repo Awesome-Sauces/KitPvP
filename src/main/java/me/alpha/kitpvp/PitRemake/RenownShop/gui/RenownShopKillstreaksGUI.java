@@ -113,7 +113,7 @@ public class RenownShopKillstreaksGUI implements Listener {
         }else{
             return ItemMaker(Material.NETHER_STAR, ChatColor.YELLOW + "Killstreaks: Magnum Opus",
                     colorCode(ClassInstances.magnumOpus.getLore() + "\n\n" +
-                            "&7Cost: &e5 Renown\n" +
+                            "&7Cost: &e50 Renown\n" +
                             "&7You have: &e"+ClassInstances.renownData.getRenown(uuid)+" Renown\n\n" +
                             "&eClick to purchase!"),1, true);
         }
@@ -252,7 +252,7 @@ public class RenownShopKillstreaksGUI implements Listener {
             if(ClassInstances.magnumOpus.hasValue(uuid) &&
                     ((Integer)ClassInstances.magnumOpus.getValue(uuid))>=1){
                 Sounds.NO.play(player);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=15){
+            }else if(ClassInstances.renownData.getRenown(uuid)>=50){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5);
                 ClassInstances.magnumOpus.setValue(uuid, (Integer) 1);

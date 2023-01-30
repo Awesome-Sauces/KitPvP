@@ -24,8 +24,7 @@ public class NeedlessSufferingLore extends PitEnchant {
                 EntityHuman entityAttacker = craftAttacker.getHandle(); //NMS
 
                 //EntityHuman entityDefender = craftDefender.getHandle(); //NMS
-                double abs = entityAttacker.getAbsorptionHearts();
-                entityAttacker.setAbsorptionHearts((float) (abs+60));
+                entityAttacker.setAbsorptionHearts(60);
             }
 
 

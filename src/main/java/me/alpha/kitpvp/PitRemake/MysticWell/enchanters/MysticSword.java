@@ -139,7 +139,7 @@ public class MysticSword {
 
         if(tier<=1){
             while (true){
-                if(percentChance(.50)){
+                if(percentChance(.15)){
                     nbtItem.setInteger("maxLives", 7);
                     nbtItem.setInteger("lives", 7);
                     break;

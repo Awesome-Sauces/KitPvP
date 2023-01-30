@@ -73,23 +73,23 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
 
         // Renown Shop Data:
         // Renown Shop - KillStreaks
-        ClassInstances.beastmodeStreak.setValue(uuid, getBeastMode());
-        ClassInstances.highlanderStreak.setValue(uuid, getHighlander());
-        ClassInstances.magnumOpus.setValue(uuid, getMagnumOpus());
-        ClassInstances.moonStreak.setValue(uuid, getMoon());
-        ClassInstances.uberStreak.setValue(uuid, getUber());
+        if(getBeastMode()>=1) ClassInstances.beastmodeStreak.setValue(uuid, getBeastMode());
+        if(getHighlander()>=1) ClassInstances.highlanderStreak.setValue(uuid, getHighlander());
+        if(getMagnumOpus()>=1) ClassInstances.magnumOpus.setValue(uuid, getMagnumOpus());
+        if(getMoon()>=1) ClassInstances.moonStreak.setValue(uuid, getMoon());
+        if(getUber()>=1) ClassInstances.uberStreak.setValue(uuid, getUber());
         // Renown Shop - Upgrades
-        ClassInstances.heresy.setValue(uuid, getHeresy());
-        ClassInstances.celebrity.setValue(uuid, getCelebrity());
-        ClassInstances.experienceIndustrialComplex.setValue(uuid, getIndustrial());
-        ClassInstances.extraHearts.setValue(uuid, getExtraHearts());
-        ClassInstances.fastPass.setValue(uuid, getFastPass());
-        ClassInstances.tenacity.setValue(uuid, getTenacity());
-        ClassInstances.promotion.setValue(uuid, getPromotion());
-        ClassInstances.theWay.setValue(uuid, getTheWay());
-        ClassInstances.renownXpBump.setValue(uuid, getRenownXpBump());
-        ClassInstances.renownGoldBoost.setValue(uuid, getRenownGoldBoost());
-        ClassInstances.mysticism.setMysticismChance(uuid, getMysticism());
+        if(getHeresy()>=1) ClassInstances.heresy.setValue(uuid, getHeresy());
+        if(getCelebrity()>=1) ClassInstances.celebrity.setValue(uuid, getCelebrity());
+        if(getIndustrial()>=1) ClassInstances.experienceIndustrialComplex.setValue(uuid, getIndustrial());
+        if(getExtraHearts()>=1) ClassInstances.extraHearts.setValue(uuid, getExtraHearts());
+        if(getFastPass()>=1) ClassInstances.fastPass.setValue(uuid, getFastPass());
+        if(getTenacity()>=1) ClassInstances.tenacity.setValue(uuid, getTenacity());
+        if(getPromotion()>=1) ClassInstances.promotion.setValue(uuid, getPromotion());
+        if(getTheWay()>=1) ClassInstances.theWay.setValue(uuid, getTheWay());
+        if(getRenownXpBump()>=1) ClassInstances.renownXpBump.setValue(uuid, getRenownXpBump());
+        if(getRenownGoldBoost()>=1) ClassInstances.renownGoldBoost.setValue(uuid, getRenownGoldBoost());
+        if(getMysticism()>=1) ClassInstances.mysticism.setMysticismChance(uuid, getMysticism());
 
         // Faction
         ClassInstances.botKills.setValue(uuid, getBotKills());

@@ -23,6 +23,7 @@ public class RankColor {
         else if(player.hasPermission("ADMIN")) chatColor = String.valueOf(ChatColor.WHITE);
         else if(player.hasPermission("YOUTUBE")) chatColor = String.valueOf(ChatColor.WHITE);
         else if(player.hasPermission("SALMON")) chatColor = String.valueOf(ChatColor.WHITE);
+        else if(player.hasPermission("DEVELOPER")) chatColor = String.valueOf(ChatColor.WHITE);
 
         return chatColor;
     }
@@ -47,6 +48,7 @@ public class RankColor {
         else if(player.hasPermission("ADMIN")) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("YOUTUBE")) nameColor = String.valueOf(ChatColor.RED);
         else if(player.hasPermission("SALMON")) nameColor = String.valueOf(ChatColor.RED);
+        else if(player.hasPermission("DEVELOPER")) nameColor = String.valueOf(ChatColor.BLUE);
 
 
         return nameColor;
@@ -67,6 +69,7 @@ public class RankColor {
         else if(player.hasPermission("VIP")) rankPrefix = ChatColor.GREEN + "[VIP] ";
         else if(player.hasPermission("HELPER")) rankPrefix = ChatColor.BLUE + "[HELPER] ";
         else if(player.hasPermission("MOD")) rankPrefix = ChatColor.DARK_GREEN + "[MOD] ";
+        else if(player.hasPermission("DEVELOPER")) rankPrefix = ChatColor.BLUE + "[DEV] ";
         else if(player.hasPermission("ADMIN")) rankPrefix = ChatColor.RED + "[ADMIN] ";
         else if(player.hasPermission("YOUTUBE")) rankPrefix = ChatColor.RED + "[" + ChatColor.WHITE + "YOUTUBE" + ChatColor.RED + "] ";
         else if(player.hasPermission("SALMON")) rankPrefix = ChatColor.translateAlternateColorCodes('&', "&4[&fS&4A&fL&4M&fO&4N&f]&4+&f+ ");

@@ -30,7 +30,7 @@ public class SweatyLore extends PitEnchant {
             if(item.hasKey("sweaty")) {
                 int level = item.getInteger("sweaty");
 
-                int xp = (20*level);
+                int xp = (25*level);
                 int xp_cap = (level-1)*50;
 
                 event.setXp_cap(event.getXp_cap()+xp_cap);
@@ -48,7 +48,7 @@ public class SweatyLore extends PitEnchant {
 
             int level = item.getInteger("sweaty");
 
-            int xp = (20*level);
+            int xp = (25*level);
             int xp_cap = (level-1)*50;
 
             event.setXp_cap(event.getXp_cap()+xp_cap);

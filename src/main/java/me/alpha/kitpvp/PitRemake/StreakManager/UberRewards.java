@@ -65,22 +65,22 @@ public class UberRewards {
         boolean looping = true;
 
         while(true){
-            if(percentChance(.15)){
+            if(percentChance(.7)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 5);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
                 break;
-            }else if(percentChance(.10)){
+            }else if(percentChance(.6)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 8);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
                 break;
-            }else if(percentChance(.08)){
+            }else if(percentChance(.05)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 10);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
                 break;
-            }else if(percentChance(.05)){
+            }else if(percentChance(.03)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 12);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;

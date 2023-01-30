@@ -165,6 +165,7 @@ public class ClassInstances {
         prestigeData.saveHashMap();
         xpData.saveHashMap();
         petData.saveHashMap();
+        renownData.saveHashMap();
     }
 
     public static void load(){
@@ -187,22 +188,6 @@ public class ClassInstances {
         petData.loadHashMap(true);
 
         botKills.loadHashMap();
-        moonStreak.loadHashMap();
-        uberStreak.loadHashMap();
-        beastmodeStreak.loadHashMap();
-        highlanderStreak.loadHashMap();
-        celebrity.loadHashMap();
-        magnumOpus.loadHashMap();
-        experienceIndustrialComplex.loadHashMap();
-        mysticism.loadHashMap();
-        fastPass.loadHashMap();
-        extraHearts.loadHashMap();
-        heresy.loadHashMap();
-        promotion.loadHashMap();
-        renownGoldBoost.loadHashMap();
-        renownXpBump.loadHashMap();
-        tenacity.loadHashMap();
-        theWay.loadHashMap();
     }
 
 }
