@@ -5,6 +5,8 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
+import me.alpha.kitpvp.CustomEvents.ReduxSpawnEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.DataSave.Converter64;
 import me.alpha.kitpvp.DataSave.DatabaseConnector;
@@ -1040,48 +1042,14 @@ public class PitCommands implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("spawn")) {
 
-            FishingRod.getRod(player);FishingRod.getRod(player);
-
-            if(ClassInstances.extraHearts.hasValue(player)){
-                player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(player.getUniqueId().toString(), 1)*2));
+            ReduxSpawnEvent mainEvent = new ReduxSpawnEvent(playerExists(player));
+            Bukkit.getPluginManager().callEvent(mainEvent);
+            if (!mainEvent.isCancelled()) {
+                mainEvent.onSpawn();
+                mainEvent.setCancelled(true);
             }
 
-            playerExists(player).setMoonXP(0);
-            deleteBlob(player);
-            //deleteHologramStreak(player);
 
-            if (CombatTag.containsKey(String.valueOf(player.getUniqueId()))){
-                // player is inside mute map
-                if (CombatTag.get(String.valueOf(player.getUniqueId())) > System.currentTimeMillis()){
-                    // They still have time left on mute
-                    long timeleft = (CombatTag.get(String.valueOf(player.getUniqueId())) - System.currentTimeMillis()) / 1000;
-                    player.sendMessage(colorCode("&c&lHOLD UP! &7Can't /respawn while fighting (&c" + timeleft + "s &7left)"));
-                    return true;
-                }else{
-                    ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis());
-                    playerExists(player).setMoonXP(0);
-                    player.removePotionEffect(PotionEffectType.WEAKNESS);
-                    refreshInventory(player);
-                    ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
-                    Location loc = getSpawnLocation(player.getWorld());
-                    player.teleport(loc);
-                    NametagEdit.getApi().setNametag(player, ChatManager.getLevelText(player) + RankColor.getNameColor(player), "");
-
-                    ScoreboardCore.CreateScore(player);
-                    return true;
-                }
-
-            }else{
-                ClassInstances.CombatTag.put(String.valueOf(player.getUniqueId()), System.currentTimeMillis());
-                playerExists(player).setMoonXP(0);
-                player.removePotionEffect(PotionEffectType.WEAKNESS);
-                ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
-                NametagEdit.getApi().setNametag(player, ChatManager.getLevelText(player)+ RankColor.getNameColor(player), "");
-                Location loc = getSpawnLocation(player.getWorld());
-                refreshInventory(player);
-                player.teleport(loc);
-                ScoreboardCore.CreateScore(player);
-            }
             return true;
         }
 

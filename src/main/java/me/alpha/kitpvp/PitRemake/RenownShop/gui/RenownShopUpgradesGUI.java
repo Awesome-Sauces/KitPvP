@@ -350,7 +350,7 @@ public class RenownShopUpgradesGUI implements Listener {
 
         if(event.getCurrentItem().getType().equals(Material.GOLD_NUGGET)){
             if(ClassInstances.renownGoldBoost.hasValue(uuid) &&
-                    ((Integer)ClassInstances.renownGoldBoost.getValue(uuid))>=10){
+                    ((Integer)ClassInstances.renownGoldBoost.getValue(uuid))>=9){
                 Sounds.NO.play(player);
             }else if(((int)ClassInstances.renownGoldBoost.getValue(uuid, 0))>=1 && ClassInstances.renownData.getRenown(uuid)>=(((Integer)ClassInstances.renownGoldBoost.getValue(uuid))*5)){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
@@ -367,7 +367,7 @@ public class RenownShopUpgradesGUI implements Listener {
             player.openInventory(getRenownShopUpgradesGUI(player));
         }else if(event.getCurrentItem().getType().equals(Material.EXP_BOTTLE)){
             if(ClassInstances.renownXpBump.hasValue(uuid) &&
-                    ((Integer)ClassInstances.renownXpBump.getValue(uuid))>=10){
+                    ((Integer)ClassInstances.renownXpBump.getValue(uuid))>=9){
                 Sounds.NO.play(player);
             }else if(((int)ClassInstances.renownXpBump.getValue(uuid, 0))>=1 &&
                     ClassInstances.renownData.getRenown(uuid)>=(((Integer)ClassInstances.renownXpBump.getValue(uuid))*5)){
