@@ -6,6 +6,7 @@ import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Material;
 import org.bukkit.potion.PotionEffectType;
 
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;

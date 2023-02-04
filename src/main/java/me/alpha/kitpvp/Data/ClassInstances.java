@@ -1,6 +1,5 @@
 package me.alpha.kitpvp.Data;
 
-import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.Factions.data.BotKills;
 import me.alpha.kitpvp.PitRemake.Factions.data.FactionData;
 import me.alpha.kitpvp.PitRemake.Factions.data.FactionReward;
@@ -135,7 +134,7 @@ public class ClassInstances {
     public static LifestealLore lifestealLore = new LifestealLore();
     public static PainFocusLore painFocusLore = new PainFocusLore();
     public static SharkLore sharkLore = new SharkLore();
-    public static SharpLore sharpLore = new SharpLore();
+    public static ComboXpLore sharpLore = new ComboXpLore();
     public static DiamondStompLore diamondStompLore = new DiamondStompLore();
     public static TelebowLore telebowLore = new TelebowLore();
     public static PullBowLore pullBowLore = new PullBowLore();

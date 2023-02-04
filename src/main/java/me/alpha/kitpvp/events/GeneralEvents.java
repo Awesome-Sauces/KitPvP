@@ -8,6 +8,8 @@ import me.alpha.kitpvp.ChatManager.PrestigeBracketColors;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
+import me.alpha.kitpvp.CustomEvents.ReduxSpawnEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
@@ -99,22 +101,16 @@ public class GeneralEvents implements Listener {
         }
     }
 
-    @EventHandler
-    public void cancelInventoryMove(InventoryClickEvent event){
-        if(event==null) return;
-        if(event.getClickedInventory()==null) return;
+    @EventHandler (priority = EventPriority.HIGH)
+    public void runReduxInventoryEvent(InventoryClickEvent event){
+        ReduxInventoryEvent mainEvent = new ReduxInventoryEvent(event);
+        Bukkit.getPluginManager().callEvent(mainEvent);
+        if (!mainEvent.isCancelled()) {
 
-        Player player = (Player) event.getWhoClicked();
+            mainEvent.run();
 
-        if(player.isOp()) return;
-
-        if(ChatColor.stripColor(event.getClickedInventory().getName()).equalsIgnoreCase("inventory")) return;
-        if(ChatColor.stripColor(player.getOpenInventory().getTopInventory().getName()).contains("Vault #")) return;
-        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("inventory")) return;
-        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("enderchest")) return;
-        if(ChatColor.stripColor(player.getOpenInventory().getTitle()).contains("crafting")) return;
-
-        event.setCancelled(true);
+            mainEvent.setCancelled(true);
+        }
     }
 
     @EventHandler

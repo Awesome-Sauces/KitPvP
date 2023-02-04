@@ -8,7 +8,7 @@ import me.alpha.kitpvp.utils.CitizensHelper;
 
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
-public class SharpLore extends PitEnchant {
+public class CriticallyRichLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {

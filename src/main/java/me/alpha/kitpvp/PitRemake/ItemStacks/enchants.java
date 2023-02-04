@@ -37,6 +37,8 @@ public class enchants {
     public static ItemStack malding_sword;
     public static ItemStack reaper_scythe;
     public static ItemStack playerSoul;
+    public static ItemStack cherry;
+    public static ItemStack rubish;
     public static ItemStack fresh_bow;
     public static ItemStack cactus;
     public static ItemStack pantsPB;
@@ -90,6 +92,55 @@ public class enchants {
         createRod();
 
         createBigRod();
+        createCherry();
+        createRubish();
+    }
+
+    private static void createCherry() {
+        ItemStack item = new ItemStack(Material.APPLE, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("cherry", 1);
+
+        item = nbtItem.getItem();
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(colorCode("&cCherry"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&7Kept on death"));
+        lore.add("");
+        lore.add(colorCode("&7Special ingredient"));
+        lore.add(" ");
+        lore.add(colorCode("&dRare item"));
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+        meta.spigot().setUnbreakable(true);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        cherry = item;
+    }
+
+    private static void createRubish() {
+        ItemStack item = new ItemStack(Material.BONE, 1);
+
+        NBTItem nbtItem = new NBTItem(item);
+
+        nbtItem.setInteger("rubbish", 1);
+
+        item = nbtItem.getItem();
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(colorCode("&bSewer Rubbish"));
+        List<String> lore = new ArrayList<>();
+        lore.add(colorCode("&7Kept on death"));
+        lore.add("");
+        lore.add(colorCode("&7Bring 64 of these to the"));
+        lore.add(colorCode("&3Sewerfish &7for special pants."));
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+        meta.spigot().setUnbreakable(true);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        rubish = item;
     }
 
     private static void createArma() {

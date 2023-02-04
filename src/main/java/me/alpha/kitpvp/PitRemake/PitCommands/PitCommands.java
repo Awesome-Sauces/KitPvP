@@ -1046,7 +1046,6 @@ public class PitCommands implements CommandExecutor {
             Bukkit.getPluginManager().callEvent(mainEvent);
             if (!mainEvent.isCancelled()) {
                 mainEvent.onSpawn();
-                mainEvent.setCancelled(true);
             }
 
 

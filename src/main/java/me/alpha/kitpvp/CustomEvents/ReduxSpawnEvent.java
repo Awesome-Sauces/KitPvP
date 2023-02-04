@@ -7,6 +7,7 @@ import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.Perks.FishingRod;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.Cancellable;
@@ -47,11 +48,15 @@ public class ReduxSpawnEvent extends Event implements Cancellable {
             // They still have time left on combat
             this.timeLeft = (int) ((CombatTag.get(player.getPlayerUUID()) - System.currentTimeMillis()) / 1000);
             this.combatTag = true;
+        }else {
+            CombatTag.put(player.getPlayerUUID(), 0L);
+            this.timeLeft = (int) ((CombatTag.get(player.getPlayerUUID()) - System.currentTimeMillis()) / 1000);
+            this.combatTag = false;
         }
     }
 
     public void onSpawn(){
-        if(!isCancelled) return;
+        if(isCancelled) return;
         if(this.combatTag) {
             player.getPlayerObject().sendMessage(getCombatTagMessage());
             return;

@@ -379,9 +379,9 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         // Standard Messages
         if(!isNPC(defender.getPlayerObject())) {
             if(isNPC(attacker.getPlayerObject())){
-                defender.getPlayerObject().sendMessage(ChatColor.RED + colorCode("&lDEATH! ") + ChatColor.GRAY + "by " + HunterAPI.getRandomName());
+                defender.getPlayerObject().sendMessage(ChatColor.RED + colorCode("&lDEATH! ") + ChatColor.GRAY + "by " + HunterAPI.getRandomName() + colorCode(" &e&lVIEW RECAP"));
             }else{
-                defender.getPlayerObject().sendMessage(ChatColor.RED + colorCode("&lDEATH! ") + ChatColor.GRAY + "by " + attacker.getPlayerObject().getDisplayName());
+                defender.getPlayerObject().sendMessage(ChatColor.RED + colorCode("&lDEATH! ") + ChatColor.GRAY + "by " + attacker.getPlayerObject().getDisplayName() + colorCode(" &e&lVIEW RECAP"));
             }
         }
         killTitle(defender.getPlayerObject());
