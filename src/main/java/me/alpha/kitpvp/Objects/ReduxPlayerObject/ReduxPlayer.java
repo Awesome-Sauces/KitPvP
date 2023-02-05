@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.Objects.ReduxPlayerObject;
 
+import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static me.alpha.kitpvp.Data.GoldData.*;
+import static me.alpha.kitpvp.PitRemake.Bounties.Bounty.BountiesMap;
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
 
 public class ReduxPlayer {
@@ -23,6 +25,11 @@ public class ReduxPlayer {
     int task;
     int assistantStreakerCount = 0;
     boolean regCD = true;
+
+    int toughSkinStack = 0;
+
+    boolean leechAbility = false;
+    int khanteStack = 0;
     boolean vampireCD = true;
     boolean mlbCD = true;
     boolean booCD = true;
@@ -75,7 +82,28 @@ public class ReduxPlayer {
         KillMan(this.player, victim);
     }
 
+    public void doLeechAbility(ReduxDamageEvent event) {
+        if(leechAbility) {
+            player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + 1));
+            event.addReduxDamageMultiplier(20);
+            leechAbility = false;
+        }
+    }
 
+    public void doKhanteAbility(ReduxDamageEvent event) {
+        if(BountiesMap.containsKey(event.getDefender().getPlayerUUID()) &&
+        BountiesMap.get(event.getDefender().getPlayerUUID())>0){
+            event.addReduxDamageMultiplier(getKhanteStack());
+        }
+    }
+
+    public void doToughSkinAbility(ReduxDamageEvent event){
+        event.subtractReduxDamageMultiplier(toughSkinStack);
+    }
+
+    public void setLeechAbility(){
+        leechAbility = true;
+    }
 
     public int getPlayerPrestige(){
         return ClassInstances.prestigeData.getPrestige(this.uuid);
@@ -227,6 +255,22 @@ public class ReduxPlayer {
     public boolean getSoupCD(){return this.SoupCD;}
 
     public void setSoupCD(){this.SoupCD = !this.SoupCD;}
+
+    public int getKhanteStack() {
+        return khanteStack;
+    }
+
+    public void setKhanteStack(int khanteStack) {
+        this.khanteStack = khanteStack;
+    }
+
+    public int getToughSkinStack() {
+        return toughSkinStack;
+    }
+
+    public void setToughSkinStack(int toughSkinStack) {
+        this.toughSkinStack = toughSkinStack;
+    }
 
     public int tickAssistantStreaker(){
         this.assistantStreakerCount++;

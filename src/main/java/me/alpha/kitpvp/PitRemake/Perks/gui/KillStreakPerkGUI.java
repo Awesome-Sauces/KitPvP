@@ -290,7 +290,7 @@ public class KillStreakPerkGUI implements Listener {
                         "&eClick to switch streak!");
             case "leech":
                 return colorCode("&7Selected: &aLeech\n\n"+ "&7Every: &c3 kills\n\n" +
-                        "&7Next hit heals for &c0.5\u2764 &7+\n\n" +
+                        "&7Next hit heals for &c0.5\u2764 &7+\n" +
                         "&c20% &7of its damage.\n\n"+
                         "&eClick to switch streak!");
             // 5 Kills
@@ -544,7 +544,7 @@ public class KillStreakPerkGUI implements Listener {
         Material material = Material.FERMENTED_SPIDER_EYE;
 
         String lore = colorCode("&7Every: &c3 kills\n\n" +
-                "&7Next hit heals for &c0.5\u2764 &7+\n\n" +
+                "&7Next hit heals for &c0.5\u2764 &7+\n" +
                 "&c20% &7of its damage.\n\n");
 
         if((ClassInstances.killStreakPerkOne.getPerk(player.getUniqueId().toString()).equals(refID) ||

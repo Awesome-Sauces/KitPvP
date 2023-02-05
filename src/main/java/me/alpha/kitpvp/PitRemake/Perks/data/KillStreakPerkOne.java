@@ -10,6 +10,7 @@ public class KillStreakPerkOne extends DataStore {
     }
 
     public String getPerk(String uuid){
+        if(getValue(uuid, "NONE")==null) return "NONE";
         return getValue(uuid, "NONE").toString();
     }
 
