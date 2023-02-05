@@ -23,6 +23,8 @@ public class ChatManager implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
 
+        message = message.replaceAll("%", "%%");
+
         String pitSupporter = "";
 
         if(player.hasPermission("pitSupporter")) pitSupporter = ColorUtil.colorCode("&e\u272C ");

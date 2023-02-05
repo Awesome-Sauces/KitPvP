@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.Factions;
 
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
@@ -209,51 +210,40 @@ public class ArmageddonFaction implements Listener {
                         "&cReach max tier first!"), 1, true);
     }
     @EventHandler
-    public void clickInventory(InventoryClickEvent event) {
-        if (event != null && event.getClickedInventory() != null &&
-                event.getClickedInventory().getTitle() != null &&
-                event.getClickedInventory().getTitle().equals(ChatColor.GRAY + "Demon")) {
-            event.setCancelled(true);
+    public void clickInventory(ReduxInventoryEvent event) {
+        if(!event.getInventory().getTitle().equals(("Demon"))) {return;}
 
-            Player player = (Player) event.getWhoClicked();
-            String uuid = player.getUniqueId().toString();
+        Player player = (Player) event.getPlayer();
+        String uuid = player.getUniqueId().toString();
 
-            ItemStack clicked = event.getCurrentItem();
+        if(event.getItemName().equals(ChatColor.RED+"Allegiance Pledged")) {
+            joinFaction(player);
+            openInventory(player);
+            return;
+        }
 
-            if(clicked==null || clicked.getItemMeta()==null && clicked.getItemMeta().getDisplayName()==null) return;
-
-            String displayName = clicked.getItemMeta().getDisplayName();
-
-            if(displayName.equals(ChatColor.RED+"Allegiance Pledged")) {
-                joinFaction(player);
-                openInventory(player);
-                return;
-            }
-
-            if(clicked.getType().equals(Material.SEA_LANTERN)){
-                if(((int)ClassInstances.botKills.getValue(uuid, 1))>=70000 &&
-                        ClassInstances.renownData.getRenown(uuid)>=250
-                ){
-                    ClassInstances.factionReward.setValue(uuid, "NONE");
-                    ClassInstances.botKills.setValue(uuid, 0);
-                    player.sendMessage(colorCode("&e&lFACTION! &7Successfully reset all faction points!"));
-                    Sounds.EXE.play(player);
-                    openInventory(player);
-                }
-            }
-
-            if(clicked.getType().equals(Material.GOLD_BLOCK)){
-                ClassInstances.factionReward.setValue(player.getUniqueId().toString(), "claimed");
-                StashCore.safeGive(player, enchants.arma);
+        if(event.getItemType().equals(Material.SEA_LANTERN)){
+            if(((int)ClassInstances.botKills.getValue(uuid, 1))>=70000 &&
+                    ClassInstances.renownData.getRenown(uuid)>=250
+            ){
+                ClassInstances.factionReward.setValue(uuid, "NONE");
+                ClassInstances.botKills.setValue(uuid, 0);
+                player.sendMessage(colorCode("&e&lFACTION! &7Successfully reset all faction points!"));
+                Sounds.EXE.play(player);
                 openInventory(player);
             }
+        }
 
+        if(event.getItemType().equals(Material.GOLD_BLOCK)){
+            ClassInstances.factionReward.setValue(player.getUniqueId().toString(), "claimed");
+            StashCore.safeGive(player, enchants.arma);
+            openInventory(player);
         }
     }
 
     public static Inventory openInventory(Player player){
         String uuid = String.valueOf(player.getUniqueId());
-        Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Demon");
+        Inventory gui = advancedInventory.inv(player, 45, "Demon");
         ItemStack base_glass = advancedInventory.cGlass();
 
         for (int i = 0; i < 10; i++) {

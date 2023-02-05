@@ -3,6 +3,7 @@ package me.alpha.kitpvp.PitRemake.MysticWell.enchanters;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.Sounds;
@@ -52,42 +53,42 @@ public class MysticSword {
         return tokens;
     }
 
-    public static void clickSword(InventoryClickEvent event){
-        event.setCancelled(true);
+    public static void clickSword(ReduxInventoryEvent event){
 
-        String uuid = String.valueOf(event.getWhoClicked().getUniqueId());
-        Player player = (Player) event.getWhoClicked();
-        ItemStack items = event.getClickedInventory().getItem(20);
+        String uuid = String.valueOf(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        ItemStack items = event.getInventory().getItem(20);
 
         int tokens = getTokens(items.getItemMeta().getLore());
+        NBTItem nbtItem = new NBTItem(items);
 
-        if (items.getEnchantments().containsKey(Enchantment.DAMAGE_ALL) && tokens>0){
+        if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==3){
             ItemMeta meta = items.getItemMeta();
             meta.setDisplayName(ChatColor.RED + "Tier III Sword");
             items.setItemMeta(meta);
             player.sendMessage(ChatColor.RED + "This sword is already max tier!");
 
             return;
-        } else if (tokens==0 && removeGold(player, uuid, 1000)) {
+        } else if (!nbtItem.hasKey("mysticTier")  && removeGold(player, uuid, 1000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
 
-            event.getClickedInventory().setItem(20, createSword(player,1, null));
+            event.getInventory().setItem(20, createSword(player,1, null));
             //Bukkit.broadcastMessage(String.valueOf(getTokens(items.getItemMeta().getLore())));
-        } else if (CheckEnchantOnSword(items.getItemMeta().getLore()).size()==1 && !items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS) && removeGold(player, uuid, 4000)) {
+        } else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==1 && removeGold(player, uuid, 4000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             //Bukkit.broadcastMessage(String.valueOf(getTokens(items.getItemMeta().getLore())));
-            event.getClickedInventory().setItem(20, createSword(player,2, event.getClickedInventory().getItem(20)));
+            event.getInventory().setItem(20, createSword(player,2, event.getInventory().getItem(20)));
         }else if (
-                items.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS)&& removeGold(player, uuid, 8000)) {
+                nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==2 && removeGold(player, uuid, 8000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
             //Bukkit.broadcastMessage(String.valueOf(getTokens(items.getItemMeta().getLore())));
-            event.getClickedInventory().setItem(20, createSword(player,3, event.getClickedInventory().getItem(20)));
+            event.getInventory().setItem(20, createSword(player,3, event.getInventory().getItem(20)));
         }
 
-        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+        advancedInventory.addInv(event.getInventory(), getMysticWellItem(uuid, event.getInventory().getItem(20)), 7, 3, false);
 
     }
 
@@ -632,6 +633,11 @@ public class MysticSword {
     }
 
     private static double calcEnchant(List<String> lore, String name){
+        if(lore.contains(name) &&
+                (name.equals("billionaire") ||
+                        name.equals("perun") ||
+                        name.equals("executioner") ||
+                        name.equals("gamble"))) return 6;
         if (lore.contains(name)) return 4;
         return 1;
     }

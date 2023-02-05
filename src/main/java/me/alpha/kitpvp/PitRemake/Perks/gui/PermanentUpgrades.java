@@ -4,6 +4,7 @@ import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -57,9 +58,16 @@ public class PermanentUpgrades implements Listener {
     }
 
     public static ItemStack EmptyKillstreakSlotItem(String uuid, int slot){
-        return ItemMaker(Material.GOLD_BLOCK, ChatColor.GREEN + "Perk Slot #" + String.valueOf(slot),
-                ChatColor.GRAY + "Select a killstreak for this\n"+ChatColor.GRAY+"slot.\n\n" +
-                        ChatColor.YELLOW + "Click to choose perk!", 1, true);
+        if(slot==1) return ItemMaker(KillStreakPerkGUI.getMaterialFromRefID(ClassInstances.killStreakPerkOne.getPerk(uuid)),
+                ChatColor.GREEN + "Perk Slot #" + String.valueOf(slot),
+                KillStreakPerkGUI.getLoreFromRefID(ClassInstances.killStreakPerkOne.getPerk(uuid)), 1, true);
+        else if(slot==2) return ItemMaker(KillStreakPerkGUI.getMaterialFromRefID(ClassInstances.killStreakPerkTwo.getPerk(uuid)),
+                ChatColor.GREEN + "Perk Slot #" + String.valueOf(slot),
+                KillStreakPerkGUI.getLoreFromRefID(ClassInstances.killStreakPerkTwo.getPerk(uuid)), 1, true);
+
+        return ItemMaker(KillStreakPerkGUI.getMaterialFromRefID(ClassInstances.killStreakPerkOne.getPerk(uuid)),
+                ChatColor.GREEN + "Perk Slot #" + String.valueOf(slot),
+                KillStreakPerkGUI.getLoreFromRefID(ClassInstances.killStreakPerkOne.getPerk(uuid)), 1, true);
     }
 
     public static ItemStack KillStreakItem(String uuid, Material material){
@@ -806,8 +814,17 @@ public class PermanentUpgrades implements Listener {
             megastreak = Material.BED;
         }
 
+        int[] playerData = GetCurrentLevel(uuid, ClassInstances.xpData.getXp(uuid), ClassInstances.prestigeData.getPrestige(uuid), player);
+        int level = playerData[1];
+        int neededXP = playerData[0];
+
+
         if(event.getCurrentItem().getType().equals(megastreak)){
                 player.openInventory(getSelectKillstreak(player));
+        }else if(event.getSlot()==11 && level>=30){
+            KillStreakPerkGUI.openInventory(player, 1);
+        }else if(event.getSlot()==13 && level>=100){
+            KillStreakPerkGUI.openInventory(player, 2);
         }
 
     }

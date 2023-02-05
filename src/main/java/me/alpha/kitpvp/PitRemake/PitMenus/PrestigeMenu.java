@@ -33,7 +33,7 @@ public class PrestigeMenu {
             req_level  = ChatColor.AQUA + "+" + ((int) PrestigeXpAmount(ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId()))) * 10) + "%" + ChatColor.GRAY + " needed xp than normal!\n\n" + ChatColor.GRAY + "Required Level: " + PrestigeBracketColors.getBracketColor(player) + "[" + ChatColor.AQUA + ChatColor.BOLD + "120" + PrestigeBracketColors.getBracketColor(player) + "]" + "\n\n" + ChatColor.GRAY + "Level up to prestige!";
         }
 
-        Inventory gui = inv(player, 27, ChatColor.GRAY + "Prestige & Renown");
+        Inventory gui = inv(player, 27, "Prestige & Renown");
 
         ItemStack base_glass = cGlass();
 

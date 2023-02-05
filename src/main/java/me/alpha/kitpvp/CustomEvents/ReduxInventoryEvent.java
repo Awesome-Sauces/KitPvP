@@ -95,7 +95,19 @@ public class ReduxInventoryEvent extends Event implements Cancellable {
 
     public InventoryClickEvent getEvent(){return this.event;}
 
-    public ItemStack getClickedItem(){return getEvent().getCurrentItem();}
+    public ItemStack getClickedItem(){if(event.getCurrentItem()==null) return new ItemStack(Material.AIR);
+                                        return getEvent().getCurrentItem();}
     public int getSlot(){return getEvent().getSlot();}
     public InventoryAction getAction(){return getEvent().getAction();}
+    public String getItemName(){if(getClickedItem()==null ||
+            getClickedItem().getItemMeta()==null ||
+            getClickedItem().getItemMeta().getDisplayName() == null) return "";
+        return getClickedItem().getItemMeta().getDisplayName();}
+
+    public Material getItemType(){if(getEvent() == null ||
+    getEvent().getClickedInventory() == null ||
+            getClickedItem()==null) return Material.AIR;
+    return getClickedItem().getType();}
+
+    public boolean isInventory(String name) {return !getInventory().getTitle().equals(name);}
 }

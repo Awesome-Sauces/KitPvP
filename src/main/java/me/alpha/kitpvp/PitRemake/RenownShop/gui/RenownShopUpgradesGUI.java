@@ -350,13 +350,14 @@ public class RenownShopUpgradesGUI implements Listener {
 
         if(event.getCurrentItem().getType().equals(Material.GOLD_NUGGET)){
             if(ClassInstances.renownGoldBoost.hasValue(uuid) &&
-                    ((Integer)ClassInstances.renownGoldBoost.getValue(uuid))>=9){
+                    ClassInstances.renownGoldBoost.getInt(uuid, 0)>=9){
                 Sounds.NO.play(player);
-            }else if(((int)ClassInstances.renownGoldBoost.getValue(uuid, 0))>=1 && ClassInstances.renownData.getRenown(uuid)>=(((Integer)ClassInstances.renownGoldBoost.getValue(uuid))*5)){
+            }else if(ClassInstances.renownGoldBoost.getInt(uuid, 0)>=1 && ClassInstances.renownData.getRenown(uuid)>=(((Integer)ClassInstances.renownGoldBoost.getValue(uuid))*5)){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-(((Integer)ClassInstances.renownGoldBoost.getValue(uuid))*5));
                 ClassInstances.renownGoldBoost.addValue(uuid, (Integer) 1);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=5){
+            }else if(ClassInstances.renownGoldBoost.getInt(uuid, 0) <= 0 &&
+                    ClassInstances.renownData.getRenown(uuid)>=5){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5);
                 ClassInstances.renownGoldBoost.setValue(uuid, (Integer) 1);
@@ -374,7 +375,8 @@ public class RenownShopUpgradesGUI implements Listener {
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-(((Integer)ClassInstances.renownXpBump.getValue(uuid))*5));
                 ClassInstances.renownXpBump.addValue(uuid, (Integer) 1);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=5){
+            }else if(ClassInstances.renownXpBump.getInt(uuid, 0) <= 0 &&
+                    ClassInstances.renownData.getRenown(uuid)>=5){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5);
                 ClassInstances.renownXpBump.setValue(uuid, (Integer) 1);
@@ -395,7 +397,8 @@ public class RenownShopUpgradesGUI implements Listener {
                 ClassInstances.extraHearts.addValue(uuid, (Integer) 1);
 
                 player.setMaxHealth(20+((Integer)ClassInstances.extraHearts.getValue(uuid, 1)*2));
-            }else if(ClassInstances.renownData.getRenown(uuid)>=20){
+            }else if(ClassInstances.extraHearts.getInt(uuid, 0) <= 0 &&
+                    ClassInstances.renownData.getRenown(uuid)>=20){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-20);
                 ClassInstances.extraHearts.setValue(uuid, (Integer) 1);
@@ -415,7 +418,8 @@ public class RenownShopUpgradesGUI implements Listener {
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-(((Integer)ClassInstances.mysticism.getValue(uuid))*5));
                 ClassInstances.mysticism.addValue(uuid, (Integer) 1);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=5){
+            }else if(ClassInstances.mysticism.getInt(uuid, 0) <= 0 &&
+                    ClassInstances.renownData.getRenown(uuid)>=5){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-5);
                 ClassInstances.mysticism.setValue(uuid, (Integer) 1);
@@ -433,7 +437,8 @@ public class RenownShopUpgradesGUI implements Listener {
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-(((Integer)ClassInstances.tenacity.getValue(uuid))*25));
                 ClassInstances.tenacity.addValue(uuid, (Integer) 1);
-            }else if(ClassInstances.renownData.getRenown(uuid)>=25){
+            }else if(ClassInstances.tenacity.getInt(uuid, 0) <= 0 &&
+                    ClassInstances.renownData.getRenown(uuid)>=25){
                 Sounds.RENOWN_SHOP_PURCHASE.play(player);
                 ClassInstances.renownData.setRenown(uuid, ClassInstances.renownData.getRenown(uuid)-25);
                 ClassInstances.tenacity.setValue(uuid, (Integer) 1);

@@ -104,13 +104,10 @@ public class GeneralEvents implements Listener {
     @EventHandler (priority = EventPriority.HIGH)
     public void runReduxInventoryEvent(InventoryClickEvent event){
         ReduxInventoryEvent mainEvent = new ReduxInventoryEvent(event);
-        Bukkit.getPluginManager().callEvent(mainEvent);
-        if (!mainEvent.isCancelled()) {
+        if(!mainEvent.isCancelled()) Bukkit.getPluginManager().callEvent(mainEvent);
 
-            mainEvent.run();
+        mainEvent.run();
 
-            mainEvent.setCancelled(true);
-        }
     }
 
     @EventHandler
@@ -118,7 +115,7 @@ public class GeneralEvents implements Listener {
         if(event.getInventory()==null && event.getInventory().getTitle()==null) return;
         Player player = (Player) event.getPlayer();
 
-        if(event.getInventory().getTitle().equals(ChatColor.GRAY + "Mystic Well")){
+        if(event.getInventory().getTitle().equals("Mystic Well")){
             ItemStack items = event.getInventory().getItem(20);
             if(items!=null) StashCore.safeGive(player, items);
         }
@@ -907,7 +904,7 @@ public class GeneralEvents implements Listener {
 
                         if(player.getOpenInventory().getTopInventory()!=null &&
                         player.getOpenInventory().getTopInventory().getTitle()!=null &&
-                        !player.getOpenInventory().getTopInventory().getTitle().contains(ChatColor.GRAY + "Mystic Well")) this.cancel();
+                        !player.getOpenInventory().getTopInventory().getTitle().contains("Mystic Well")) this.cancel();
 
                         ItemStack mystic = event.getPlayer().getOpenInventory().getTopInventory().getItem(20);
 
@@ -1125,20 +1122,18 @@ public class GeneralEvents implements Listener {
     }
 
     @EventHandler (priority = EventPriority.HIGH)
-    public void clickEvent(InventoryClickEvent event) {
-        if(event.getClickedInventory()==null) return;
-
-        Player player = (Player) event.getWhoClicked();
+    public void clickEvent(ReduxInventoryEvent event) {
+        Player player = event.getPlayer();
 
         try {
-            if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY +  "Non-permanent items")) {
+            if (!event.isInventory("Non-permanent items")) {
                 event.setCancelled(true);
                 NonPermItems(event);
-            } else if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Prestige & Renown")) {
+            } else if (!event.isInventory("Prestige & Renown")) {
                 PrestigeItems(event);
-            } else if(event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.YELLOW + "Quest Master")){
-                questInventoryManager.main(event);
-            }else if(player.getOpenInventory().getTitle().equals(ChatColor.GRAY + "Mystic Well")){
+        } else if(!event.isInventory("Quests & Contracts")){
+                //questInventoryManager.main(event);
+            }else if(player.getOpenInventory().getTitle().equals("Mystic Well")){
                 InventoryClickEvents.main(event);
             }
         }catch (Exception e){

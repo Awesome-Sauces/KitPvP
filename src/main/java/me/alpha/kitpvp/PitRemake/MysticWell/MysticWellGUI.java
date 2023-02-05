@@ -237,7 +237,7 @@ public class MysticWellGUI {
 
     public static void openMysticWell(Player player){
         String uuid = player.getUniqueId().toString();
-        Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Mystic Well");
+        Inventory gui = advancedInventory.inv(player, 45, "Mystic Well");
         ItemStack base_glass = advancedInventory.cGlass();
         ItemStack mystic = gui.getItem(20);
 
@@ -274,7 +274,7 @@ public class MysticWellGUI {
 
     public static Inventory openMysticWell(Player player, ItemStack itemStack){
         String uuid = player.getUniqueId().toString();
-        Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Mystic Well");
+        Inventory gui = advancedInventory.inv(player, 45, "Mystic Well");
         ItemStack base_glass = advancedInventory.cGlass();
 
         ItemStack mystic = gui.getItem(20);

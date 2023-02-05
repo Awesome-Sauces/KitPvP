@@ -15,10 +15,7 @@ import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
 import me.alpha.kitpvp.events.MainDamageEvent;
-import me.alpha.kitpvp.utils.ColorUtil;
-import me.alpha.kitpvp.utils.CommandRegistrar;
-import me.alpha.kitpvp.utils.EventRegistrar;
-import me.alpha.kitpvp.utils.Sounds;
+import me.alpha.kitpvp.utils.*;
 import net.citizensnpcs.nms.v1_12_R1.util.CustomEntityRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.Runnable;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,6 +70,9 @@ public class KitPvP extends JavaPlugin {
 
         // Load NPC
         CreateVillagers.loadNPC();
+
+        // Register Enchants
+        EnchantUtils.registerGlow();
 
         // Update Scoreboard
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -126,6 +127,8 @@ public class KitPvP extends JavaPlugin {
             }
         }, 0L, 36000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
+
+        /*
         for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("lobby2")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("lobby2")).getRingMid(Bukkit.getWorld("lobby2")).getY());
@@ -134,11 +137,7 @@ public class KitPvP extends JavaPlugin {
             //HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false);
         }
 
-
-
-
-
-
+         */
 
     }
 

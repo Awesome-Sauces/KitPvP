@@ -3,6 +3,7 @@ package me.alpha.kitpvp.PitRemake.MysticWell.enchanters;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.PitRemake.MysticWell.loreChecker;
@@ -53,12 +54,10 @@ public class FreshPants {
         return tokens;
     }
 
-    public static void clickFresh(InventoryClickEvent event){
-        event.setCancelled(true);
-
-        String uuid = String.valueOf(event.getWhoClicked().getUniqueId());
-        Player player = (Player) event.getWhoClicked();
-        ItemStack items = event.getClickedInventory().getItem(20);
+    public static void clickFresh(ReduxInventoryEvent event){
+        String uuid = String.valueOf(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        ItemStack items = event.getInventory().getItem(20);
 
         NBTItem nbtItem = new NBTItem(items);
 
@@ -97,8 +96,8 @@ public class FreshPants {
 
                     FreshPants.getRareEnchant(lore,enchant,player, 2);
 
-                    event.getClickedInventory().setItem(20, items);
-                    advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+                    event.getInventory().setItem(20, items);
+                    advancedInventory.addInv(event.getInventory(), getMysticWellItem(uuid, event.getInventory().getItem(20)), 7, 3, false);
                     return;
                 }
             }else if(!nbtItem.hasKey("darktier") && removeGold(player, uuid, 50000)){
@@ -133,8 +132,8 @@ public class FreshPants {
                 itemMeta.setLore(lore);
                 items.setItemMeta(itemMeta);
 
-                event.getClickedInventory().setItem(20, items);
-                advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+                event.getInventory().setItem(20, items);
+                advancedInventory.addInv(event.getInventory(), getMysticWellItem(uuid, event.getInventory().getItem(20)), 7, 3, false);
                 return;
             }
 
@@ -154,18 +153,18 @@ public class FreshPants {
 
             meta.hasItemFlag(ItemFlag.HIDE_ENCHANTS);
 
-            event.getClickedInventory().setItem(20, createPant(player,3, event.getClickedInventory().getItem(20), null));
+            event.getInventory().setItem(20, createPant(player,3, event.getInventory().getItem(20), null));
         }else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==1 && removeGold(player, uuid, 4000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
-            event.getClickedInventory().setItem(20, createPant(player,2, event.getClickedInventory().getItem(20), null));
+            event.getInventory().setItem(20, createPant(player,2, event.getInventory().getItem(20), null));
         } else if (!nbtItem.hasKey("mysticTier") && removeGold(player, uuid, 1000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
-            event.getClickedInventory().setItem(20, createPant(player,1, null, event.getClickedInventory().getItem(20)));
+            event.getInventory().setItem(20, createPant(player,1, null, event.getInventory().getItem(20)));
         }
 
-        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+        advancedInventory.addInv(event.getInventory(), getMysticWellItem(uuid, event.getInventory().getItem(20)), 7, 3, false);
 
     }
 
@@ -624,6 +623,12 @@ public class FreshPants {
     }
 
     private static double calcEnchant(List<String> lore, String name){
+        if(lore.contains(name) &&
+                (name.equals("pitblob") ||
+                        name.equals("regularity") ||
+                        name.equals("retro-gravitymicrocosm") ||
+                        name.equals("solitude") ||
+                        name.equals("escapepod"))) return 6;
         if (lore.contains(name)) return 3;
         return 1;
     }

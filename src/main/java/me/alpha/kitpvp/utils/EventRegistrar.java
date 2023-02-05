@@ -13,6 +13,7 @@ import me.alpha.kitpvp.PitRemake.Fishing.FishingCore;
 import me.alpha.kitpvp.PitRemake.Gems.gemEvents;
 import me.alpha.kitpvp.PitRemake.Heresy.HeresyMenu;
 import me.alpha.kitpvp.PitRemake.Perks.PerkHandler;
+import me.alpha.kitpvp.PitRemake.Perks.gui.KillStreakPerkGUI;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PerkSelectGUI;
 import me.alpha.kitpvp.PitRemake.Perks.gui.PermanentUpgrades;
 import me.alpha.kitpvp.PitRemake.Perks.items.GoldenHeadItem;
@@ -32,6 +33,7 @@ public class EventRegistrar {
     public static void registerEvents(){
 
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new ChatManager(), KitPvP.INSTANCE);
+        KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new KillStreakPerkGUI(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new ScoreboardCore(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new MainDamageEvent(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new ArmorListener(new ArrayList<>()), KitPvP.INSTANCE);

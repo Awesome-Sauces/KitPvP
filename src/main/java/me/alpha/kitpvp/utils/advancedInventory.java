@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -90,6 +91,31 @@ public class advancedInventory {
         null_meta.setDisplayName(ChatColor.RED + "Close");
         glass.setItemMeta(null_meta);
         return glass;
+    }
+
+    public static ItemStack ItemMaker(Material material, String name, String lore){
+        ItemStack item = new ItemStack(material, 1);
+        ItemMeta null_meta = item.getItemMeta();
+        null_meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES);
+        String[] lines = lore.split("\\n");
+        ArrayList<String> table_lore = new ArrayList<>(Arrays.asList(lines));
+        null_meta.setDisplayName(name);
+        if(!lore.isEmpty()) null_meta.setLore(table_lore);
+        item.setItemMeta(null_meta);
+        return item;
+    }
+
+    public static ItemStack ItemMaker(Material material, String name, String lore, boolean enchant){
+        ItemStack item = new ItemStack(material, 1);
+        ItemMeta null_meta = item.getItemMeta();
+        if(enchant)null_meta.addEnchant(new GlowEnchant(1),1,false);
+        null_meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ATTRIBUTES);
+        String[] lines = lore.split("\\n");
+        ArrayList<String> table_lore = new ArrayList<>(Arrays.asList(lines));
+        null_meta.setDisplayName(name);
+        if(!lore.isEmpty()) null_meta.setLore(table_lore);
+        item.setItemMeta(null_meta);
+        return item;
     }
 
     public static ItemStack ItemMaker(Material material, String name, String lore, int amount, Boolean guiItem){

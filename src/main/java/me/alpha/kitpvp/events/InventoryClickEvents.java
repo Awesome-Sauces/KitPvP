@@ -3,6 +3,7 @@ package me.alpha.kitpvp.events;
 import com.nametagedit.plugin.NametagEdit;
 import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
@@ -41,19 +42,16 @@ import static me.alpha.kitpvp.utils.advancedInventory.addInv;
 
 public class InventoryClickEvents {
 
-    public static void main(InventoryClickEvent event) {
+    public static void main(ReduxInventoryEvent event) {
 
-        if(event==null ||
-                event.getClickedInventory()==null ||
-                event.getClickedInventory().getTitle()==null) return;
 
-        Player player = (Player) event.getWhoClicked();
+        Player player = event.getPlayer();
         String uuid = String.valueOf(player.getUniqueId());
 
-        if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Mystic Well")){
-            event.setCancelled(true);
-            if (event.getCurrentItem().getType() == Material.ENCHANTMENT_TABLE) {
-                ItemStack items = event.getClickedInventory().getItem(20);
+        if (!event.isInventory("Mystic Well")){
+
+            if (event.getItemType() == Material.ENCHANTMENT_TABLE) {
+                ItemStack items = event.getInventory().getItem(20);
                 hasEconomy(uuid);
 
                 if (items.getType().equals(Material.LEATHER_LEGGINGS)) {
@@ -69,60 +67,51 @@ public class InventoryClickEvents {
                     MysticBow.clickBow(event);
                 }
 
-            }else if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Mystic Well")){
-                    if (event.getCurrentItem().getType().equals(Material.LEATHER_LEGGINGS) ||
-                            event.getCurrentItem().getType().equals(Material.GOLD_SWORD) ||
-                            event.getCurrentItem().getType().equals(Material.BOW)) {
+            }else if (!event.isInventory("Mystic Well")){
+                    if (event.getItemType().equals(Material.LEATHER_LEGGINGS) ||
+                            event.getItemType().equals(Material.GOLD_SWORD) ||
+                            event.getItemType().equals(Material.BOW)) {
 
-                        StashCore.safeGive(player, event.getClickedInventory().getItem(20));
-                        event.getClickedInventory().setItem(20, null);
+                        StashCore.safeGive(player, event.getInventory().getItem(20));
+                        event.getInventory().setItem(20, null);
 
                     }
             }
 
             }
-        if (event.getClickedInventory().getTitle().equalsIgnoreCase(player.getInventory().getTitle())){
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Fresh") ||
-                    event.getCurrentItem().getItemMeta().getDisplayName().contains("Mystic Sword") ||
-                    event.getCurrentItem().getItemMeta().getDisplayName().contains("Mystic Bow")){
-                Inventory gui = MysticWellGUI.openMysticWell(player,event.getCurrentItem());
+        if (event.getInventory().getTitle().equalsIgnoreCase(player.getInventory().getTitle())){
+            if (event.getItemName().contains("Fresh") ||
+                    event.getItemName().contains("Mystic Sword") ||
+                    event.getItemName().contains("Mystic Bow")){
+                Inventory gui = MysticWellGUI.openMysticWell(player,event.getClickedItem());
 
                 player.openInventory(gui);
 
-                StashCore.safeRemove(player, event.getCurrentItem());
-                event.setCancelled(true);
+                StashCore.safeRemove(player, event.getClickedItem());
 
-            }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier I")){
-                player.openInventory(MysticWellGUI.openMysticWell(player, event.getCurrentItem()));
-                StashCore.safeRemove(player, event.getCurrentItem());
-                event.setCancelled(true);
-            }else if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Tier II")){
-                player.openInventory(MysticWellGUI.openMysticWell(player, event.getClickedInventory().getItem(21)));
-                StashCore.safeRemove(player, event.getCurrentItem());
-                event.setCancelled(true);
+
+            }else if (event.getItemName().contains("Tier I")){
+                player.openInventory(MysticWellGUI.openMysticWell(player, event.getClickedItem()));
+                StashCore.safeRemove(player, event.getClickedItem());
+
+            }else if (event.getItemName().contains("Tier II")){
+                player.openInventory(MysticWellGUI.openMysticWell(player, event.getInventory().getItem(21)));
+                StashCore.safeRemove(player, event.getClickedItem());
+
+            }else{
+                Sounds.MYSTIC_WELL_NO.play(player);
+                player.sendMessage(colorCode("&cThis item cannot be enchanted!"));
+                player.sendMessage(colorCode("&cYou need a &bMystic Bow&c, &eMystic Sword &cor &cP&6a&en&at&9s&c!"));
             }
             }
 
         }
-        /*else {
-            hasFresh(uuid);
-            if (event.getClickedInventory().getTitle().equalsIgnoreCase(ChatColor.GRAY + "Mystic Well")){
-                if (event.getCurrentItem().getItemMeta().equals(enchants.fresh_reds.getItemMeta())){
-                    base(player);
-                    player.getInventory().addItem(enchants.fresh_reds);
-                    setFresh(uuid, false);
-                    event.setCancelled(true);
-                }
-            }
 
-        }*/
-
-
-    public static void NonPermItems(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
+    public static void NonPermItems(ReduxInventoryEvent event) {
+        Player player = event.getPlayer();
         String uuid = String.valueOf(player.getUniqueId());
 
-        switch (event.getCurrentItem().getType()) {
+        switch (event.getItemType()) {
             case DIAMOND_SWORD:
                 if (hasEconomy(String.valueOf(player.getUniqueId()))) {
                     if (getEconomy(String.valueOf(player.getUniqueId())) >= 150) {
@@ -137,7 +126,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
             }
@@ -157,7 +146,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
                 }
@@ -180,7 +169,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
             case DIAMOND_CHESTPLATE:
@@ -203,7 +192,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
                 }
@@ -227,7 +216,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
                 }
@@ -244,7 +233,7 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
                 }
@@ -261,13 +250,13 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
+
                     break;
 
                 }
             case MINECART:
                 if (hasEconomy(String.valueOf(player.getUniqueId()))) {
-                    if (getEconomy(String.valueOf(player.getUniqueId())) >= 150 && event.getCurrentItem().getItemMeta().getDisplayName().contains("Pants Bundle")) {
+                    if (getEconomy(String.valueOf(player.getUniqueId())) >= 150 && event.getItemName().contains("Pants Bundle")) {
                         removeEconomy(String.valueOf(player.getUniqueId()), 150);
                         StashCore.safeGive(player,enchants.pantsPB);
 
@@ -275,7 +264,7 @@ public class InventoryClickEvents {
 
                         ScoreboardCore.CreateScore(player);
 
-                    }else if (getEconomy(String.valueOf(player.getUniqueId())) >= 150 && event.getCurrentItem().getItemMeta().getDisplayName().contains("Sword Bundle")) {
+                    }else if (getEconomy(String.valueOf(player.getUniqueId())) >= 150 && event.getItemName().contains("Sword Bundle")) {
                         removeEconomy(String.valueOf(player.getUniqueId()), 150);
                         StashCore.safeGive(player, enchants.swordPB);
 
@@ -287,8 +276,6 @@ public class InventoryClickEvents {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
 
-
-                    event.setCancelled(true);
                     break;
 
                 }
@@ -312,24 +299,21 @@ public class InventoryClickEvents {
                     } else {
                         player.sendMessage(ChatColor.RED + "You can't afford this!");
                     }
-                    event.setCancelled(true);
                     break;
 
                 }
         }
     }
 
-    public static void PrestigeItems(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
-        if(event.getCurrentItem().getType()==Material.WATCH){
-            event.setCancelled(true);
+    public static void PrestigeItems(ReduxInventoryEvent event){
+        Player player = event.getPlayer();
+        if(event.getItemType()==Material.WATCH){
             player.closeInventory();
             player.sendMessage(ColorUtil.colorCode("&6&lBLOXICLE STORE! &7Click on: &ehttp://store.pitredux.net"));
             return;
         }
 
-        if (event.getCurrentItem().getType() == Material.DIAMOND) {
-            event.setCancelled(true);
+        if (event.getItemType() == Material.DIAMOND) {
             int[] randomDUDE;
             randomDUDE = GetCurrentLevel(String.valueOf(player.getUniqueId()), ClassInstances.xpData.getXp(String.valueOf(player.getUniqueId())), ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId())), player);
 
@@ -379,11 +363,9 @@ public class InventoryClickEvents {
             } else {
                 player.sendMessage(ChatColor.RED + "You need Level 120 to prestige!");
             }
-        }else if (event.getCurrentItem().getType() == Material.BEACON){
+        }else if (event.getItemType() == Material.BEACON){
             player.openInventory(RenownShopGUI.getRenownShopGUI(player));
-            event.setCancelled(true);
         }
-        event.setCancelled(true);
 
     }
 

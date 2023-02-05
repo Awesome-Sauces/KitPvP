@@ -8,10 +8,7 @@ import me.alpha.kitpvp.PitRemake.MysticWell.GlobalEnchants.*;
 import me.alpha.kitpvp.PitRemake.MysticWell.PantEnchants.*;
 import me.alpha.kitpvp.PitRemake.MysticWell.SwordEnchants.*;
 import me.alpha.kitpvp.PitRemake.Perks.*;
-import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotFour;
-import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotOne;
-import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotThree;
-import me.alpha.kitpvp.PitRemake.Perks.data.PerkSlotTwo;
+import me.alpha.kitpvp.PitRemake.Perks.data.*;
 import me.alpha.kitpvp.PitRemake.Pets.PetStore.XpDragon;
 import me.alpha.kitpvp.PitRemake.RenownShop.data.*;
 import org.bukkit.ChatColor;
@@ -153,6 +150,9 @@ public class ClassInstances {
     public static MiseryLore miseryLore = new MiseryLore();
     public static NeedlessSufferingLore needlessSufferingLore = new NeedlessSufferingLore();
 
+    public static KillStreakPerkOne killStreakPerkOne = new KillStreakPerkOne("ksperki");
+    public static KillStreakPerkTwo killStreakPerkTwo = new KillStreakPerkTwo("ksperkii");
+
     public static PetData petData = new PetData("petData");
 
     public static XpDragon xpDragon = new XpDragon("xpdragon", "Dragon",
@@ -180,10 +180,6 @@ public class ClassInstances {
         factionReward.loadHashMap(true);
 
         megaStreakData.loadHashMap(true);
-        perkSlotOne.loadHashMap(true);
-        perkSlotTwo.loadHashMap(true);
-        perkSlotThree.loadHashMap(true);
-        perkSlotFour.loadHashMap(true);
         petData.loadHashMap(true);
 
         botKills.loadHashMap();

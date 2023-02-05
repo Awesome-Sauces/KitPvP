@@ -3,6 +3,7 @@ package me.alpha.kitpvp.PitRemake.MysticWell.enchanters;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import me.alpha.kitpvp.ChatManager.RankColor;
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.utils.Sounds;
@@ -43,12 +44,11 @@ public class MysticBow {
         }
     }
 
-    public static void clickBow(InventoryClickEvent event){
-        event.setCancelled(true);
+    public static void clickBow(ReduxInventoryEvent event){
 
-        String uuid = String.valueOf(event.getWhoClicked().getUniqueId());
-        Player player = (Player) event.getWhoClicked();
-        ItemStack items = event.getClickedInventory().getItem(20);
+        String uuid = String.valueOf(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        ItemStack items = event.getInventory().getItem(20);
 
         NBTItem nbtItem = new NBTItem(items);
 
@@ -58,18 +58,18 @@ public class MysticBow {
         } else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==2 && removeGold(player, uuid, 8000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
-            event.getClickedInventory().setItem(20, createBow(player, 3, event.getClickedInventory().getItem(20)));
+            event.getInventory().setItem(20, createBow(player, 3, event.getInventory().getItem(20)));
         }else if (nbtItem.hasKey("mysticTier") && nbtItem.getInteger("mysticTier")==1 && removeGold(player, uuid, 4000)) {
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
-            event.getClickedInventory().setItem(20, createBow(player, 2, event.getClickedInventory().getItem(20)));
+            event.getInventory().setItem(20, createBow(player, 2, event.getInventory().getItem(20)));
         } else if(!nbtItem.hasKey("mysticTier") && removeGold(player, uuid, 1000)){
             Sounds.BUTTON.play(player);
             Sounds.PIN_DOWN.play(player);
-            event.getClickedInventory().setItem(20, createBow(player, 1, null));
+            event.getInventory().setItem(20, createBow(player, 1, null));
         }
 
-        advancedInventory.addInv(event.getClickedInventory(), getMysticWellItem(uuid, event.getClickedInventory().getItem(20)), 7, 3, false);
+        advancedInventory.addInv(event.getInventory(), getMysticWellItem(uuid, event.getInventory().getItem(20)), 7, 3, false);
 
     }
 
@@ -567,6 +567,12 @@ public class MysticBow {
     }
 
     private static double calcEnchant(List<String> lore, String name){
+        if(lore.contains(name) &&
+                (name.equals("megalongbow") ||
+                        name.equals("volley") ||
+                        name.equals("telebow") ||
+                        name.equals("pullbow") ||
+                        name.equals("explosive"))) return 6;
         if (lore.contains(name)) return 3;
         return 1;
     }

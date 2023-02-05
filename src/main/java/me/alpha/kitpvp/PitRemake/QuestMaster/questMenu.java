@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class questMenu {
     public static Inventory makeMainMenu(Player player){
-        Inventory gui = advancedInventory.inv(player, 27, ChatColor.YELLOW + "Quest Master");
+        Inventory gui = advancedInventory.inv(player, 27, "Quests & Contracts");
 
         // Get String uuid of player in
         String uuid = String.valueOf(player.getUniqueId());

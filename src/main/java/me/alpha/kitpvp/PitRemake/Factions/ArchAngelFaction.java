@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.Factions;
 
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
@@ -215,29 +216,18 @@ public class ArchAngelFaction implements Listener {
     }
 
     @EventHandler
-    public void clickInventory(InventoryClickEvent event) {
-        if (event != null && event.getClickedInventory() != null &&
-                event.getClickedInventory().getTitle() != null &&
-                event.getClickedInventory().getTitle().equals(ChatColor.GRAY + "Angel")) {
-            event.setCancelled(true);
-
-            Player player = (Player) event.getWhoClicked();
+    public void clickInventory(ReduxInventoryEvent event) {
+        if(!event.getInventory().getTitle().equals("Angel")) {return;}
+            Player player = event.getPlayer();
             String uuid = player.getUniqueId().toString();
 
-            ItemStack clicked = event.getCurrentItem();
-
-            if(clicked==null || clicked.getItemMeta()==null && clicked.getItemMeta().getDisplayName()==null) return;
-
-
-            String displayName = clicked.getItemMeta().getDisplayName();
-
-            if(displayName.equals(ChatColor.AQUA+"Allegiance Pledged")) {
+            if(event.getItemName().equals(ChatColor.AQUA+"Allegiance Pledged")) {
                 joinFaction(player);
                 openInventory(player);
                 return;
             }
 
-            if(clicked.getType().equals(Material.SEA_LANTERN)){
+            if(event.getItemType().equals(Material.SEA_LANTERN)){
                 if(((int)ClassInstances.botKills.getValue(uuid, 1))>=70000 &&
                         ClassInstances.renownData.getRenown(uuid)>=250
                 ){
@@ -249,18 +239,17 @@ public class ArchAngelFaction implements Listener {
                 }
             }
 
-            if(clicked.getType().equals(Material.GOLD_BLOCK)){
+            if(event.getItemType().equals(Material.GOLD_BLOCK)){
                 ClassInstances.factionReward.setValue(player.getUniqueId().toString(), "claimed");
                 StashCore.safeGive(player, enchants.archAngel);
                 openInventory(player);
             }
 
-        }
     }
 
     public static Inventory openInventory(Player player){
         String uuid = String.valueOf(player.getUniqueId());
-        Inventory gui = advancedInventory.inv(player, 45, ChatColor.GRAY + "Angel");
+        Inventory gui = advancedInventory.inv(player, 45, "Angel");
         ItemStack base_glass = advancedInventory.cGlass();
 
         for (int i = 0; i < 10; i++) {

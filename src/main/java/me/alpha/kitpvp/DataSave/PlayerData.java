@@ -95,6 +95,9 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         ClassInstances.botKills.setValue(uuid, getBotKills());
         ClassInstances.factionData.setValue(uuid, getFactionData());
         ClassInstances.factionReward.setValue(uuid, getFactionRewards());
+
+        ClassInstances.killStreakPerkOne.setPerk(uuid, getKillStreakOne());
+        ClassInstances.killStreakPerkTwo.setPerk(uuid, getKillStreakTwo());
     }
 
     /*
@@ -134,6 +137,9 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         setPerkSlotTwo((String) ClassInstances.perkSlotTwo.getValue(getUuid(), ""));
         setPerkSlotThree((String) ClassInstances.perkSlotThree.getValue(getUuid(), ""));
         setPerkSlotFour((String) ClassInstances.perkSlotFour.getValue(getUuid(), ""));
+
+        setKillStreakOne(ClassInstances.killStreakPerkOne.getPerk(uuid));
+        setKillStreakTwo(ClassInstances.killStreakPerkTwo.getPerk(uuid));
 
         // Int/Double(s)
         setPrestige(ClassInstances.prestigeData.getPrestige(getUuid()));
@@ -186,7 +192,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
                 (Integer) args.get("renownXpBump"), (Integer) args.get("renownGoldBoost"), (Integer) args.get("mysticism"),
                 (String) args.get("helmet"), (String) args.get("chestplate"), (String) args.get("leggings"),
                 (String) args.get("boots"), (String) args.get("inventory"), (String) args.get("enderChest"),
-                (Integer) args.get("botKills"), (String) args.get("factionData"), (String) args.get("factionRewards"));
+                (Integer) args.get("botKills"), (String) args.get("factionData"), (String) args.get("factionRewards"), (String) args.get("ksperki"),
+                (String) args.get("ksperkii"));
     }
 
     public Map<String, Object> serialize() {
@@ -249,6 +256,9 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         result.put("factionData", getFactionData());
         result.put("factionRewards", getFactionRewards());
 
+        result.put("ksperki", getKillStreakOne());
+        result.put("ksperkii", getKillStreakTwo());
+
         return result;
     }
 
@@ -270,7 +280,7 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
                       int industrial, int extraHearts, int fastPass, int tenacity, int promotion, int theWay,
                       int renownXpBump, int renownGoldBoost, int mysticism,
                       String helmet, String chestplate, String leggings, String boots, String inventory, String enderChest,
-                      int botKills, String factionData, String factionRewards) {
+                      int botKills, String factionData, String factionRewards, String killStreakOne, String killStreakTwo) {
         this.uuid = uuid; this.botBoosters = botBoosters;
         this.goldBoosters = goldBoosters; this.xpBoosters = xpBoosters;
         this.megaStreak = megaStreak; this.perkSlotOne = perkSlotOne;
@@ -291,7 +301,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
         this.leggings = leggings; this.boots = boots;
         this.inventory = inventory; this.enderChest = enderChest;
         this.botKills = botKills; this.factionData = factionData;
-        this.factionRewards = factionRewards;
+        this.factionRewards = factionRewards; this.killStreakOne = killStreakOne;
+        this.killStreakTwo = killStreakTwo;
     }
 
     String uuid;
@@ -315,6 +326,8 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
     String perkSlotTwo = "";
     String perkSlotThree = "";
     String perkSlotFour = "";
+    String killStreakOne = "NONE";
+    String killStreakTwo = "NONE";
     int streakAmount = 0;
 
     // Int/Double(s)
@@ -676,5 +689,21 @@ public class PlayerData implements Cloneable, ConfigurationSerializable {
 
     public void setEnderChest(String enderChest) {
         this.enderChest = enderChest;
+    }
+
+    public String getKillStreakOne() {
+        return killStreakOne;
+    }
+
+    public void setKillStreakOne(String killStreakOne) {
+        this.killStreakOne = killStreakOne;
+    }
+
+    public String getKillStreakTwo() {
+        return killStreakTwo;
+    }
+
+    public void setKillStreakTwo(String killStreakTwo) {
+        this.killStreakTwo = killStreakTwo;
     }
 }

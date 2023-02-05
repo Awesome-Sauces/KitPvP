@@ -41,6 +41,26 @@ public abstract class DataStore {
         return this.hashMap.get(id);
     }
 
+    public int getInt(Object id, Object value){
+        hasValue(id, value);
+        return (int) this.hashMap.get(id);
+    }
+
+    public double getDouble(Object id, Object value){
+        hasValue(id, value);
+        return (double) this.hashMap.get(id);
+    }
+
+    public int getInt(Object id){
+        hasValue(id);
+        return (int) this.hashMap.get(id);
+    }
+
+    public double getDouble(Object id){
+        hasValue(id);
+        return (double) this.hashMap.get(id);
+    }
+
     public void saveHashMap(){
         for(Object value : getHashMap().keySet()){
             KitPvP.INSTANCE.getConfig().set(this.refID+"."+value, getHashMap().get(value));

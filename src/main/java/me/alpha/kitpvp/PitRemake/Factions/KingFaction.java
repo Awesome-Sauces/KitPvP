@@ -1,5 +1,6 @@
 package me.alpha.kitpvp.PitRemake.Factions;
 
+import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.GoldData;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
@@ -30,16 +31,13 @@ public class KingFaction implements Listener {
     }
 
     @EventHandler
-    public void clickInventory(InventoryClickEvent event){
-        if(event != null && event.getClickedInventory() != null &&
-                event.getClickedInventory().getTitle() != null &&
-                event.getClickedInventory().getTitle().equals(ChatColor.GRAY + "King's Quest")){
-            event.setCancelled(true);
+    public void clickInventory(ReduxInventoryEvent event){
+        if(event.isInventory("King's Quest")) {return;}
 
-            Player player = (Player) event.getWhoClicked();
+            Player player = event.getPlayer();
             String uuid = player.getUniqueId().toString();
 
-            if(event.getCurrentItem()!=null&&event.getCurrentItem().getType().equals(Material.GOLD_HELMET)){
+            if(event.getItemType().equals(Material.GOLD_HELMET)){
                 if(!ClassInstances.factionData.getValue(uuid, "NONE").equals("NONE") ||
                         !ClassInstances.factionData.getValue(uuid, "NONE").equals("")){
                     if(((int) ClassInstances.botKills.getValue(uuid, 1))>=50000 &&
@@ -63,8 +61,8 @@ public class KingFaction implements Listener {
                     }
                 }
             }
-        }
     }
+
 
     public static ItemStack getKingsItem(){
         return ItemMaker(Material.GOLD_HELMET, ChatColor.YELLOW+"The King's Quest",

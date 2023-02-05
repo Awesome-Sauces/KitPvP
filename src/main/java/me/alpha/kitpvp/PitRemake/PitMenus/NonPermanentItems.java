@@ -10,7 +10,7 @@ import static me.alpha.kitpvp.utils.advancedInventory.*;
 
 public class NonPermanentItems {
     public NonPermanentItems(Player player){
-        Inventory gui = inv(player, 36, ChatColor.GRAY + "Non-permanent items");
+        Inventory gui = inv(player, 36, "Non-permanent items");
 
         ItemStack base_glass = cGlass();
 
