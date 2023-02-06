@@ -121,7 +121,7 @@ public class enchants {
     }
 
     private static void createRubish() {
-        ItemStack item = new ItemStack(Material.BONE, 1);
+        ItemStack item = new ItemStack((short)351, 1, (short) 15);
 
         NBTItem nbtItem = new NBTItem(item);
 

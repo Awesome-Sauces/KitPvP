@@ -24,7 +24,11 @@ public class ReduxPlayer {
     String uuid;
     int task;
     int assistantStreakerCount = 0;
+    boolean assuredStrike = false;
     boolean regCD = true;
+    boolean fightOrFlight = false;
+    boolean feastSteak = false;
+    boolean counterStrike = false;
 
     int toughSkinStack = 0;
 
@@ -56,6 +60,7 @@ public class ReduxPlayer {
     int moonXP = 0;
     double goldBooster = 1;
     int obbyTime = 2400*5;
+    int superStreaker = 0;
     double strength = 0.0;
     long strengthTimer;
 
@@ -82,7 +87,33 @@ public class ReduxPlayer {
         KillMan(this.player, victim);
     }
 
+    public void setFightOrFlight(){
+        fightOrFlight = !fightOrFlight;
+    }
+
+    public int getSuperStreaker() {
+        return superStreaker;
+    }
+
+    public void setSuperStreaker(int superStreaker) {
+        this.superStreaker = superStreaker;
+    }
+
+    public void setAssuredStrike(){
+        assuredStrike = true;
+    }
+
+    public void setFeastSteak(){
+        feastSteak = !feastSteak;
+    }
+
+    public void setCounterStrike(){
+        counterStrike = !counterStrike;
+    }
+
+
     public void doLeechAbility(ReduxDamageEvent event) {
+        if(this!=event.getAttacker()) return;
         if(leechAbility) {
             player.setHealth(Math.min(player.getMaxHealth(), player.getHealth() + 1));
             event.addReduxDamageMultiplier(20);
@@ -90,7 +121,17 @@ public class ReduxPlayer {
         }
     }
 
+    public void doAssuredStrike(ReduxDamageEvent event) {
+        if(this!=event.getAttacker()) return;
+        if(assuredStrike) {
+            event.addReduxDamageMultiplier(35);
+            event.getAttacker().addPotionEffect(PotionEffectType.SPEED, 20, 1);
+            assuredStrike = false;
+        }
+    }
+
     public void doKhanteAbility(ReduxDamageEvent event) {
+        if(this!=event.getAttacker()) return;
         if(BountiesMap.containsKey(event.getDefender().getPlayerUUID()) &&
         BountiesMap.get(event.getDefender().getPlayerUUID())>0){
             event.addReduxDamageMultiplier(getKhanteStack());
@@ -98,6 +139,7 @@ public class ReduxPlayer {
     }
 
     public void doToughSkinAbility(ReduxDamageEvent event){
+        if(this!=event.getDefender()) return;
         event.subtractReduxDamageMultiplier(toughSkinStack);
     }
 
@@ -371,6 +413,34 @@ public class ReduxPlayer {
                     }
                 }
             }, 20, 20);
+        }
+    }
+
+    public void doFightOrFlight(ReduxDamageEvent event){
+        if(this!=event.getAttacker()) return;
+
+        if(fightOrFlight){
+            event.addReduxDamageMultiplier(20);
+        }
+    }
+
+    public void doCounterStrike(ReduxDamageEvent event){
+
+        if(counterStrike){
+            if(this==event.getAttacker()) event.addReduxDamageMultiplier(15);
+
+            if(event.getDefender()==this){
+                event.subtractBaseDamage(1);
+            }
+        }
+
+    }
+
+    public void doFeastSteak(ReduxDamageEvent event){
+        if(this!=event.getAttacker()) return;
+
+        if(feastSteak){
+            event.addReduxDamageMultiplier(20);
         }
     }
 

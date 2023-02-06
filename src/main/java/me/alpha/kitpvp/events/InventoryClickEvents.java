@@ -5,6 +5,7 @@ import me.alpha.kitpvp.ChatManager.ChatManager;
 import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
+import me.alpha.kitpvp.DataSave.DatabaseConnector;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
@@ -28,6 +29,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+
+import java.sql.SQLException;
 
 import static me.alpha.kitpvp.Data.GoldData.*;
 import static me.alpha.kitpvp.Data.GoldRequirementData.getGoldRequirement;
@@ -331,6 +334,8 @@ public class InventoryClickEvents {
                     player.sendMessage(ChatColor.RED + "You've reached the max Prestige! Congrats!");
                     return;
                 }
+
+
                 ClassInstances.megaStreakData.setMegaStreak(String.valueOf(player.getUniqueId()), "overdrive");
                 ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
                 hasEconomy(String.valueOf(player.getUniqueId()));
@@ -360,6 +365,13 @@ public class InventoryClickEvents {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(title);
                 PacketPlayOutTitle sub_title = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a("[\"\",{\"text\":\"\",\"color\":\"gray\"},{\"text\":\"" + "You unlocked prestige" + "\",\"color\":\"gray\"},{\"text\":\"\",\"color\":\"gray\"},{\"text\":\" \",\"color\":\"gray\"},{\"text\":\"\",\"color\":\"yellow\"},{\"text\":\"" + integerToRoman(ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId()))) + "\",\"color\":\"gray\"},{\"text\":\"\",\"color\":\"gray\"}]"), 100, 20, 20);
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(sub_title);
+
+                try {
+                    DatabaseConnector.updatePrestige(player);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
             } else {
                 player.sendMessage(ChatColor.RED + "You need Level 120 to prestige!");
             }

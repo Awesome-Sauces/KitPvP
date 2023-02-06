@@ -28,6 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.inventivetalent.bossbar.BossBar;
 import org.inventivetalent.bossbar.BossBarAPI;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,12 @@ public class ScoreboardCore  implements Listener {
 
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
                 if(!player.isOp()) player.setGameMode(GameMode.SURVIVAL);
+                try {
+                    DatabaseConnector.updatePrestige(player);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
             }
         }, 1L);
 
@@ -94,6 +101,13 @@ public class ScoreboardCore  implements Listener {
         try {
             ReduxPlayerHandler.playerExists(event.getPlayer()).setSpeed(0);
         } catch (Exception ignored) {
+        }
+
+        try {
+            DatabaseConnector.updatePrestige(player);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         FastBoard board = boardMap.remove(player.getUniqueId());

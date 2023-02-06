@@ -308,7 +308,6 @@ public class KillStreakPerkGUI implements Listener {
                         "&eClick to switch streak!");
             case "pungent":
                 return colorCode("&7Selected: &aPungent\n\n"+ "&7Every: &c5 kills\n\n" +
-                        "&7Obtain a &cSmelly Bomb&7:\n" +
                         "&7Applies &9Slowness I &7to players\n" +
                         "&7within 3 blocks for 5 seconds.\n\n"+
                         "&eClick to switch streak!");
@@ -324,11 +323,11 @@ public class KillStreakPerkGUI implements Listener {
             // 7 Kills
             case "feast":
                 return colorCode("&7Selected: &aFeast\n\n"+ "&7Every: &c7 kills\n\n" +
-                        "&7Obtain a &6AAA-Rated Steak:\n" +
+                        "&7Obtain:\n" +
                         "&7- &c+20% damage\n" +
                         "&7- &eSpeed I\n" +
                         "&7- &9Resistance I\n" +
-                        "&7Insta-eat (0:10)\n\n"+
+                        "&7Duration (0:04)\n\n" +
                         "&eClick to switch streak!");
             case "csgo":
                 return colorCode("&7Selected: &aCounter-Strike\n\n"+ "&7Every: &c7 kills\n\n" +
@@ -337,9 +336,9 @@ public class KillStreakPerkGUI implements Listener {
                         "&eClick to switch streak!");
             case "nanoFactory":
                 return colorCode("&7Selected: &aGold Nano-factory\n\n"+ "&7Every: &c7 kills\n\n" +
-                        "&7Obtain a molecular assembler:\n" +
-                        "&7Spawns &67 gold ingots.\n" +
-                        "&7Grants &cRegen IV &7for 2 seconds.\n\n"+
+                        "&7Obtain:\n" +
+                        "&7- &6+1,500g\n" +
+                        "&7- &cRegen IV &7for 2 seconds.\n\n"+
                         "&eClick to switch streak!");
             case "tactRetreat":
                 return colorCode("&7Selected: &aTactical Retreat\n\n"+ "&7Every: &c7 kills\n\n" +
@@ -637,7 +636,6 @@ public class KillStreakPerkGUI implements Listener {
         Material material = Material.FERMENTED_SPIDER_EYE;
 
         String lore = colorCode("&7Every: &c5 kills\n\n" +
-                "&7Obtain a &cSmelly Bomb&7:\n" +
                 "&7Applies &9Slowness I &7to players\n" +
                 "&7within 3 blocks for 5 seconds.\n\n");
 
@@ -727,11 +725,11 @@ public class KillStreakPerkGUI implements Listener {
         Material material = Material.MUTTON;
 
         String lore = colorCode("&7Every: &c7 kills\n\n" +
-                "&7Obtain a &6AAA-Rated Steak:\n" +
+                "&7Obtain:\n" +
                 "&7- &c+20% damage\n" +
                 "&7- &eSpeed I\n" +
                 "&7- &9Resistance I\n" +
-                "&7Insta-eat (0:10)\n\n");
+                "&7Duration (0:04)\n\n");
 
         if((ClassInstances.killStreakPerkOne.getPerk(player.getUniqueId().toString()).equals(refID) ||
                 ClassInstances.killStreakPerkTwo.getPerk(player.getUniqueId().toString()).equals(refID)) &&

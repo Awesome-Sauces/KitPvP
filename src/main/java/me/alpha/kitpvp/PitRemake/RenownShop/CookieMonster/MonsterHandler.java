@@ -3,6 +3,9 @@ package me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
+import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.Sounds;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -13,6 +16,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -28,27 +32,33 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard.RefreshBoard;
+import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
+import static me.alpha.kitpvp.PitRemake.PitEvents.TwoTimesEvent.handleTwoEvent;
 import static me.alpha.kitpvp.utils.CitizensHelper.getNPC;
 import static me.alpha.kitpvp.utils.CitizensHelper.isNPC;
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 
 public class MonsterHandler implements Listener {
 
-    public static void percentageSpawn(Player player){/*
-        if(Math.random() <= ((double)Monster.getMonsterChance(String.valueOf(player.getUniqueId()))/3000)){
+    public static int spawned = 0;
+
+    public static void percentageSpawn(Player player){
+        if(percentChance(.15) && spawned<=5){
             createMonsterBoss(player);
-            player.sendMessage(colorCode("&c&lWOAH! &7a wild &bCookie Monster &7has appeared!"));
+            player.sendMessage(colorCode("&c&lWOAH! &7a wild &3Sewer Rat &7has appeared!"));
             Sounds.PRESTIGE.play(player);
         }
-        */
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void MonsterDamageEvent(ReduxDamageEvent event){
         if(isNPC(event.getDefender().getPlayerObject()) &&
-                getNPC(event.getDefender().getPlayerObject()).getFullName().equals(ChatColor.AQUA + "CookieMonster")){
+                getNPC(event.getDefender().getPlayerObject()).getFullName().equals(ChatColor.DARK_AQUA + "Sewer Rat")){
             NPC npc = getNPC(event.getDefender().getPlayerObject());
 
             event.subtractReduxDamageMultiplier(100);
@@ -64,7 +74,7 @@ public class MonsterHandler implements Listener {
             npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
             npc.getEntity().getWorld().playEffect(event.getDefender().getPlayerObject().getLocation(), Effect.HEART, 1);
         }else if(isNPC(event.getAttacker().getPlayerObject()) &&
-        getNPC(event.getAttacker().getPlayerObject()).getFullName().equals(ChatColor.AQUA + "CookieMonster")){
+        getNPC(event.getAttacker().getPlayerObject()).getFullName().equals(ChatColor.DARK_AQUA + "Sewer Rat")){
             NPC npc = getNPC(event.getAttacker().getPlayerObject());
 
             npc.getEntity().getWorld().strikeLightningEffect(event.getDefender().getPlayerObject().getLocation());
@@ -81,10 +91,12 @@ public class MonsterHandler implements Listener {
     }
 
     public static void createMonsterBoss(Player player){
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, ChatColor.AQUA + "CookieMonster");
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, ChatColor.DARK_AQUA + "Sewer Rat");
         npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, enchants.malding_sword);
 
         npc.setBukkitEntityType(EntityType.PLAYER);
+
+        spawned++;
 
         skin(npc);
 
@@ -140,11 +152,10 @@ public class MonsterHandler implements Listener {
                     npc.despawn();
                     npc.destroy();
                     CitizensAPI.getNPCRegistry().deregister(npc);
-                    player.sendMessage(colorCode("&c&lFAILURE! &7you failed to kill the cookie monster and lost &b" + renown + " &7renown."));
-                    Sounds.DEATH_GHAST_SCREAM.play(player);
+                    spawned = Math.max(0, spawned-1);
                 }
             }
-        }, 600L);
+        }, 6000L);
     }
 
     public static void handleMonsterDeath(Player player, NPC npc){
@@ -160,10 +171,40 @@ public class MonsterHandler implements Listener {
             npc.despawn();
             npc.destroy();
             CitizensAPI.getNPCRegistry().deregister(npc);
-            attacker.sendMessage(colorCode("&a&lCONGRATS! &7you killed the cookie monster and got &b" + renown + " &7renown."));
+            spawned  = Math.max(0, spawned-1);
+            attacker.sendMessage(colorCode("&a&lCONGRATS! &7you killed the &3Sewer rat&7 and got " + enchants.rubish.getItemMeta().getDisplayName() + "&7."));
+            StashCore.safeGive(player, enchants.rubish);
+
+            if(percentChance(.01)){
+                StashCore.safeGiveMultiple(player, enchants.jewl_pant, 1);
+            }else if(percentChance(.01)){
+                StashCore.safeGiveMultiple(player, enchants.jewl_sword, 1);
+            }
+
             Sounds.DEATH_GHAST_SCREAM.play(attacker);
         }
 
+    }
+
+    public static void initialize(){
+        if(Locations.getKingsQuestLocation(Bukkit.getWorld("lobby")).equals(new Location(Bukkit.getWorld("lobby"), -109.5, 79, -5.5))){
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(KitPvP.INSTANCE, new Runnable() {
+                @Override
+                public void run() {
+                    for(Player player : getNearby(new Location(Bukkit.getWorld("lobby"), 47.5, 50, 75.5))){
+                        percentageSpawn(player);
+                    }
+
+                    for(Player player : getNearby(new Location(Bukkit.getWorld("lobby"), 66.5, 55, 33.5))){
+                        percentageSpawn(player);
+                    }
+
+                    for(Player player : getNearby(new Location(Bukkit.getWorld("lobby"), 107.5, 58, 35.5))){
+                        percentageSpawn(player);
+                    }
+                }
+            }, 0L, 100L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
+        }
     }
 
     public static List<Player> getNearby(Entity hunter, double x, double y, double z){
@@ -171,6 +212,23 @@ public class MonsterHandler implements Listener {
         List<Player> playerList = new ArrayList<Player>();
 
         for (org.bukkit.entity.Entity player : hunter.getNearbyEntities(x, y, z)){
+
+            if (player instanceof Player){
+                if(!isNPC((Player) player)){
+                    playerList.add((Player) player);
+                }
+
+            }
+        }
+
+        return playerList;
+    }
+
+    public static List<Player> getNearby(Location location){
+
+        List<Player> playerList = new ArrayList<Player>();
+
+        for (org.bukkit.entity.Entity player : location.getWorld().getNearbyEntities(location, 15, 10, 15)){
 
             if (player instanceof Player){
                 if(!isNPC((Player) player)){

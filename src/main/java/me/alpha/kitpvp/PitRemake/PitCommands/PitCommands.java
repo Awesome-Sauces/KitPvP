@@ -199,7 +199,25 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            if(args.length>=2){
+                try {
+                    DatabaseConnector.updatePrestige(args[0], Integer.parseInt(args[1]));
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
 
+            if(args.length>=1 && args[0].equalsIgnoreCase("printAll")){
+                try {
+                    Bukkit.broadcastMessage(String.valueOf(DatabaseConnector.getHashMapPrestige()));
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }
 
             if(args.length>=1 && args[0].equalsIgnoreCase("save")){
                 DatabaseConnector.savePlayer(player);
@@ -718,10 +736,24 @@ public class PitCommands implements CommandExecutor {
         }
 
         if(cmd.getName().equalsIgnoreCase("mkBoard") &&
-        player.isOp()){TopPlayers();}
+        player.isOp()){
+            try {
+                TopPlayers();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
 
         if(cmd.getName().equalsIgnoreCase("rBoard") &&
-        player.isOp()){RefreshBoard();}
+        player.isOp()){
+            try {
+                RefreshBoard();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
 
         if(cmd.getName().equalsIgnoreCase("all")){
             if(player.isOp()){

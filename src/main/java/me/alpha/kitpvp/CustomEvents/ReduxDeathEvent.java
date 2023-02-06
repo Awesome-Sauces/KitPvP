@@ -146,7 +146,6 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Clearing Potions
         defender.removePotionEffect(PotionEffectType.SPEED);
-        attacker.removePotionEffect(PotionEffectType.SPEED);
 
 
         if(!isNPC(attacker.getPlayerObject())){
@@ -559,14 +558,14 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public void customDrops(){
         if(isNPC(defender.getPlayerObject()) && percentChance(.005) &&
         ClassInstances.heresy.hasValue(attacker.getPlayerUUID())){
-            StashCore.safeGive(attacker.getPlayerObject(), enchants.vile);
+            StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.vile, 1);
             attacker.getPlayerObject().sendMessage(ColorUtil.colorCode("&9&lDONE! &7(Kill reward) &b+"+Math.min(xp_cap, xp_base)+"XP! &5+1 Chunk of Vile"));
             Sounds.MEGA_RNGESUS.play(attacker.getPlayerObject());
             attacker.addPlayerEXP((int) Math.min(xp_cap, xp_base));
             attacker.getPlayerObject().playSound(attacker.getPlayerObject().getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
         }else if(!isNPC(defender.getPlayerObject()) && percentChance(.1) &&
                 ClassInstances.heresy.hasValue(attacker.getPlayerUUID())){
-            StashCore.safeGive(attacker.getPlayerObject(), enchants.vile);
+            StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.vile, 1);
             attacker.getPlayerObject().sendMessage(ColorUtil.colorCode("&9&lDONE! &7(Kill reward) &b+"+Math.min(xp_cap, xp_base)+"XP! &5+1 Chunk of Vile"));
             attacker.addPlayerEXP((int) Math.min(xp_cap, xp_base));
             Sounds.MEGA_RNGESUS.play(attacker.getPlayerObject());
