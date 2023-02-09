@@ -58,7 +58,7 @@ public class StreakManager {
 
     public static void UberRewardClaimDeath(Player player){
         if(Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "uber")){
-            if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) >= 400){
+            if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) >= 700){
                 player.setMaxHealth(20);
                 player.setHealth(player.getMaxHealth());
                 player.removePotionEffect(PotionEffectType.SLOW);

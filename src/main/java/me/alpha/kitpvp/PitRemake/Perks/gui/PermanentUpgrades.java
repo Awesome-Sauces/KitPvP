@@ -158,9 +158,9 @@ public class PermanentUpgrades implements Listener {
                 "&d&l- &7100 kills: &7Deal &c-50% damage &7vs bots.\n" +
                 "&d&l- &7200 kills: &c-2 max \u2764\n" +
                 "&d&l- &7300 kills: &7Potion Effects last &c-50% &7as long\n" +
-                "&d&l- &7400 kills: &7Take &c25% &7of the damage you deal\n&7as true damage\n\n" +
+                "&d&l- &7700 kills: &7Take &c25% &7of the damage you deal\n&7as true damage\n\n" +
                 "&7On death:\n" +
-                "&d&l- &7Earn an &dUberdrop &7if you have at least a 400 streak.");
+                "&d&l- &7Earn an &dUberdrop &7if you have at least a 700 streak.");
     }
 
     public static String getBeastModeLore(){

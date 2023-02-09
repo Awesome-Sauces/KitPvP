@@ -47,8 +47,6 @@ public class OnJoin implements Listener {
         // Send it!
         player.spigot().sendMessage(component);
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
-        if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) >= 1){
-            NonPermanentItems.ClearAndCheck(player);}
         ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
         ScoreboardCore.CreateScore(player);
         if(!isNPC(player)){

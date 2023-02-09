@@ -3,6 +3,7 @@ package me.alpha.kitpvp.SQL;
 import java.sql.SQLException;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public class SqlCore {
     String connectionUrl;
@@ -102,6 +103,33 @@ public class SqlCore {
 
         statement.close();
 
+    }
+
+    public HashMap<String, String> findAllPlayerData() throws SQLException {
+
+        PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM player_data");
+
+        ResultSet resultSet = statement.executeQuery();
+        String playerData;
+        String uuid = "";
+
+        HashMap<String, String> hashMap = new HashMap<>();
+
+        while (resultSet.next()){
+            playerData=resultSet.getString("serverID");
+
+            hashMap.put(resultSet.getString("uuid"), resultSet.getString("playerdata"));
+        }
+
+        statement.close();
+
+        return hashMap;
+    }
+
+    public void importAllFromHashMap(HashMap<String, String> hashMap) throws SQLException {
+        for(String string : hashMap.keySet()){
+            createPlayerData(string, hashMap.get(string), "admin");
+        }
     }
 
     public void deletePlayerData(String uuid) throws SQLException {

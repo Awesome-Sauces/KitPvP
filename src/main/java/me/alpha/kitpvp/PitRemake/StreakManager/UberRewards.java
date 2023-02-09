@@ -65,23 +65,18 @@ public class UberRewards {
         boolean looping = true;
 
         while(true){
-            if(percentChance(.7)){
+            if(percentChance(.5)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 5);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
                 break;
-            }else if(percentChance(.6)){
-                StashCore.safeGiveMultiple(player, enchants.cactus, 8);
-                hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
-                looping=false;
-                break;
-            }else if(percentChance(.07)){
+            }else if(percentChance(.05)){
                 StashCore.safeGiveMultiple(player, itemManager.feather, 1);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FeatherLore);
                 looping=false;
                 break;
-            }else if(percentChance(.03)){
-                StashCore.safeGiveMultiple(player, enchants.cactus, 16);
+            }else if(percentChance(.5)){
+                StashCore.safeGiveMultiple(player, enchants.cactus, 8);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
                 break;
@@ -95,7 +90,7 @@ public class UberRewards {
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FeatherLore);
                 looping=false;
                 break;
-            }else if(percentChance(.02)){
+            }else if(percentChance(.03)){
                 StashCore.safeGive(player, enchants.jewl_sword);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)),  JewelSwordLore);
                 looping=false;

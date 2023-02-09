@@ -19,9 +19,9 @@ public class DatabaseConnector {
     public static PrestigeSqlCore prestigeDatabase;
 
     public static void startConnection(){
-        database = new SqlCore("jdbc:mysql://212.192.28.145:3306/s1_playerdata",
-                "u1_ziqKYEfvLL",
-                "8!4.=gRCmg4VmioGXsKcsbFS");
+        database = new SqlCore("jdbc:mysql://212.192.28.120:3306/s86215_playerdata",
+                "u86215_jcoiTWvj6N",
+                "Syhm^xKSj.Ms+HI!.9Phvy.h");
 
         try {
             database.initializeDatabase();
@@ -38,9 +38,10 @@ public class DatabaseConnector {
             }
         },0,12000);
 
-        prestigeDatabase = new PrestigeSqlCore("jdbc:mysql://212.192.28.145:3306/s1_prestiges",
-                "u1_wj86k9jp4E",
-                "QD^u9KR^Ma.p!U!w0Iged6Cy");
+
+        prestigeDatabase = new PrestigeSqlCore("jdbc:mysql://212.192.28.120:3306/s86215_prestiges",
+                "u86215_4i9Qo9lLi9",
+                "OtQbPR^1RfqK1wx4klZ^@cDH");
 
         try {
             prestigeDatabase.initializeDatabase();

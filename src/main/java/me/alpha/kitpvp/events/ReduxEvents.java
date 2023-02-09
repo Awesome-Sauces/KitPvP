@@ -94,7 +94,7 @@ public class ReduxEvents implements Listener {
 
         ClassInstances.xpDragon.doPetAbility(event);
 
-        MonsterHandler.percentageSpawn(event.getAttacker().getPlayerObject());
+        //MonsterHandler.percentageSpawn(event.getAttacker().getPlayerObject());
 
         ReduxPlayer ReduxAttacker = event.getAttacker();
 

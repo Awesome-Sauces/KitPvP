@@ -84,9 +84,9 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         if(!isNPC(defender.getPlayerObject())){
             if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ((int)ClassInstances.promotion.getValue(defender.getPlayerUUID(),0))>=1 &&
-                    ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=100){
+                    ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=250){
                 ClearRegular(defender.getPlayerObject());
-                defender.getPlayerObject().sendMessage(colorCode("&e&lPROMOTION! &7you managed to reach a &c100 killstreak &7and kept your mystic lives!"));
+                defender.getPlayerObject().sendMessage(colorCode("&e&lPROMOTION! &7you managed to reach a &c250 killstreak &7and kept your mystic lives!"));
             }else {
                 ClearAndCheck(defender.getPlayerObject());
             }
@@ -146,6 +146,12 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Clearing Potions
         defender.removePotionEffect(PotionEffectType.SPEED);
+
+        if(!isNPC(attacker.getPlayerObject()) && attacker.getPlayerObject().getInventory().getHelmet() != null &&
+        attacker.getPlayerObject().getInventory().getHelmet().getType().equals(Material.GOLD_HELMET)){
+            addXpIncrease(5);
+            xp_cap += 50;
+        }
 
 
         if(!isNPC(attacker.getPlayerObject())){
@@ -230,6 +236,11 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/5);
 
             addBaseXp(Math.min(300, xpAmount));
+        }
+
+        if(!isNPC(defender.getPlayerObject())){
+            addBaseXp(50);
+            addGold(50);
         }
 
         // Gold/XP calculations
@@ -540,7 +551,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public double getMysticChance(){
         baseMysticChance=ClassInstances.mysticism.getMysticismChance(attacker.getPlayerUUID());
 
-        return ((baseMysticChance*.01)+(mystic_chance*.01))/10;
+        return ((baseMysticChance*.0001)+(mystic_chance*.0001));
     }
 
     public double getBaseMysticChance() {
@@ -556,7 +567,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     }
 
     public void customDrops(){
-        if(isNPC(defender.getPlayerObject()) && percentChance(.005) &&
+        if(isNPC(defender.getPlayerObject()) && percentChance(.0005) &&
         ClassInstances.heresy.hasValue(attacker.getPlayerUUID())){
             StashCore.safeGiveMultiple(attacker.getPlayerObject(), enchants.vile, 1);
             attacker.getPlayerObject().sendMessage(ColorUtil.colorCode("&9&lDONE! &7(Kill reward) &b+"+Math.min(xp_cap, xp_base)+"XP! &5+1 Chunk of Vile"));

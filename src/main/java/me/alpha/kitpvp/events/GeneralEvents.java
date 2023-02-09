@@ -69,12 +69,12 @@ import static me.alpha.kitpvp.Data.XpData.GetCurrentLevel;
 import static me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler.playerExists;
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
 import static me.alpha.kitpvp.PitRemake.Gems.gemMain.makeGemGUI;
+import static me.alpha.kitpvp.PitRemake.InventoryManager.NonPermanentItems.ClearAndCheck;
 import static me.alpha.kitpvp.PitRemake.Locations.changeCakeLocation;
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnProtection;
 import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
 import static me.alpha.kitpvp.PitRemake.MysticWell.loreChecker.CheckEnchantOnPant;
-import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.deleteBlob;
-import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.getPlayerFromBlob;
+import static me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap.*;
 import static me.alpha.kitpvp.PitRemake.PitMenus.PrestigeMenu.PrestigeMenu;
 import static me.alpha.kitpvp.PitRemake.QuestMaster.questMenu.makeMainMenu;
 import static me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage.getUberDrop;
@@ -136,6 +136,10 @@ public class GeneralEvents implements Listener {
 
     @EventHandler
     public static void PitBlobUnload(PlayerQuitEvent event){
+        if(ClassInstances.CombatTag.containsKey(event.getPlayer().getUniqueId().toString()) &&
+                ClassInstances.CombatTag.get(event.getPlayer().getUniqueId().toString()) > System.currentTimeMillis()){
+            ClearAndCheck(event.getPlayer());
+        }
         deleteBlob(event.getPlayer());
     }
 
@@ -388,7 +392,7 @@ public class GeneralEvents implements Listener {
                 }
             }
 
-            if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 400){
+            if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 700){
                 new TrueDamageHandler(event.getDefender(), event.getAttacker(), event.getReduxDamage()/2, 0).run();
             }
         }

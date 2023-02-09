@@ -386,7 +386,7 @@ public class PitCommands implements CommandExecutor {
             int currentLives = nbtItem.getInteger("lives");
             int maxLives = nbtItem.getInteger("maxLives");
 
-            if(player.getInventory().containsAtLeast(enchants.vile, 8)){
+            if(player.getInventory().containsAtLeast(enchants.vile, 3)){
                 if(!player.getItemInHand().getType().equals(Material.BOW) &&
                         !player.getItemInHand().getType().equals(Material.LEATHER_LEGGINGS) &&
                         !player.getItemInHand().getType().equals(Material.GOLD_SWORD)){
@@ -406,17 +406,12 @@ public class PitCommands implements CommandExecutor {
                     StashCore.safeRemove(player, enchants.vile);
                 StashCore.safeRemove(player, enchants.vile);
                 StashCore.safeRemove(player, enchants.vile);
-                StashCore.safeRemove(player, enchants.vile);
-                StashCore.safeRemove(player, enchants.vile);
-                StashCore.safeRemove(player, enchants.vile);
-                StashCore.safeRemove(player, enchants.vile);
-                StashCore.safeRemove(player, enchants.vile);
 
                     player.sendMessage(ChatColor.GREEN + "+1" + ChatColor.DARK_GRAY + " Mystic Life");
                     Sounds.SUCCESS.play(player);
 
             }else{
-                player.sendMessage(ChatColor.RED + "You need " + ChatColor.DARK_PURPLE + "8 Vile" + ChatColor.RED + " to repair!");
+                player.sendMessage(ChatColor.RED + "You need " + ChatColor.DARK_PURPLE + "3 Vile" + ChatColor.RED + " to repair!");
                 Sounds.ERROR.play(player);
             }
             return true;
@@ -475,6 +470,10 @@ public class PitCommands implements CommandExecutor {
                 NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
                 nbtCompound.setInteger(args[0], Integer.parseInt(args[1]));
+                nbtItem.setInteger("maxLives", 5);
+                nbtItem.setInteger("lives", 5);
+                nbtItem.setInteger("mysticTier", 3);
+
 
                 ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
                 List<String> lore = new ArrayList<>();
@@ -550,7 +549,9 @@ public class PitCommands implements CommandExecutor {
                             loc = getSpawnLocation(Bukkit.getWorld("lobby2"));
                             player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 3"));
                         }else if(player.getWorld().getName().equals("lobby2")){
-
+                            loc = getSpawnLocation(Bukkit.getWorld("world"));
+                            player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));
+/*
                         deleteBlob(player);
                         playerExists(player).setMoonXP(0);
                         refreshInventory(player);
@@ -585,8 +586,7 @@ public class PitCommands implements CommandExecutor {
                         DatabaseConnector.savePlayer(player);
                         getServer().getMessenger().registerOutgoingPluginChannel(KitPvP.INSTANCE, "BungeeCord");
                         player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
-
-                        return true;
+*/
 
                         }else{
                             loc = getSpawnLocation(Bukkit.getWorld("world"));
@@ -599,6 +599,7 @@ public class PitCommands implements CommandExecutor {
 
                         player.teleport(loc);
                         ScoreboardCore.CreateScore(player);
+
                         return true;
                     }
 
@@ -618,6 +619,9 @@ public class PitCommands implements CommandExecutor {
                         loc = getSpawnLocation(Bukkit.getWorld("lobby2"));
                         player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 3"));
                     }else if(player.getWorld().getName().equals("lobby2")){
+                        loc = getSpawnLocation(Bukkit.getWorld("world"));
+                        player.sendMessage(colorCode("&b&lTELEPORTING &7to lobby 1"));
+                        /*
                         deleteBlob(player);
                         playerExists(player).setMoonXP(0);
                         refreshInventory(player);
@@ -654,7 +658,7 @@ public class PitCommands implements CommandExecutor {
                         player.sendPluginMessage(KitPvP.INSTANCE, "BungeeCord", b.toByteArray());
 
 
-                        return true;
+                         */
 
                     }else{
                         loc = getSpawnLocation(Bukkit.getWorld("world"));
@@ -663,6 +667,8 @@ public class PitCommands implements CommandExecutor {
                     player.teleport(loc);
                     ScoreboardCore.CreateScore(player);
                 }
+
+
                 return true;
             }
         }

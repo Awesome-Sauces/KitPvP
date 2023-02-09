@@ -36,7 +36,8 @@ public class TrueDamageHandler {
             NBTItem item = new NBTItem(defender.getPlayerObject().getInventory().getLeggings());
 
             if(item.hasKey("mirror") && !Objects.equals(attacker.getPlayerUUID(), defender.getPlayerUUID())){
-                damage=0;
+                int level = item.getInteger("mirror");
+                damage=damage*(.99-(.20*level));
             }
 
         }

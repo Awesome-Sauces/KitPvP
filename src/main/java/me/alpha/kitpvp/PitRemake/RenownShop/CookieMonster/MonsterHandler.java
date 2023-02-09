@@ -155,7 +155,7 @@ public class MonsterHandler implements Listener {
                     spawned = Math.max(0, spawned-1);
                 }
             }
-        }, 6000L);
+        }, 300L);
     }
 
     public static void handleMonsterDeath(Player player, NPC npc){
@@ -205,6 +205,8 @@ public class MonsterHandler implements Listener {
                 }
             }, 0L, 100L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
         }
+
+
     }
 
     public static List<Player> getNearby(Entity hunter, double x, double y, double z){
