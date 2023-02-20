@@ -94,23 +94,9 @@ public class ReduxEvents implements Listener {
 
         ClassInstances.xpDragon.doPetAbility(event);
 
-        //MonsterHandler.percentageSpawn(event.getAttacker().getPlayerObject());
+       //MonsterHandler.percentageSpawn(event.getAttacker().getPlayerObject());
 
         ReduxPlayer ReduxAttacker = event.getAttacker();
-
-        if(!isNPC(ReduxAttacker.getPlayerObject())){
-            double r = new Random().nextDouble();
-            if(ReduxAttacker.getPlayerObject().getInventory().getItemInHand().equals(enchants.reaper_scythe)){
-                if (r < 0.5) {
-                    ReduxAttacker.getPlayerObject().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lWOW! &7you found a &3Player Soul&7!"));
-                    ReduxAttacker.getPlayerObject().getInventory().addItem(enchants.playerSoul);
-                }
-            }else if (r < 0.005) {
-                ReduxAttacker.getPlayerObject().sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lWOW! &7you found a &3Player Soul&7!"));
-                ReduxAttacker.getPlayerObject().getInventory().addItem(enchants.playerSoul);
-            }
-        }
-
 
     }
 

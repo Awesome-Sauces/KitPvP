@@ -82,6 +82,12 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
     public void run(){
 
+        if(!isNPC(attacker.getPlayerObject()) &&
+        ClassInstances.prestigeData.getPrestige(attacker.getPlayerUUID())<=12){
+            xp_base+=13-ClassInstances.prestigeData.getPrestige(attacker.getPlayerUUID());
+            gold+=13-ClassInstances.prestigeData.getPrestige(attacker.getPlayerUUID());
+        }
+
         if(!isNPC(defender.getPlayerObject())){
             if(defender.getPerks().contains(ClassInstances.assistantStreaker.getRefID()) && ((int)ClassInstances.promotion.getValue(defender.getPlayerUUID(),0))>=1 &&
                     ClassInstances.streakData.getStreak(defender.getPlayerUUID())>=250){
@@ -491,6 +497,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     }
 
     private void killEnchants(){
+
+        ClassInstances.speedyKillLore.run(this);
 
         CraftPlayer craftAttacker = (CraftPlayer) attacker.getPlayerObject(); //CraftBukkit
         EntityHuman entityAttacker = craftAttacker.getHandle(); //NMS

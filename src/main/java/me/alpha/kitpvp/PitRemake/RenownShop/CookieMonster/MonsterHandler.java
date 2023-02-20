@@ -147,7 +147,6 @@ public class MonsterHandler implements Listener {
             public void run() {
                 if(MonsterData.isOwner(npc, player)){
 
-                    int renown = MonsterData.getRenownRollLoss(player.getUniqueId());
                     MonsterData.removeMonsterInstance(npc);
                     npc.despawn();
                     npc.destroy();
@@ -166,7 +165,6 @@ public class MonsterHandler implements Listener {
 
         if(MonsterData.isOwner(npc, attacker)){
 
-            int renown = MonsterData.getRenownRoll(attacker.getUniqueId());
             MonsterData.removeMonsterInstance(npc);
             npc.despawn();
             npc.destroy();

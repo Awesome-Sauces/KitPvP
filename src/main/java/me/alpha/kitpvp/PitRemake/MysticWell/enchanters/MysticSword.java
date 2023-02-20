@@ -517,6 +517,8 @@ public class MysticSword {
             return colorCode(ClassInstances.goldbumpLore.title(tier));
         }else if (Objects.equals(enchant, "goldboost")){
             return colorCode(ClassInstances.goldboostLore.title(tier));
+        }else if (Objects.equals(enchant, "speedykill")){
+            return colorCode(ClassInstances.speedyKillLore.title(tier));
         }else if (Objects.equals(enchant, "pantsradar")){
             return colorCode(ClassInstances.pantsRadarLore.title(tier));
         }else if (Objects.equals(enchant, "sweaty")){
@@ -567,6 +569,8 @@ public class MysticSword {
             return "goldbump";
         }else if (Objects.equals(enchant, "xp")){
             return "xpboost";
+        }else if (Objects.equals(enchant, "speedykill")){
+            return "speedykill";
         }else if (Objects.equals(enchant, "xpb")){
             return "xpbump";
         }else if (Objects.equals(enchant, "fancyraider")){
@@ -617,6 +621,8 @@ public class MysticSword {
             return colorCode(ClassInstances.pantsRadarLore.lore(tier));
         }else if (Objects.equals(enchant, "goldboost")){
             return ClassInstances.goldboostLore.lore(tier);
+        }else if (Objects.equals(enchant, "speedykill")){
+            return colorCode(ClassInstances.speedyKillLore.lore(tier));
         }else if (Objects.equals(enchant, "combodamage")){
             return ClassInstances.combodamageLore.lore(tier);
         }else if (Objects.equals(enchant, "sweaty")){
@@ -637,16 +643,12 @@ public class MysticSword {
                 (name.equals("billionaire") ||
                         name.equals("perun") ||
                         name.equals("executioner") ||
-                        name.equals("gamble"))) return 6;
-        if (lore.contains(name)) return 4;
+                        name.equals("gamble"))) return 8;
+        if (lore.contains(name)) return 7;
         return 1;
     }
 
     public static String getEnchant(List<String> lore){
-
-        for (String ench : lore){
-            lore.set(lore.indexOf(ench), convertEnchant(ench.replaceAll("I", "")));
-        }
 
         // Rare
         double billionaire = .0125 * calcEnchant(lore, "billionaire");
@@ -655,6 +657,8 @@ public class MysticSword {
         double gamble = .0125 * calcEnchant(lore, "gamble");
 
         // Common Normal
+        double speedykill = .0535 * calcEnchant(lore, "speedykill");
+
         double combodamage = .0535 * calcEnchant(lore, "combodamage");
         double sharp = .0535 * calcEnchant(lore, "sharp");
         double kingbuster = .0535 * calcEnchant(lore, "kingbuster");
@@ -693,6 +697,10 @@ public class MysticSword {
                 // Xp Boost
                 // 5% chance of being here
                 return "xpboost";
+            }else if (percentChance(xpboost)){
+                // Xp Boost
+                // 5% chance of being here
+                return "speedykill";
             }else if (percentChance(painfocus)){
                 // Pain Focus
                 // 5.25% chance of being here

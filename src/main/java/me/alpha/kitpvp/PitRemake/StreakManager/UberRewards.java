@@ -59,13 +59,14 @@ public class UberRewards {
         String GhelmLore = compileListToStringWithTitle(String.valueOf(itemManager.goldHelm.getItemMeta().getDisplayName()) + "\n", itemManager.goldHelm.getItemMeta().getLore());
         String ArchLore = compileListToStringWithTitle(String.valueOf(itemManager.arch.getItemMeta().getDisplayName()) + "\n", itemManager.arch.getItemMeta().getLore());
         String JewelSwordLore = compileListToStringWithTitle(String.valueOf(enchants.jewl_sword.getItemMeta().getDisplayName()) + "\n", enchants.jewl_sword.getItemMeta().getLore());
+        String SwordBundleLore = compileListToStringWithTitle(String.valueOf(enchants.fullSwordPB.getItemMeta().getDisplayName()) + "\n", enchants.fullSwordPB.getItemMeta().getLore());
         String JewelPantLore = compileListToStringWithTitle(String.valueOf(enchants.jewl_pant.getItemMeta().getDisplayName()) + "\n", enchants.jewl_pant.getItemMeta().getLore());
         String GemLore = compileListToStringWithTitle(String.valueOf(enchants.gem.getItemMeta().getDisplayName() + "\n"), enchants.gem.getItemMeta().getLore());
 
         boolean looping = true;
 
         while(true){
-            if(percentChance(.5)){
+            if(percentChance(.09)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 5);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
                 looping=false;
@@ -75,9 +76,14 @@ public class UberRewards {
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FeatherLore);
                 looping=false;
                 break;
-            }else if(percentChance(.5)){
+            }else if(percentChance(.05)){
                 StashCore.safeGiveMultiple(player, enchants.cactus, 8);
                 hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), FreshRedsLore);
+                looping=false;
+                break;
+            }else if(percentChance(.04)){
+                StashCore.safeGiveMultiple(player, enchants.fullSwordPB, 1);
+                hoverText(colorCode("&d&lUBERDROP! <level_username> &7obtained an &dUberdrop&7!", playerExists(player)), SwordBundleLore);
                 looping=false;
                 break;
             }else if(percentChance(.04)){

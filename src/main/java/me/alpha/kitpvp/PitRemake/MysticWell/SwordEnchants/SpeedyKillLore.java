@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
 
-public class SpeedyKillLore  extends PitEnchant {
+public class SpeedyKillLore extends PitEnchant {
 
     @Override
     public void run(ReduxDamageEvent event) {

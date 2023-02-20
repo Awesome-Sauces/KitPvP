@@ -392,7 +392,7 @@ public class GeneralEvents implements Listener {
                 }
             }
 
-            if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 700){
+            if(streak.equals("uber") && ClassInstances.streakData.getStreak(event.getAttacker().getPlayerUUID()) >= 500){
                 new TrueDamageHandler(event.getDefender(), event.getAttacker(), event.getReduxDamage()/2, 0).run();
             }
         }
@@ -555,7 +555,8 @@ public class GeneralEvents implements Listener {
             if(((Player) event.getDamager()).getItemInHand()!=null &&
                     ((Player) event.getDamager()).getItemInHand().getType().equals(Material.GOLD_SWORD) &&
                     ((Player) event.getDamager()).getItemInHand().hasItemMeta() &&
-                    ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)
+                    ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL) &&
+                    CitizensHelper.isNPC(event.getEntity())
             ){
                 event.setDamage(Math.max(0,event.getDamage())-2.5);
             }

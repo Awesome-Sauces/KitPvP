@@ -86,6 +86,7 @@ public class ClassInstances {
 
     // Mystic Enchants
     public static PitPocketLore pitPocketLore = new PitPocketLore();
+    public static SpeedyKillLore speedyKillLore = new SpeedyKillLore();
     public static GrasshopperLore grasshopperLore = new GrasshopperLore();
     public static GoldBoostedLore goldBoostedLore = new GoldBoostedLore();
     public static BerserkerLore berserkerLore = new BerserkerLore();

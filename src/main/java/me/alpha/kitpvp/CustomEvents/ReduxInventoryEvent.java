@@ -55,10 +55,10 @@ public class ReduxInventoryEvent extends Event implements Cancellable {
 
     public void run(){
         if((ChatColor.stripColor(this.getPlayer().getOpenInventory().getTopInventory().getName()).contains("Vault #")||
+                ChatColor.stripColor(this.getPlayer().getOpenInventory().getTopInventory().getName()).contains("Disposal")||
                 ChatColor.stripColor(this.getPlayer().getOpenInventory().getTitle()).contains("inventory") ||
                 ChatColor.stripColor(this.getPlayer().getOpenInventory().getTitle()).contains("enderchest") ||
-                ChatColor.stripColor(this.getPlayer().getOpenInventory().getTitle()).contains("crafting")) ||
-                this.getPlayer().isOp()){
+                ChatColor.stripColor(this.getPlayer().getOpenInventory().getTitle()).contains("crafting"))){
             return;
         }else if(ChatColor.stripColor(this.getEvent().getClickedInventory().getName()).equalsIgnoreCase("inventory")) {
             return;
