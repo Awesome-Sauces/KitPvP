@@ -26,8 +26,36 @@ public class MapType {
                 !world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.AIR)&&
                 world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.REDSTONE_BLOCK)) return WaterMap;
 
+        if(world.getBlockAt(new Location(world, 0.5, 65, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 65, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 65, 0.5)).getType().equals(Material.BEACON)) return PheonixMap;
+
         return DefaultMap;
     }
+
+    public static final PitMap PheonixMap = new PitMap(
+            /* Spawn */ new Coordinates(3.5,121,17.5, 0.0F, 0.0F),
+            /* Spawn */ new Coordinates(3.5,121,17.5, 0.0F, 0.0F),
+            /* Spawn */ new Coordinates(3.5, 121, -8.5, -180F, 0.0F),
+            /* Spawn */ new Coordinates(16.5, 121, 4.5, -90F, 0.0F),
+            /* Spawn */ new Coordinates(3.5,121,-3.5, -0.5F, 0.0F),
+            /* Spawn */ new Coordinates(-4.5,121,4.5, -90.5F, 0.0F),
+            /* Spawn */ new Coordinates(3.5,121,12.5, -180F, 0.0F),
+            /* BotSpawn */ new Coordinates(3.5,100,4.5),
+            /* playPit - Jump Fight */  new Coordinates(3.5, 123, 4.5),
+            /* Leaderboard */ new Coordinates(-11.5, 127, 4.5),
+            /* pit level perks */  new Coordinates(9.5, 124, -6.5),
+            /* Ender chest */ new Coordinates(14.5, 123.5, 0.5),
+            /* Mystic Well */ new Coordinates(14.5, 123.5, 8.5),
+            /* King NPC */ new Coordinates(-109.5, 79, -5.5),
+            /* Bad NPC */  new Coordinates(63.5, 108, -79.5),
+            /* Good NPC */ new Coordinates(-68.5, 111, 109.5),
+            /* Ring middle */ new Coordinates(3.5,71,4.5),
+            /* Non-Perm Upgrades */ new Coordinates(2.5, 121, -6.5, 0.5F, 0.2F),
+            /* Perm Upgrades */ new Coordinates(4.5, 121, -6.5, 0.5F, 0.2F),
+            /* Stats */ new Coordinates(-7.5,121,-0.5, 0.0F, 0.0F),
+            /* Quests */ new Coordinates(-7.5, 121, 9.5, -180F, 0.0F),
+            /* Prestige */ new Coordinates(3.5, 122, 14.5, -180F, 0.0F));
 
     public static final PitMap KingMap = new PitMap(/* Spawn */ new Coordinates(-9.5, 95, 0.5, -90, -0F),
             /* Spawn */ new Coordinates(-11.5, 95, 12.5, 44.5F, -0.5F),

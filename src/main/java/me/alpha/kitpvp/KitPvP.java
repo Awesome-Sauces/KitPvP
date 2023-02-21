@@ -51,7 +51,7 @@ public class KitPvP extends JavaPlugin {
         INSTANCE = this;
 
         // Start Database
-        DatabaseConnector.startConnection();
+        //DatabaseConnector.startConnection();
 
         // Load Data
         ClassInstances.load();

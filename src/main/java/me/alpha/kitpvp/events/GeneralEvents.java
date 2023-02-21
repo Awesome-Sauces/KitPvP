@@ -558,7 +558,12 @@ public class GeneralEvents implements Listener {
                     ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL) &&
                     CitizensHelper.isNPC(event.getEntity())
             ){
-                event.setDamage(Math.max(0,event.getDamage())-2.5);
+                event.setDamage(Math.max(0,event.getDamage())-1.5);
+            }else if(((Player) event.getDamager()).getItemInHand()!=null &&
+                    ((Player) event.getDamager()).getItemInHand().getType().equals(Material.GOLD_SWORD) &&
+                    ((Player) event.getDamager()).getItemInHand().hasItemMeta() &&
+                    ((Player) event.getDamager()).getItemInHand().getEnchantments().containsKey(Enchantment.DAMAGE_ALL)){
+                event.setDamage(Math.max(0,event.getDamage())-1.5);
             }
 
 

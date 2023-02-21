@@ -37,7 +37,7 @@ public class AssistantStreaker extends PitPerk {
                 ReduxPlayer defender = event.getDefender();
 
                 if(player.getPerks().contains(ClassInstances.assistantStreaker.getRefID())){
-                    event.addGold(2);
+                    event.addBaseGold(2);
                     event.addXpIncrease(15);
                 }
 

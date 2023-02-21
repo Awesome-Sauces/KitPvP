@@ -30,7 +30,7 @@ public class GoldboostLore extends PitEnchant {
                 int level = item.getInteger("goldboost");
 
                 double gold = 15*level;
-                event.addGold((int) (event.getGold()*(gold/100)));
+                event.addGoldIncrease((int) gold);
             }
 
         }
@@ -45,7 +45,7 @@ public class GoldboostLore extends PitEnchant {
             int level = item.getInteger("goldboost");
 
             double gold = 15*level;
-            event.addGold((int) (event.getGold()*(gold/100)));
+            event.addGoldIncrease((int) gold);
 
 
         }

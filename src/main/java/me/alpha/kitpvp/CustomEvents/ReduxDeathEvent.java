@@ -65,9 +65,14 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     private boolean isCancelled;
 
     private int xpIncrease = 100;
+    private int goldIncrease = 100;
 
     public int getXp(){
         return (int) Math.max(0, xp_base*(xpIncrease*.01));
+    }
+    public int getGold(){
+
+        return (int) Math.max(0, gold*(goldIncrease*.01));
     }
 
     public static HandlerList getHandlerList() {
@@ -209,7 +214,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         // Megastreak calcs
         if(streak.equals("beastmode") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease(75);
-            addGold((int) Math.round(gold*.75));
+            addGoldIncrease(75);
 
             int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/5);
 
@@ -217,14 +222,14 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         }else if(streak.equals("overdrive") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease(55);
-            addGold(getGold());
+            addGoldIncrease(100);
 
             int xpAmount = Math.round((float) ClassInstances.streakData.getStreak(attacker.getPlayerUUID())/10);
 
             addBaseXp(Math.min(30, xpAmount));
         }else if(streak.equals("hermit") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
             addXpIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
-            addGold(getGold()*(((int)(Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5)/100));
+            addGoldIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())) / 10D)*5));
 
             if(ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())==50){
                 StashCore.safeGiveMultiple(getAttacker().getPlayerObject(), new ItemStack(Material.OBSIDIAN), 32);
@@ -246,7 +251,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         if(!isNPC(defender.getPlayerObject())){
             addBaseXp(50);
-            addGold(50);
+            addBaseGold(50);
         }
 
         // Gold/XP calculations
@@ -264,7 +269,8 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         }
 
         if(streak.equals("highlander") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
-            addGold((int) Math.round(getGold()*1.1));
+            addGoldIncrease((int) ((Math.min(200, ClassInstances.streakData.getStreak(getAttacker().getPlayerUUID())))));
+            addGoldIncrease(50);
         }else if(streak.equals("uber") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 100){
             addMysticChance(5);
         }else if(streak.equals("magnum") && ClassInstances.streakData.getStreak(attacker.getPlayerUUID()) >= 50){
@@ -299,7 +305,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         // Celebrity
         if(!isNPC(attacker.getPlayerObject())){
             if(((int)ClassInstances.celebrity.getValue(attacker.getPlayerUUID(), 0)) >=1) {
-                gold += gold;
+                addGoldIncrease(100);
             }
         }
 
@@ -313,7 +319,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
             }
 
             if(((int)ClassInstances.renownGoldBoost.getValue(attacker.getPlayerUUID(), 0)) >=1){
-                this.gold += gold*(((double)((Integer)ClassInstances.renownGoldBoost.getValue(attacker.getPlayerUUID())))/100);
+                addGoldIncrease(ClassInstances.renownGoldBoost.getInt(attacker.getPlayerUUID()));
             }
 
             if(((int)ClassInstances.tenacity.getValue(attacker.getPlayerUUID(), 0)) >=1){
@@ -337,7 +343,7 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         }
 
         final_xp = (int) getXp();
-        gold = (int) Math.round(gold);
+        gold = (int) getGold();
 
         // Attacker Streak tick
         if(!isNPC(attacker.getPlayerObject())){
@@ -455,6 +461,13 @@ public class ReduxDeathEvent extends Event implements Cancellable{
     public void addXpIncrease(int xpIncrease){
         this.xpIncrease+=xpIncrease;
     }
+    public void addGoldIncrease(int goldIncrease){
+        this.goldIncrease+=goldIncrease;
+    }
+
+    public void subtractGoldIncrease(int goldIncrease){
+        this.goldIncrease-=goldIncrease;
+    }
 
     public void subtractXpIncrease(int xpIncrease){
         this.xpIncrease-=xpIncrease;
@@ -464,16 +477,15 @@ public class ReduxDeathEvent extends Event implements Cancellable{
         this.xp_base+=xp;
     }
 
+    public void addBaseGold(int gold){
+        this.gold+=gold;
+    }
+    public void subtractBaseGold(int gold){
+        this.gold-=gold;
+    }
+
     public void subtractBaseXp(int xp){
         this.xp_base-=xp;
-    }
-
-    public int getGold() {
-        return (int) gold;
-    }
-
-    public void addGold(int gold) {
-        this.gold += gold;
     }
 
     public int getXp_cap() {

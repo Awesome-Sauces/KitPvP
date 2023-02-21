@@ -30,7 +30,7 @@ public class MoctezumaLore extends PitEnchant {
                 int level = item.getInteger("moctezuma");
 
                 double gold = (double) 6*level;
-                event.addGold((int) gold);
+                event.addBaseGold((int) gold);
             }
 
         }
@@ -45,7 +45,7 @@ public class MoctezumaLore extends PitEnchant {
             int level = item.getInteger("moctezuma");
 
             double gold = (double) 6*level;
-            event.addGold((int) gold);
+            event.addBaseGold((int) gold);
 
 
         }
