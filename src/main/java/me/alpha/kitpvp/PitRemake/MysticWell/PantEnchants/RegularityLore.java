@@ -6,6 +6,7 @@ import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.PitRemake.MysticWell.EnchantRarity;
 import me.alpha.kitpvp.PitRemake.MysticWell.PitEnchant;
 import me.alpha.kitpvp.utils.CitizensHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
@@ -32,8 +33,6 @@ public class RegularityLore extends PitEnchant {
         if(event.getBukkitEvent().getFinalDamage()>=maxFinalDamage(level)) return;
 
         triggerAttack(event, level);
-
-
     }
 
     public static double maxFinalDamage(int enchantLvl) {

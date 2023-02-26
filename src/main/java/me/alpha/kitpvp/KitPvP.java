@@ -1,7 +1,7 @@
 package me.alpha.kitpvp;
 
 import me.alpha.hunter.api.HunterAPI;
-import me.alpha.hunter.bot.BotPlayer;
+import me.alpha.kitpvp.Bot.BotPlayer;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.DataSave.Converter64;
@@ -20,6 +20,7 @@ import me.alpha.kitpvp.utils.*;
 import net.citizensnpcs.nms.v1_12_R1.util.CustomEntityRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -137,6 +138,35 @@ public class KitPvP extends JavaPlugin {
         }, 0L, 36000L); //0 Tick initial delay, 20 Tick (1 Second) between repeats
 
 
+        //HunterAPI.createHunterNon(Locations.getSpawnLocation(Bukkit.getWorld("lobby2")), 0, true, 1);
+
+        for(World world : CreateVillagers.getWorlds()){
+            if(MapType.getMapName(world).equals("PheonixMap")){
+                for(Location location : MapType.getMapType(world).getBotRegions(world)){
+
+                    for (int i = 0; i < 15; i++) {
+                        BotPlayer.createBot(location);
+                    }
+
+                    //
+                    //HunterAPI.createHunterNon(location, 0, true, 1);
+                }
+            }
+        }
+
+        /*
+        for(World world : CreateVillagers.getWorlds()){
+            if(MapType.getMapName(world).equals("PheonixMap")){
+                for(Location location : MapType.getMapType(world).getBotRegions(world)){
+                    for (int i = 0; i < 1; i++) {
+                        HunterAPI.createHunterNon(location, 0, true, 1);
+                    }
+                }
+            }
+        }
+
+         */
+
 /*
         for (int i = 0; i < 20; i++) {
             HunterAPI.createHunterNon(Locations.getBotSpawnLocation(Bukkit.getWorld("world")), 0, false, (int) MapType.getMapType(Bukkit.getWorld("world")).getRingMid(Bukkit.getWorld("world")).getY());
@@ -154,6 +184,11 @@ public class KitPvP extends JavaPlugin {
     @Override
     public void onDisable() {
 
+        BotPlayer.destroyAllBot();
+
+        // Unload NPC
+        CreateVillagers.unloadNPC();
+
         for(World world : Bukkit.getServer().getWorlds()){
             for(Entity entity : world.getEntities()){
                 if(entity instanceof Item){
@@ -162,20 +197,17 @@ public class KitPvP extends JavaPlugin {
             }
         }
 
+        // Delete Leaderboard
+        Leaderboard.delBoard();
+
+        // Save Data
+        ClassInstances.save();
+
         for(Player player : Bukkit.getOnlinePlayers()){
 
             DatabaseConnector.savePlayer(player);
 
         }
-
-        // Save Data
-        ClassInstances.save();
-
-        // Unload NPC
-        CreateVillagers.unloadNPC();
-
-        // Delete Leaderboard
-        Leaderboard.delBoard();
     }
 
 

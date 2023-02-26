@@ -31,6 +31,7 @@ import me.alpha.kitpvp.PitRemake.QuestMaster.questInventoryManager;
 import me.alpha.kitpvp.PitRemake.RenownShop.RenownItems;
 import me.alpha.kitpvp.PitRemake.RenownShop.RenownStorage;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
+import me.alpha.kitpvp.PitRemake.Startup.NPCType;
 import me.alpha.kitpvp.utils.CitizensHelper;
 import me.alpha.kitpvp.utils.ColorUtil;
 import me.alpha.kitpvp.utils.PacketTitles.PacketTitle;
@@ -1166,33 +1167,19 @@ public class GeneralEvents implements Listener {
         Player player = (Player) event.getPlayer();
         NPC npc = CitizensAPI.getNPCRegistry().getNPC(event.getRightClicked());
 
-        if (Objects.equals(npc, CreateVillagers.non_perm_upgrades_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_non_perm_upgrades_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_non_perm_upgrades_npc)){
+        if (CreateVillagers.getNPCType(npc).equals(NPCType.NO_PERM)){
             new NonPermanentItems(player);
-        }else if (Objects.equals(npc, CreateVillagers.prestige_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_prestige_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_prestige_npc)){
+        }else if (CreateVillagers.getNPCType(npc).equals(NPCType.PRESTIGE)){
             PrestigeMenu(player);
-        }else if (Objects.equals(npc, CreateVillagers.perm_upgrades_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_perm_upgrades_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_perm_upgrades_npc)){
+        }else if (CreateVillagers.getNPCType(npc).equals(NPCType.PERM)){
             player.openInventory(PermanentUpgrades.getPermanentUpgrades(player));
-        }else if (Objects.equals(npc, CreateVillagers.king_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_king_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_king_npc)){
+        }else if (CreateVillagers.getNPCType(npc).equals(NPCType.KING)){
             KingFaction.openInventory(player);
-        }else if (Objects.equals(npc, CreateVillagers.archAngel_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_archAngel_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_archAngel_npc)){
+        }else if (CreateVillagers.getNPCType(npc).equals(NPCType.ANGEL)){
             ArchAngelFaction.openInventory(player);
-        }else if (Objects.equals(npc, CreateVillagers.armageddon_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_armageddon_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_armageddon_npc)){
+        }else if (CreateVillagers.getNPCType(npc).equals(NPCType.ARMAGEDDON)){
             ArmageddonFaction.openInventory(player);
-        }else if(Objects.equals(npc, CreateVillagers.quest_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby_quest_npc) ||
-                Objects.equals(npc, CreateVillagers.lobby2_quest_npc)){
+        }else if(CreateVillagers.getNPCType(npc).equals(NPCType.QUEST)){
             player.sendMessage(ColorUtil.colorCode("&c&lERROR! &7This NPC is currently disabled!"));
             Sounds.NO.play(player);
             //if(ClassInstances.prestigeData.getPrestige(String.valueOf(player.getUniqueId())) >= 15){

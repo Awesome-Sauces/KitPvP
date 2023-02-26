@@ -1,9 +1,15 @@
 package me.alpha.kitpvp.PitRemake;
 
+import com.google.common.collect.ImmutableList;
 import me.alpha.kitpvp.utils.Sounds;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants.percentChance;
 
@@ -33,6 +39,30 @@ public class MapType {
         return DefaultMap;
     }
 
+    public static String getMapName(World world){
+        if(world.getBlockAt(new Location(world, 0.5, 80, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.EMERALD_BLOCK)) return "CoralMap";
+
+        if(world.getBlockAt(new Location(world, 0.5, 69, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 69, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 69, 0.5)).getType().equals(Material.GOLD_BLOCK)) return "KingMap";
+
+        if(world.getBlockAt(new Location(world, 0.5, 41, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 41, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 41, 0.5)).getType().equals(Material.DIAMOND_BLOCK)) return "GenesisMap";
+
+        if(world.getBlockAt(new Location(world, 0.5, 80, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 80, 0.5)).getType().equals(Material.REDSTONE_BLOCK)) return "WaterMap";
+
+        if(world.getBlockAt(new Location(world, 0.5, 65, 0.5))!=null &&
+                !world.getBlockAt(new Location(world, 0.5, 65, 0.5)).getType().equals(Material.AIR)&&
+                world.getBlockAt(new Location(world, 0.5, 65, 0.5)).getType().equals(Material.BEACON)) return "PheonixMap";
+
+        return "DefaultMap";
+    }
+
     public static final PitMap PheonixMap = new PitMap(
             /* Spawn */ new Coordinates(3.5,121,17.5, 0.0F, 0.0F),
             /* Spawn */ new Coordinates(3.5,121,17.5, 0.0F, 0.0F),
@@ -55,7 +85,16 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(4.5, 121, -6.5, 0.5F, 0.2F),
             /* Stats */ new Coordinates(-7.5,121,-0.5, 0.0F, 0.0F),
             /* Quests */ new Coordinates(-7.5, 121, 9.5, -180F, 0.0F),
-            /* Prestige */ new Coordinates(3.5, 122, 14.5, -180F, 0.0F));
+            /* Prestige */ new Coordinates(3.5, 122, 14.5, -180F, 0.0F),
+            /* Bot Regions */ ImmutableList.of(new Coordinates(-62.5, 70, -90.5),
+            new Coordinates(-75.5, 70, -8.5),
+            new Coordinates(-21.5,69,-125.5),
+            new Coordinates(104.5,69,-35.5),
+            new Coordinates(52.5,67,-111.5),
+            new Coordinates(42.5, 71, 70.5),
+            new Coordinates(34.5,70, 112.5),
+            new Coordinates(-61.5,71,48.5),
+            new Coordinates(-33.5,68,138.5)) /* Bot Regions */);
 
     public static final PitMap KingMap = new PitMap(/* Spawn */ new Coordinates(-9.5, 95, 0.5, -90, -0F),
             /* Spawn */ new Coordinates(-11.5, 95, 12.5, 44.5F, -0.5F),
@@ -78,7 +117,8 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(-1.5,95,12.5, 180F, 0.5F),
             /* Stats */ new Coordinates(11.5,95,6.5, 90F, 0.5F),
             /* Quests */ new Coordinates(11.5,95,-5.5, 90F, 0.5F),
-            /* Prestige */ new Coordinates(0.5, 96, -12.5, 0.5F, 1.0F));
+            /* Prestige */ new Coordinates(0.5, 96, -12.5, 0.5F, 1.0F),
+            /* Bot Regions */ Collections.singletonList(new Coordinates(0.5,85,0.5)));
 
     public static final PitMap CoralMap = new PitMap(/* Spawn */ new Coordinates(-9.5, 114, 0.5, -90, -0F),
             /* Spawn */ new Coordinates(-11.5, 114, 12.5, 44.5F, -0.5F),
@@ -101,7 +141,8 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(-1.5,114,12.5, 180F, 0.5F),
             /* Stats */ new Coordinates(11.5,114,5.5, 90F, 0.5F),
             /* Quests */ new Coordinates(9.5,114,-4.5, 90F, 0.5F),
-            /* Prestige */ new Coordinates(0.5, 115, -11.5, 0.5F, 1.0F));
+            /* Prestige */ new Coordinates(0.5, 115, -11.5, 0.5F, 1.0F),
+            /* Bot Regions */ Collections.singletonList(new Coordinates(0.5, 101, 0.5)));
 
     public static final PitMap WaterMap = new PitMap(/* Spawn */ new Coordinates(-9.5, 114, 0.5, -90, -0F),
             /* Spawn */ new Coordinates(-11.5, 114, 12.5, 44.5F, -0.5F),
@@ -124,7 +165,8 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(-1.5,114,12.5, 180F, 0.5F),
             /* Stats */ new Coordinates(11.5,114,5.5, 90F, 0.5F),
             /* Quests */ new Coordinates(9.5,114,-4.5, 90F, 0.5F),
-            /* Prestige */ new Coordinates(0.5, 115, -11.5, 0.5F, 1.0F));
+            /* Prestige */ new Coordinates(0.5, 115, -11.5, 0.5F, 1.0F),
+            /* Bot Regions */ Collections.singletonList(new Coordinates(0.5,101,0.5)));
 
     public static final PitMap GenesisMap = new PitMap(/* Spawn */ new Coordinates(0,0,0),
             /* Spawn */ new Coordinates(0,0,0),
@@ -147,7 +189,8 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(0,0,0, 0F, 0.5F),
             /* Stats */ new Coordinates(0,0,0, 0F, 0.5F),
             /* Quests */ new Coordinates(0,0,0, 0F, 0.5F),
-            /* Prestige */ new Coordinates(0,0,0, 0F, 0.5F));
+            /* Prestige */ new Coordinates(0,0,0, 0F, 0.5F),
+            /* Bot Regions */ Collections.singletonList(new Coordinates(0,0,0)));
 
     public static final PitMap DefaultMap = new PitMap(/* Spawn */ new Coordinates(0,0,0),
             /* Spawn */ new Coordinates(0,0,0),
@@ -170,7 +213,8 @@ public class MapType {
             /* Perm Upgrades */ new Coordinates(0,0,0, 0F, 0.5F),
             /* Stats */ new Coordinates(0,0,0, 0F, 0.5F),
             /* Quests */ new Coordinates(0,0,0, 0F, 0.5F),
-            /* Prestige */ new Coordinates(0,0,0, 0F, 0.5F));
+            /* Prestige */ new Coordinates(0,0,0, 0F, 0.5F),
+            /* Bot Regions */ Collections.singletonList(new Coordinates(0,0,0)));
 
     public static class PitMap {
 
@@ -197,6 +241,7 @@ public class MapType {
         Coordinates statsNPC;
         Coordinates questNPC;
         Coordinates prestigeNPC;
+        List<Coordinates> botRegions;
 
 
         public PitMap(Coordinates spawn1, Coordinates spawn2,
@@ -211,7 +256,7 @@ public class MapType {
                       Coordinates goodNPC, Coordinates ringMid,
                       Coordinates nonPermNPC, Coordinates permNPC,
                       Coordinates statsNPC, Coordinates questNPC,
-                      Coordinates prestigeNPC) {
+                      Coordinates prestigeNPC, List<Coordinates> botRegions) {
             this.spawn1=spawn1;
             this.spawn2=spawn2;
             this.spawn3=spawn3;
@@ -235,6 +280,7 @@ public class MapType {
             this.statsNPC=statsNPC;
             this.questNPC=questNPC;
             this.prestigeNPC=prestigeNPC;
+            this.botRegions=botRegions;
         }
 
         public Location getSpawn(World world){
@@ -431,6 +477,20 @@ public class MapType {
 
         public void setPrestigeNPC(Coordinates prestigeNPC) {
             this.prestigeNPC = prestigeNPC;
+        }
+
+        public List<Location> getBotRegions(World world) {
+            List<Location> locations = new ArrayList<>();
+
+            for (Coordinates coordinates : botRegions){
+                locations.add(new Location(world, coordinates.x, coordinates.y, coordinates.z, coordinates.yaw, coordinates.pitch));
+            }
+
+            return locations;
+        }
+
+        public void setBotRegions(List<Coordinates> botRegions) {
+            this.botRegions = botRegions;
         }
     }
 }

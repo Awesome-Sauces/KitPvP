@@ -11,6 +11,8 @@ import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.Boosters.Booster;
 import me.alpha.kitpvp.PitRemake.Bounties.Bounty;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
+import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.PitRemake.MysticWell.GlobalEnchants.*;
 import me.alpha.kitpvp.PitRemake.PitBlob.PitBlobMap;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
@@ -34,6 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
 import static me.alpha.kitpvp.Data.ClassInstances.KillMessages;
 import static me.alpha.kitpvp.PitRemake.DeathHandler.DeathHandler.KillMan;
@@ -114,8 +117,33 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
 
         if(isNPC(attacker.getPlayerObject()) && isNPC(defender.getPlayerObject())){
-            NPC npc = getNPC(defender.getPlayerObject());
-            npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            // Check if the Map is Pheonix Map
+            if(MapType.getMapName(defender.getPlayerObject().getWorld()).equals("PheonixMap")){
+                MapType.PitMap mapType = MapType.getMapType(defender.getPlayerObject().getWorld());
+
+                List<Location> locations = mapType.getBotRegions(defender.getPlayerObject().getWorld());
+
+                boolean found = true;
+
+                for (Location location : locations){
+                    if(location.distance(defender.getPlayerObject().getLocation())<=50){
+                        NPC npc = getNPC(defender.getPlayerObject());
+                        location.add(0, 15, 0);
+                        if(npc.getEntity()!=null) npc.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        found = false;
+                        break;
+                    }
+                }
+
+                if(found){
+                    NPC npc = getNPC(defender.getPlayerObject());
+                    if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                }
+
+            }else{
+                NPC npc = getNPC(defender.getPlayerObject());
+                if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            }
             return;
         }
         
@@ -389,8 +417,33 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
         // Teleporting
         if(isNPC(defender.getPlayerObject())){
-            NPC npc = getNPC(defender.getPlayerObject());
-            if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            // Check if the Map is Pheonix Map
+            if(MapType.getMapName(defender.getPlayerObject().getWorld()).equals("PheonixMap")){
+                MapType.PitMap mapType = MapType.getMapType(defender.getPlayerObject().getWorld());
+
+                List<Location> locations = mapType.getBotRegions(defender.getPlayerObject().getWorld());
+
+                boolean found = true;
+
+                for (Location location : locations){
+                    if(location.distance(defender.getPlayerObject().getLocation())<=50){
+                        NPC npc = getNPC(defender.getPlayerObject());
+                        location.add(0, 15, 0);
+                        if(npc.getEntity()!=null) npc.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        found = false;
+                        break;
+                    }
+                }
+
+                if(found){
+                    NPC npc = getNPC(defender.getPlayerObject());
+                    if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                }
+
+            }else{
+                NPC npc = getNPC(defender.getPlayerObject());
+                if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            }
         }else if (!isNPC(defender.getPlayerObject())){
             defender.getPlayerObject().teleport(getSpawnLocation(defender.getPlayerObject().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
