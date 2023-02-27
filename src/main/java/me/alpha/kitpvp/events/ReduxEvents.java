@@ -10,6 +10,7 @@ import me.alpha.kitpvp.KitPvP;
 import me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayer;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.Locations;
+import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler;
 import me.alpha.kitpvp.utils.CitizensHelper;
 import org.bukkit.*;
@@ -20,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
 import java.util.Random;
 import static me.alpha.kitpvp.Objects.ReduxPlayerObject.ReduxPlayerHandler.playerExists;
 import static me.alpha.kitpvp.PitRemake.Locations.getSpawnProtection;
@@ -132,19 +134,44 @@ public class ReduxEvents implements Listener {
                 event.getBlockReplacedState().getType() != Material.GRASS){
             if (event.getBlock().getType() == Material.OBSIDIAN) {
 
-                if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))<=8){
-                    event.setCancelled(true);
-                    return;
-                }
+                if(MapType.getMapName(event.getBlock().getWorld()).equals("PheonixMap")){
+                    MapType.PitMap mapType = MapType.getMapType(event.getBlock().getWorld());
 
-                if(event.getBlock().getY()>=(Locations.getMidLocation(event.getBlock().getWorld()).getY()+7)){
-                    event.setCancelled(true);
-                    return;
-                }
+                    List<Location> locations = mapType.getBotRegions(event.getBlock().getWorld());
 
-                if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))>=10){
-                    event.setCancelled(true);
-                    return;
+                    Location closest = null;
+
+                    boolean stopPlacement = false;
+
+                    for (Location location : locations){
+                        if(closest==null) closest = location;
+
+                        if(closest.distance(event.getBlock().getLocation()) >
+                                location.distance(event.getBlock().getLocation())) closest = location;
+                    }
+
+                    if(event.getBlock().getLocation().distance(closest) <= 8 ||
+                            event.getBlock().getY() >= (closest.getY() + 7) ||
+                            event.getBlock().getLocation().distance(closest) >= 10){
+                        event.setCancelled(true);
+                        return;
+                    }
+
+                }else{
+                    if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))<=8){
+                        event.setCancelled(true);
+                        return;
+                    }
+
+                    if(event.getBlock().getY()>=(Locations.getMidLocation(event.getBlock().getWorld()).getY()+7)){
+                        event.setCancelled(true);
+                        return;
+                    }
+
+                    if(event.getBlock().getLocation().distance(Locations.getMidLocation(event.getBlock().getWorld()))>=10){
+                        event.setCancelled(true);
+                        return;
+                    }
                 }
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(KitPvP.INSTANCE, new Runnable() {

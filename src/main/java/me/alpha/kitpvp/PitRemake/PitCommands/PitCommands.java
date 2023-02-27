@@ -28,6 +28,7 @@ import me.alpha.kitpvp.PitRemake.PitCommands.Repairs.menu;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashData;
 import me.alpha.kitpvp.PitRemake.PitCommands.View.ViewCore;
+import me.alpha.kitpvp.PitRemake.RenownShop.New.RenownAbilities;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
 import me.alpha.kitpvp.SQL.SqlCore;
 import me.alpha.kitpvp.utils.ColorUtil;
@@ -52,6 +53,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import javax.script.ScriptException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -199,6 +201,13 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            try {
+                RenownAbilities.testAllClass(player);
+            } catch (ScriptException e) {
+                throw new RuntimeException(e);
+            }
+
+            /*
             if(args.length>=2){
                 try {
                     DatabaseConnector.updatePrestige(args[0], Integer.parseInt(args[1]));
@@ -226,6 +235,8 @@ public class PitCommands implements CommandExecutor {
             if(args.length>=1 && args[0].equalsIgnoreCase("load")){
                 DatabaseConnector.loadPlayer(player);
             }
+
+             */
 
 
 

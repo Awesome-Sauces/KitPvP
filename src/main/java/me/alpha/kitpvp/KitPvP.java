@@ -1,7 +1,7 @@
 package me.alpha.kitpvp;
 
 import me.alpha.hunter.api.HunterAPI;
-import me.alpha.kitpvp.Bot.BotPlayer;
+
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.Data.XpData;
 import me.alpha.kitpvp.DataSave.Converter64;
@@ -14,6 +14,7 @@ import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.MapType;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler;
+import me.alpha.kitpvp.PitRemake.RenownShop.New.RenownAbilities;
 import me.alpha.kitpvp.PitRemake.Startup.CreateVillagers;
 import me.alpha.kitpvp.events.MainDamageEvent;
 import me.alpha.kitpvp.utils.*;
@@ -78,6 +79,9 @@ public class KitPvP extends JavaPlugin {
 
         // Sewer Rat
         MonsterHandler.initialize();
+
+        // Register Renown Upgrades
+        RenownAbilities.autoRegistry();
 
         // Update Scoreboard
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
@@ -145,11 +149,11 @@ public class KitPvP extends JavaPlugin {
                 for(Location location : MapType.getMapType(world).getBotRegions(world)){
 
                     for (int i = 0; i < 15; i++) {
-                        BotPlayer.createBot(location);
+                        //HunterAPI.createAdvancedHunter(null, location, 0, false);
                     }
 
                     //
-                    //HunterAPI.createHunterNon(location, 0, true, 1);
+                   // HunterAPI.createHunterNon(location, 0, true, 1);
                 }
             }
         }
@@ -183,8 +187,6 @@ public class KitPvP extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
-        BotPlayer.destroyAllBot();
 
         // Unload NPC
         CreateVillagers.unloadNPC();

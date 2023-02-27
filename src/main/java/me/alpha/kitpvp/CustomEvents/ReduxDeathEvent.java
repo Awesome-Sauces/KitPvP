@@ -123,22 +123,18 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
                 List<Location> locations = mapType.getBotRegions(defender.getPlayerObject().getWorld());
 
-                boolean found = true;
+                Location closest = null;
 
                 for (Location location : locations){
-                    if(location.distance(defender.getPlayerObject().getLocation())<=50){
-                        NPC npc = getNPC(defender.getPlayerObject());
-                        location.add(0, 15, 0);
-                        if(npc.getEntity()!=null) npc.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                        found = false;
-                        break;
-                    }
+                    if(closest==null) closest = location;
+
+                    if(closest.distance(defender.getPlayerObject().getLocation()) >
+                            location.distance(defender.getPlayerObject().getLocation())) closest = location;
                 }
 
-                if(found){
-                    NPC npc = getNPC(defender.getPlayerObject());
-                    if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                }
+                closest.add(0, 15, 0);
+                NPC npc = getNPC(defender.getPlayerObject());
+                if(npc.getEntity()!=null) npc.teleport(closest, PlayerTeleportEvent.TeleportCause.PLUGIN);
 
             }else{
                 NPC npc = getNPC(defender.getPlayerObject());
@@ -423,22 +419,19 @@ public class ReduxDeathEvent extends Event implements Cancellable{
 
                 List<Location> locations = mapType.getBotRegions(defender.getPlayerObject().getWorld());
 
-                boolean found = true;
+                Location closest = null;
 
                 for (Location location : locations){
-                    if(location.distance(defender.getPlayerObject().getLocation())<=50){
-                        NPC npc = getNPC(defender.getPlayerObject());
-                        location.add(0, 15, 0);
-                        if(npc.getEntity()!=null) npc.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                        found = false;
-                        break;
-                    }
+                    if(closest==null) closest = location;
+
+                    if(closest.distance(defender.getPlayerObject().getLocation()) >
+                            location.distance(defender.getPlayerObject().getLocation())) closest = location;
                 }
 
-                if(found){
-                    NPC npc = getNPC(defender.getPlayerObject());
-                    if(npc.getEntity()!=null) npc.teleport(getBotSpawnLocation(npc.getEntity().getWorld()), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                }
+                closest.add(0, 15, 0);
+                NPC npc = getNPC(defender.getPlayerObject());
+                if(npc.getEntity()!=null) npc.teleport(closest, PlayerTeleportEvent.TeleportCause.PLUGIN);
+
 
             }else{
                 NPC npc = getNPC(defender.getPlayerObject());

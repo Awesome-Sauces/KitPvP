@@ -86,15 +86,12 @@ public class MapType {
             /* Stats */ new Coordinates(-7.5,121,-0.5, 0.0F, 0.0F),
             /* Quests */ new Coordinates(-7.5, 121, 9.5, -180F, 0.0F),
             /* Prestige */ new Coordinates(3.5, 122, 14.5, -180F, 0.0F),
-            /* Bot Regions */ ImmutableList.of(new Coordinates(-62.5, 70, -90.5),
-            new Coordinates(-75.5, 70, -8.5),
-            new Coordinates(-21.5,69,-125.5),
-            new Coordinates(104.5,69,-35.5),
-            new Coordinates(52.5,67,-111.5),
-            new Coordinates(42.5, 71, 70.5),
-            new Coordinates(34.5,70, 112.5),
-            new Coordinates(-61.5,71,48.5),
-            new Coordinates(-33.5,68,138.5)) /* Bot Regions */);
+            /* Bot Regions */ ImmutableList.of(new Coordinates(3.5, 71, 4.5),
+            new Coordinates(-83.5, 71, 60.5),
+            new Coordinates(-8.5,71,79.5),
+            new Coordinates(-31.5,72,-30.5),
+            new Coordinates(-56.5, 72, -91.5),
+            new Coordinates(37.5, 70, -57.5)) /* Bot Regions */);
 
     public static final PitMap KingMap = new PitMap(/* Spawn */ new Coordinates(-9.5, 95, 0.5, -90, -0F),
             /* Spawn */ new Coordinates(-11.5, 95, 12.5, 44.5F, -0.5F),

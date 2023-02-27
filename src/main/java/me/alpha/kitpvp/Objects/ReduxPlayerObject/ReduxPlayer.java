@@ -59,7 +59,7 @@ public class ReduxPlayer {
     double xpBooster = 1;
     int moonXP = 0;
     double goldBooster = 1;
-    int obbyTime = 2400*5;
+    int obbyTime = 4800*5;
     int superStreaker = 0;
     double strength = 0.0;
     long strengthTimer;

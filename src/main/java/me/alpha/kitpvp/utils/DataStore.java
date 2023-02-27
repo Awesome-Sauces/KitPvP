@@ -36,6 +36,11 @@ public abstract class DataStore {
         return null;
     }
 
+    public String getRefID(){
+        return refID;
+    }
+
+
     public Object getValue(Object id, Object value){
         hasValue(id, value);
         return this.hashMap.get(id);
@@ -52,13 +57,13 @@ public abstract class DataStore {
     }
 
     public int getInt(Object id){
-        hasValue(id);
-        return (int) this.hashMap.get(id);
+        if(hasValue(id)) return (int) this.hashMap.get(id);
+        else return 0;
     }
 
     public double getDouble(Object id){
-        hasValue(id);
-        return (double) this.hashMap.get(id);
+        if(hasValue(id)) return (double) this.hashMap.get(id);
+        else return 0;
     }
 
     public void saveHashMap(){
