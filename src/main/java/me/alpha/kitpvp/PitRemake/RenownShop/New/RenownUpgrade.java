@@ -11,10 +11,13 @@ import org.bukkit.inventory.ItemStack;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.IntegerHelper.integerToRoman;
@@ -93,7 +96,44 @@ public abstract class RenownUpgrade extends DataStore {
 
         setLore(lore.replaceAll("[\\[\\]]*", ""));
 
-        return colorCode(lore);
+        /*
+        List<String> strings = new ArrayList<String>();
+        int index = 0;
+        while (index < lore.length()) {
+            if(lore.charAt(index) != ' '){
+                continue;
+            }
+            strings.add(lore.substring(index, Math.min(index + 28,lore.length())));
+            index += 28;
+        }
+
+
+
+
+        String result = strings.stream()
+                .map(n -> String.valueOf(n))
+                .collect(Collectors.joining("\n", "", ""));
+
+         */
+
+        StringBuilder result = new StringBuilder();
+
+        StringBuilder current = new StringBuilder();
+
+        for(int i = 0; i < lore.length(); i++){
+            if(lore.charAt(i) != ' ' && !(i-28>=28)){
+                current.append(String.valueOf(lore.charAt(i)));
+                continue;
+            }
+
+            current.append(String.valueOf(lore.charAt(i)));
+
+            Bukkit.broadcastMessage(String.valueOf(lore.charAt(i)));
+            result.append(current);
+            current = new StringBuilder();
+        }
+
+        return colorCode(String.valueOf(result));
     }
 
     public void setLore(String lore){
