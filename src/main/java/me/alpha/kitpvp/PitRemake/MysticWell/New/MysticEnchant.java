@@ -26,11 +26,26 @@ public abstract class MysticEnchant {
     private String lore = "";
     private String title = "";
     private String refID = "";
+    private List<RegisterEvent> registerEvents = new ArrayList<>();
 
     public abstract void DamageEvent(ReduxDamageEvent event);
     public abstract void DeathEvent(ReduxDeathEvent event);
     public abstract void BowEvent(ReduxBowEvent event);
     public abstract void ArmorEvent(ArmorEquipEvent event);
+
+    public MysticEnchant (){
+        /*
+        Example of required inputs
+
+        this.setRefID("sweaty");
+        this.setTitle("Sweaty");
+        this.setLore("&7Increase the streak XP bonus by &b[@lvl@*20]%&7. +[@lvl@*50] max &bXP &7on kill.");
+        this.setMysticType(MysticType.ALL);
+        this.setEnchantGeneral(EnchantGeneral.UNCOMMON);
+        this.addEventListener(RegisterEvent.REDUX_DEATH_EVENT);
+
+         */
+    }
 
     public boolean isEnchant(ItemStack itemStack){
         if(itemStack==null ||
@@ -73,24 +88,26 @@ public abstract class MysticEnchant {
 
         setLore(lore.replaceAll("[\\[\\]]*", ""));
 
-        StringBuilder result = new StringBuilder();
+        String result = "";
+        String construct = "";
+        int lineIndex = 0;
 
-        StringBuilder current = new StringBuilder();
 
         for(int i = 0; i < lore.length(); i++){
-            if(lore.charAt(i) != ' ' && !(i-28>=28)){
-                current.append(String.valueOf(lore.charAt(i)));
-                continue;
+            char Char = lore.charAt(i);
+            construct+=Char;
+            lineIndex++;
+
+            if(Char == ' ' && lineIndex>=28){
+                result+=construct+"\n" + "&7";
+                construct="";
+                lineIndex=0;
             }
-
-            current.append(String.valueOf(lore.charAt(i)));
-
-            Bukkit.broadcastMessage(String.valueOf(lore.charAt(i)));
-            result.append(current);
-            current = new StringBuilder();
         }
 
-        return colorCode(getTitle(level) + "\n" + result.toString() + "\n&7");
+        if(construct.length()>0) result+=construct;
+
+        return colorCode(getTitle(level) + "\n" + result + "\n&7");
     }
 
     public void setLore(String lore) {
@@ -106,7 +123,8 @@ public abstract class MysticEnchant {
     }
 
     public String getTitle(int level) {
-        return colorCode(getEnchantGeneral().getColorCode() + title + integerToRoman(level));
+        if(level==1) return colorCode(getEnchantGeneral().getColorCode() + title);
+        return colorCode(getEnchantGeneral().getColorCode() + title + " " + integerToRoman(level));
     }
 
     public void setTitle(String title) {
@@ -127,5 +145,14 @@ public abstract class MysticEnchant {
 
     public void setMysticType(MysticType mysticType) {
         this.mysticType = mysticType;
+    }
+
+
+    public List<RegisterEvent> getRegisterEvents() {
+        return registerEvents;
+    }
+
+    public void addEventListener(RegisterEvent registerEvent) {
+        this.registerEvents.add(registerEvent);
     }
 }

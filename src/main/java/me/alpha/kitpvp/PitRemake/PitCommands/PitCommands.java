@@ -19,6 +19,7 @@ import me.alpha.kitpvp.PitRemake.InventoryRefresher.RefreshCore;
 import me.alpha.kitpvp.PitRemake.ItemStacks.enchants;
 import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.MysticWell.MysticWellGUI;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.EnchantMechanic;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.FreshPants;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticBow;
 import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
@@ -202,10 +203,19 @@ public class PitCommands implements CommandExecutor {
         player.isOp()){
 
             try {
+                player.setItemInHand(EnchantMechanic.enchantWithRandom(player.getItemInHand()));
+            } catch (ScriptException e) {
+                throw new RuntimeException(e);
+            }
+
+            /*
+            try {
                 RenownAbilities.testAllClass(player);
             } catch (ScriptException e) {
                 throw new RuntimeException(e);
             }
+
+             */
 
             /*
             if(args.length>=2){

@@ -12,6 +12,7 @@ import me.alpha.kitpvp.PitRemake.ItemStacks.itemManager;
 import me.alpha.kitpvp.PitRemake.Leaderboards.Leaderboard;
 import me.alpha.kitpvp.PitRemake.Locations;
 import me.alpha.kitpvp.PitRemake.MapType;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.EnchantMechanic;
 import me.alpha.kitpvp.PitRemake.PitCommands.Stash.StashCore;
 import me.alpha.kitpvp.PitRemake.RenownShop.CookieMonster.MonsterHandler;
 import me.alpha.kitpvp.PitRemake.RenownShop.New.RenownAbilities;
@@ -54,6 +55,9 @@ public class KitPvP extends JavaPlugin {
 
         // Start Database
         //DatabaseConnector.startConnection();
+
+        // Auto register enchants
+        EnchantMechanic.autoRegistry();
 
         // Load Data
         ClassInstances.load();

@@ -11,6 +11,11 @@ public enum MysticType {
     PANT(ImmutableList.of(Material.LEATHER_LEGGINGS,
             Material.LEATHER_CHESTPLATE,
             Material.LEATHER_BOOTS)),
+    ALL(ImmutableList.of(Material.LEATHER_LEGGINGS,
+            Material.LEATHER_CHESTPLATE,
+            Material.LEATHER_BOOTS,
+            Material.BOW,
+            Material.GOLD_SWORD)),
     NONE(ImmutableList.of(Material.AIR));
     private final List<Material> materials;
 

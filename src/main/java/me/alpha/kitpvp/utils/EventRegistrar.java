@@ -12,6 +12,7 @@ import me.alpha.kitpvp.PitRemake.Factions.KingFaction;
 import me.alpha.kitpvp.PitRemake.Fishing.FishingCore;
 import me.alpha.kitpvp.PitRemake.Gems.gemEvents;
 import me.alpha.kitpvp.PitRemake.Heresy.HeresyMenu;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.EnchantMechanic;
 import me.alpha.kitpvp.PitRemake.Perks.KillStreaks.KillStreakCore;
 import me.alpha.kitpvp.PitRemake.Perks.PerkHandler;
 import me.alpha.kitpvp.PitRemake.Perks.gui.KillStreakPerkGUI;
@@ -34,6 +35,7 @@ public class EventRegistrar {
     public static void registerEvents(){
 
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new KillStreakCore(), KitPvP.INSTANCE);
+        KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new EnchantMechanic(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new ChatManager(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new KillStreakPerkGUI(), KitPvP.INSTANCE);
         KitPvP.INSTANCE.getServer().getPluginManager().registerEvents(new ScoreboardCore(), KitPvP.INSTANCE);
