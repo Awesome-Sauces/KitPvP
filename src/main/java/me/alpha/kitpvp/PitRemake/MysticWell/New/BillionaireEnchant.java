@@ -11,7 +11,7 @@ public class BillionaireEnchant extends MysticEnchant{
     public BillionaireEnchant () {
         this.setRefID("billionaire");
         this.setTitle("Billionaire");
-        this.setLore("&7Hits with this sword deal &c[(@lvl@*.5)+.5]x &cdamage &7but cost &6[@lvl@*150]g");
+        this.setLore("&7Hits with this sword deal &c[(1.33 + .34 * (@lvl@-1))-.01]x &cdamage &7but cost &6[@lvl@*150]g");
         this.setMysticType(MysticType.SWORD);
         this.setEnchantGeneral(EnchantGeneral.RARE);
         this.addEventListener(RegisterEvent.REDUX_DAMAGE_EVENT);

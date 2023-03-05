@@ -202,9 +202,18 @@ public class PitCommands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("atest") &&
         player.isOp()){
 
+            if(args.length>=2){
+                try {
+                    Bukkit.broadcastMessage(EnchantMechanic.getEnchant(args[0]).getLore(Integer.parseInt(args[1])));
+                } catch (ScriptException e) {
+                    e.printStackTrace();
+                }
+            }
+
             try {
                 player.setItemInHand(EnchantMechanic.enchantWithRandom(player.getItemInHand()));
             } catch (ScriptException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
 

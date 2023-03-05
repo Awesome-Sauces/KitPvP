@@ -137,8 +137,6 @@ public class EnchantMechanic implements Listener {
         for (String key : nbtCompound.getKeys()){
             int level = nbtCompound.getInteger(key);
 
-            Bukkit.broadcastMessage(key+":"+String.valueOf(level));
-
             lore.addAll(Arrays.asList(Objects.requireNonNull(getEnchant(key)).getLore(level).split("\n")));
         }
 

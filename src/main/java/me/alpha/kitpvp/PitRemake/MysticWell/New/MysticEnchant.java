@@ -12,6 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -72,29 +74,35 @@ public abstract class MysticEnchant {
 
         // Example: [@level@ + 3] will be level + 3 in lore
 
-        setLore(lore.replaceAll("@lvl@", String.valueOf(level)));
+        String tempLore = lore;
+
+        tempLore = tempLore.replaceAll("@lvl@", String.valueOf(level));
 
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("JavaScript");
 
-        Matcher m = Pattern.compile("\\[(.*?)]").matcher(lore);
+        Matcher m = Pattern.compile("\\[(.*?)]").matcher(tempLore);
 
         while (m.find()) {
-            setLore(lore.replace(m.group(),
-                    engine.eval(m.group().
-                                    replaceAll("[\\[\\]]*", "")).
-                            toString()));
+
+            String equation = engine.eval(m.group().
+                    replaceAll("[\\[\\]]*", "")).toString();
+
+            BigDecimal bigDecimal = new BigDecimal(equation).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros();
+
+            tempLore = tempLore.replace(m.group(),
+                    bigDecimal.toPlainString());
         }
 
-        setLore(lore.replaceAll("[\\[\\]]*", ""));
+        tempLore = tempLore.replaceAll("[\\[\\]]*", "");
 
         String result = "";
         String construct = "";
         int lineIndex = 0;
 
 
-        for(int i = 0; i < lore.length(); i++){
-            char Char = lore.charAt(i);
+        for(int i = 0; i < tempLore.length(); i++){
+            char Char = tempLore.charAt(i);
             construct+=Char;
             lineIndex++;
 
