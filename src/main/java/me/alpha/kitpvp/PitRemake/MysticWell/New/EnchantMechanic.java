@@ -37,6 +37,7 @@ public class EnchantMechanic implements Listener {
         registerEnchant(new GoldBumpEnchant());
         registerEnchant(new GoldBoostEnchant());
         registerEnchant(new BillionaireEnchant());
+        registerEnchant(new XpBoostEnchant());
     }
 
     private static Boolean percentChance(double chance) {

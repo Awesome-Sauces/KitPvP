@@ -22,52 +22,44 @@ import static me.alpha.kitpvp.utils.ColorUtil.colorCode;
 import static me.alpha.kitpvp.utils.advancedInventory.ItemMaker;
 
 public class StreakManager {
-    // Set Material to BARRIER when running unless not using custom item
-    public static void GiveUberItems(Player player, ItemStack item, int amount, boolean customItem, Material material){
-        if (customItem){
-            StashCore.safeGiveMultiple(player, item, amount);
-        }else{
-            StashCore.safeGiveMultiple(player, new ItemStack(material), amount);
-        }
-
-    }
 
     public static void Uber(Player player){
-        if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 100){
+        int streak = ClassInstances.streakData.getStreak(player.getUniqueId());
+
+        if(streak >= 100 && streak % 100 == 0){
             ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c100 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
-        }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 200){
-            NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 200 ") + RankColor.getNameColor(player), "");
-            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c200 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
-        }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 300) {
-            NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 300 ") + RankColor.getNameColor(player), "");
-            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c300 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
-        }else if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 400) {
-            NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER 400 ") + RankColor.getNameColor(player), "");
-            ChatManager.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&c&lSTREAK! &7of &c400 &7kills by " + RankColor.getNameColor(player) + ChatColor.stripColor(player.getDisplayName())), player.getWorld());
+                    "&c&lSTREAK! &7of &c"+streak+" &7kills by " + RankColor.getNameColor(player) +
+                            ChatColor.stripColor(player.getDisplayName())), player.getWorld());
+
+            NametagEdit.getApi().setNametag(player, colorCode("&d&lUBER "+streak+" ")
+                    + RankColor.getNameColor(player), "");
         }
 
         UberRewardClaimDeath(player);
-
-        // Player Reaches Uber 400
 
     }
 
     public static void UberRewardClaimDeath(Player player){
         if(Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "uber")){
             if (ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) >= 500){
-                player.setMaxHealth(20);
+
+                if(ClassInstances.extraHearts.hasValue(player.getUniqueId().toString()) &&
+                ClassInstances.extraHearts.getDouble(player.getUniqueId().toString())>0) {
+                    player.setMaxHealth(20 + ((Integer) ClassInstances.
+                            extraHearts.getValue(player.getUniqueId().toString(), 1) * 2));
+                }else player.setMaxHealth(20);
+
                 player.setHealth(player.getMaxHealth());
                 player.removePotionEffect(PotionEffectType.SLOW);
                 player.removePotionEffect(PotionEffectType.POISON);
-                NametagEdit.getApi().setNametag(player, ChatManager.getLevelText(player) + RankColor.getNameColor(player), "");
-                ClassInstances.streakData.setStreak(String.valueOf(player.getUniqueId()), 0);
+
+                NametagEdit.getApi().setNametag(player, ChatManager.getLevelText(player) +
+                        RankColor.getNameColor(player), "");
+
+                ClassInstances.streakData.setStreak(player.getUniqueId().toString(), 0);
+
                 StashCore.safeGive(player, getUberDrop());
-                Location loc = getSpawnLocation(player.getWorld());
-                player.teleport(loc);
+                player.teleport(getSpawnLocation(player.getWorld()));
             }
         }
 
@@ -75,33 +67,31 @@ public class StreakManager {
 
     public static void StreakManager(Player player){
         if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "beastmode")){
-            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) > 49 && ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) < 51){
+            if(ClassInstances.streakData.getStreak(player.getUniqueId().toString()) == 50){
                 NametagEdit.getApi().setNametag(player, colorCode("&a&lBEAST ") + RankColor.getNameColor(player), "");
             }
         }
 
         if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "hermit")){
-            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) > 49 && ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) < 51){
+            if(ClassInstances.streakData.getStreak(player.getUniqueId().toString()) == 50){
                 NametagEdit.getApi().setNametag(player, colorCode("&9&lHERMIT ") + RankColor.getNameColor(player), "");
             }
         }
 
-        if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "overdrive")){
-            NametagEdit.getApi().setNametag(player, colorCode("&c&lOVER ") + RankColor.getNameColor(player), "");
+        if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(player.getUniqueId().toString()), "overdrive")){
+            if(ClassInstances.streakData.getStreak(player.getUniqueId().toString()) == 50){
+                NametagEdit.getApi().setNametag(player, colorCode("&c&lOVER ") + RankColor.getNameColor(player), "");
+            }
         }
 
-        if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "moon")){
-            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) > 99 && ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) < 101){
-
+        if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(player.getUniqueId().toString()), "moon")){
+            if(ClassInstances.streakData.getStreak(player.getUniqueId().toString()) == 100){
                 NametagEdit.getApi().setNametag(player, colorCode("&b&lMOON ") + RankColor.getNameColor(player), "");
-
             }
-        }else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "uber")){
+        }else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(player.getUniqueId().toString()), "uber")){
             Uber(player);
-        }else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(String.valueOf(player.getUniqueId())), "highlander")){
-            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) > 49 &&
-                    ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) < 51){
-
+        }else if (Objects.equals(ClassInstances.megaStreakData.getMegaStreak(player.getUniqueId().toString()), "highlander")){
+            if(ClassInstances.streakData.getStreak(String.valueOf(player.getUniqueId())) == 50){
                 NametagEdit.getApi().setNametag(player, colorCode("&6&lHIGH ") + RankColor.getNameColor(player), "");
             }
         }
