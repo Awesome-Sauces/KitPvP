@@ -98,7 +98,11 @@ public abstract class MysticEnchant {
             construct+=Char;
             lineIndex++;
 
-            if(Char == ' ' && lineIndex>=28){
+            if(Char == '\n'){
+                result+=construct;
+                construct="";
+                lineIndex=0;
+            }else if(Char == ' ' && lineIndex>=32){
                 result+=construct+"\n" + "&7";
                 construct="";
                 lineIndex=0;

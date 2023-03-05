@@ -56,22 +56,30 @@ public class EnchantMechanic implements Listener {
         List<String> lore = new ArrayList<>();
         List<String> enchants = new ArrayList<>(nbtCompound.getKeys());
 
-        boolean skip = false;
+        boolean skip = true;
 
         for(MysticEnchant mysticEnchant : mysticEnchants.values()){
+
             if(mysticEnchant.getMysticType().getMaterials().contains(itemStack.getType())){
-                if(nbtCompound.hasKey(mysticEnchant.getRefID()) && nbtCompound.getInteger(mysticEnchant.getRefID())>=3) {
+                if(nbtCompound.hasKey(mysticEnchant.getRefID())) {
+                    if(nbtCompound.getInteger(mysticEnchant.getRefID())>=3) {
+                        skip = false;
+                    }
+                }else{
                     skip = true;
-                    Bukkit.broadcastMessage("AAA");
                 }
-                if(!skip) validEnchants.add(mysticEnchant);
+
+                if(skip) {
+                    validEnchants.add(mysticEnchant);
+                }
             }
         }
 
         boolean done = true;
 
         while(done) {
-            Bukkit.broadcastMessage("AA");
+            if(validEnchants.isEmpty()) break;
+
             for (MysticEnchant enchant : validEnchants) {
                 if (enchants.contains(enchant.getRefID())) {
                     if (percentChance(enchant.getEnchantGeneral().getRollChance() * 3)) {
@@ -128,6 +136,8 @@ public class EnchantMechanic implements Listener {
 
         for (String key : nbtCompound.getKeys()){
             int level = nbtCompound.getInteger(key);
+
+            Bukkit.broadcastMessage(key+":"+String.valueOf(level));
 
             lore.addAll(Arrays.asList(Objects.requireNonNull(getEnchant(key)).getLore(level).split("\n")));
         }

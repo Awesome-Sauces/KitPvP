@@ -12,7 +12,8 @@ public class SweatyEnchant extends MysticEnchant{
     public SweatyEnchant () {
         this.setRefID("sweaty");
         this.setTitle("Sweaty");
-        this.setLore("&7Increase the streak XP bonus by &b[@lvl@*20]%&7 +[@lvl@*50] max &bXP &7on kill.");
+        this.setLore("&7Earn &b+[@lvl@*20]% XP &7from streak XP\n" +
+                "&7bonus and &b+[@lvl@*50] max XP &7per kill");
         this.setMysticType(MysticType.ALL);
         this.setEnchantGeneral(EnchantGeneral.UNCOMMON);
         this.addEventListener(RegisterEvent.REDUX_DEATH_EVENT);
