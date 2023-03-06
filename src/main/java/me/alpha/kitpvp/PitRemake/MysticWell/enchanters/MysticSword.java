@@ -6,6 +6,7 @@ import me.alpha.kitpvp.ChatManager.RankColor;
 import me.alpha.kitpvp.CustomEvents.ReduxInventoryEvent;
 import me.alpha.kitpvp.Data.ClassInstances;
 import me.alpha.kitpvp.PitRemake.Scoreboard.ScoreboardCore;
+import me.alpha.kitpvp.utils.EnchantSound;
 import me.alpha.kitpvp.utils.Sounds;
 import me.alpha.kitpvp.utils.advancedInventory;
 import org.bukkit.Bukkit;
@@ -458,22 +459,31 @@ public class MysticSword {
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
                     +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
+            new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(level), true);
         }else if(enchant.contains("perun")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
                     +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
+            new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(level), true);
         }else if(enchant.contains("executioner")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
                     +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
+            new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(level), true);
         }else if(enchant.contains("gamble")){
             Sounds.PRESTIGE.play(player);
             hoverText(ChatColor.translateAlternateColorCodes('&', "&d&lRARE! "
                     +  RankColor.getNameColor(player) +
                     player.getDisplayName() + ChatColor.GRAY + " created " + "&cTier " + integerToRoman(level) + " Sword&7, gg!"), compileListToString(lore, colorCode("&cTier " + integerToRoman(level) + " Sword"), true));
+
+            new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(level), true);
+        }else{
+            new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(level), false);
         }
+
+
     }
 
     public static String getEnchantTitle(String enchant, int tier){

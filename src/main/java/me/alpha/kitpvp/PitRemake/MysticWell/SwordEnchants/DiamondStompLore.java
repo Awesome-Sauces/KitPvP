@@ -20,7 +20,7 @@ public class DiamondStompLore extends PitEnchant {
                 event.getAttacker().getPlayerObject().getItemInHand()!=null){
             NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
 
-            if(!item.hasKey("combodamage")) return;
+            if(!item.hasKey("diamondstomp")) return;
 
 
         }else if(!CitizensHelper.isNPC(event.getAttacker().getPlayerObject()) &&
@@ -28,7 +28,7 @@ public class DiamondStompLore extends PitEnchant {
         else if(CitizensHelper.isNPC(event.getAttacker().getPlayerObject())) return;
 
         NBTItem item = new NBTItem(event.getAttacker().getPlayerObject().getItemInHand());
-        int level = item.getInteger("combodamage");
+        int level = item.getInteger("diamondstomp");
 
         double multiplier = 0;
 

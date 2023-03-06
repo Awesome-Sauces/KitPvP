@@ -6,11 +6,19 @@ import me.alpha.kitpvp.CustomEvents.ArmorEvents.ArmorEquipEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
-import me.alpha.kitpvp.PitRemake.MysticWell.enchanters.MysticSword;
-import org.bukkit.Bukkit;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.BowEnchants.*;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.ResourceEnchants.GoldBoostEnchant;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.ResourceEnchants.GoldBumpEnchant;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.ResourceEnchants.SweatyEnchant;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.ResourceEnchants.XpBoostEnchant;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.SwordEnchants.*;
+import me.alpha.kitpvp.utils.EnchantSound;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -33,18 +41,46 @@ public class EnchantMechanic implements Listener {
     }
 
     public static void autoRegistry(){
+        // Resource Enchants
         registerEnchant(new SweatyEnchant());
         registerEnchant(new GoldBumpEnchant());
         registerEnchant(new GoldBoostEnchant());
-        registerEnchant(new BillionaireEnchant());
         registerEnchant(new XpBoostEnchant());
+
+        // Sword Enchants
+        registerEnchant(new BillionaireEnchant());
+        registerEnchant(new PerunEnchant());
+        registerEnchant(new GambleEnchant());
+        registerEnchant(new ExecutionerEnchant());
+
+        registerEnchant(new BeatTheSpammerEnchant());
+        registerEnchant(new BerserkerEnchant());
+        registerEnchant(new BountyReaperEnchant());
+        registerEnchant(new ComboDamageEnchant());
+        registerEnchant(new ComboXpEnchant());
+        registerEnchant(new CriticallyRichEnchant());
+        registerEnchant(new DiamondStompEnchant());
+
+        // Bow Enchants
+        registerEnchant(new ArrowArmoryEnchant());
+        registerEnchant(new ExplosiveEnchant());
+        registerEnchant(new FasterThanTheirShadowEnchant());
+        registerEnchant(new FletchingEnchant());
+        registerEnchant(new JumpSpammerEnchant());
+        registerEnchant(new MegalongBowEnchant());
+        registerEnchant(new ParasiteEnchant());
+        registerEnchant(new PullBowEnchant());
+        registerEnchant(new SprintDrainEnchant());
+        registerEnchant(new TelebowEnchant());
+        registerEnchant(new VolleyEnchant());
+        registerEnchant(new WaspEnchant());
     }
 
     private static Boolean percentChance(double chance) {
         return Math.random() <= chance;
     }
 
-    public static ItemStack enchantWithRandom(ItemStack itemStack) throws ScriptException {
+    public static ItemStack enchantWithRandom(Player player, ItemStack itemStack) throws ScriptException {
         if(itemStack == null) return itemStack;
 
         List<MysticEnchant> validEnchants = new ArrayList<>();
@@ -52,12 +88,17 @@ public class EnchantMechanic implements Listener {
         NBTItem nbtItem = new NBTItem(itemStack);
         //nbtItem.setInteger("mysticTier", tier);
 
+        if(nbtItem.hasKey("mysticTier")) nbtItem.setInteger("mysticTier", Math.min(3, nbtItem.getInteger("mysticTier")));
+        else nbtItem.setInteger("mysticTier", 1);
+
         NBTCompound nbtCompound = nbtItem.getOrCreateCompound("enchants");
 
         List<String> lore = new ArrayList<>();
         List<String> enchants = new ArrayList<>(nbtCompound.getKeys());
 
         boolean skip = true;
+
+        String finalEnchant = "";
 
         for(MysticEnchant mysticEnchant : mysticEnchants.values()){
 
@@ -83,17 +124,15 @@ public class EnchantMechanic implements Listener {
 
             for (MysticEnchant enchant : validEnchants) {
                 if (enchants.contains(enchant.getRefID())) {
-                    if (percentChance(enchant.getEnchantGeneral().getRollChance() * 3)) {
+                    if (percentChance(enchant.getEnchantGeneral().getRollChance() * 1.25)) {
                         while (true) {
                             if (percentChance(.50)) {
+                                finalEnchant = enchant.getRefID();
                                 nbtCompound.setInteger(enchant.getRefID(), Math.min(3, nbtCompound.getInteger(enchant.getRefID()) + 1));
                                 done = false;
                                 break;
-                            } else if (percentChance(.20)) {
-                                nbtCompound.setInteger(enchant.getRefID(), Math.min(3, nbtCompound.getInteger(enchant.getRefID()) + 3));
-                                done = false;
-                                break;
-                            } else if (percentChance(.30)) {
+                            } else if (percentChance(.15)) {
+                                finalEnchant = enchant.getRefID();
                                 nbtCompound.setInteger(enchant.getRefID(), Math.min(3, nbtCompound.getInteger(enchant.getRefID()) + 2));
                                 done = false;
                                 break;
@@ -103,15 +142,18 @@ public class EnchantMechanic implements Listener {
                 } else if (percentChance(enchant.getEnchantGeneral().getRollChance())) {
                     if (percentChance(enchant.getEnchantGeneral().getRollChance())) {
                         while (true) {
-                            if (percentChance(.25)) {
+                            if (percentChance(.35)) {
+                                finalEnchant = enchant.getRefID();
                                 nbtCompound.setInteger(enchant.getRefID(), 1);
                                 done = false;
                                 break;
-                            } else if (percentChance(.15)) {
+                            } else if (percentChance(.20)) {
+                                finalEnchant = enchant.getRefID();
                                 nbtCompound.setInteger(enchant.getRefID(), 2);
                                 done = false;
                                 break;
                             } else if (percentChance(.05)) {
+                                finalEnchant = enchant.getRefID();
                                 nbtCompound.setInteger(enchant.getRefID(), 3);
                                 done = false;
                                 break;
@@ -121,6 +163,8 @@ public class EnchantMechanic implements Listener {
                 }
             }
         }
+
+        if(!Objects.equals(finalEnchant, "")) new EnchantSound(player, player.getLocation()).play(EnchantSound.Tier.getTier(nbtItem.getInteger("mysticTier")), Objects.requireNonNull(getEnchant(finalEnchant)).getEnchantGeneral().equals(EnchantGeneral.RARE));
 
         ItemMeta itemMeta = nbtItem.getItem().getItemMeta();
 
@@ -177,5 +221,17 @@ public class EnchantMechanic implements Listener {
     public void ArmorEvent(ArmorEquipEvent event) {
         for(MysticEnchant enchant : mysticEnchants.values()) if(enchant.getRegisterEvents()
                 .contains(RegisterEvent.ARMOR_EQUIP_EVENT)) enchant.ArmorEvent(event);
+    }
+
+    @EventHandler
+    public void ShootEvent(EntityShootBowEvent event) {
+        for(MysticEnchant enchant : mysticEnchants.values()) if(enchant.getRegisterEvents()
+                .contains(RegisterEvent.ARROW_SHOOT_EVENT)) enchant.ShootEvent(event);
+    }
+
+    @EventHandler
+    public void ArrowHitEvent(ProjectileHitEvent event) {
+        for(MysticEnchant enchant : mysticEnchants.values()) if(enchant.getRegisterEvents()
+                .contains(RegisterEvent.ARROW_HIT_EVENT)) enchant.ArrowHitEvent(event);
     }
 }

@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 import static me.alpha.kitpvp.PitRemake.ItemStacks.tebexItems.getPlayer;
-import static me.alpha.kitpvp.PitRemake.StreakManager.StreakManager.GiveUberItems;
 import static me.alpha.kitpvp.utils.advancedInventory.DyeMaker;
 import static me.alpha.kitpvp.utils.advancedInventory.ItemMaker;
 
@@ -73,9 +72,7 @@ public class TebexSystem {
         switch (int_random){
             case 0:
             case 1:
-                GiveUberItems(getPlayer(player), Midnight_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Crimson_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Strawberry_Dye, 7, true, null);
+
                 Bukkit.broadcastMessage(ChatColor.GOLD + player + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.DARK_GRAY + "Midnight Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.RED + "Crimson Dye");
@@ -86,18 +83,13 @@ public class TebexSystem {
             case 4:
             case 5:
             case 6:
-                GiveUberItems(getPlayer(player), Lemon_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Tangerine_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Prickly_Dye, 7, true, null);
                 Bukkit.broadcastMessage(ChatColor.GOLD + player + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.GOLD + "Tangerine Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "Lemon Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.DARK_AQUA + "Sapphire Dye");
                 break;
             default:
-                GiveUberItems(getPlayer(player), Strawberry_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Lemon_Dye, 7, true, null);
-                GiveUberItems(getPlayer(player), Sapphire_Dye, 7, true, null);
+
                 Bukkit.broadcastMessage(ChatColor.GOLD + player + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.LIGHT_PURPLE + "Strawberry Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "Lemon Dye");
@@ -147,9 +139,7 @@ public class TebexSystem {
         switch (int_random){
             case 0:
             case 1:
-                GiveUberItems(player, Midnight_Dye, 7, true, null);
-                GiveUberItems(player, Crimson_Dye, 7, true, null);
-                GiveUberItems(player, Strawberry_Dye, 7, true, null);
+
                 Bukkit.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.DARK_GRAY + "Midnight Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.RED + "Crimson Dye");
@@ -160,18 +150,13 @@ public class TebexSystem {
             case 4:
             case 5:
             case 6:
-                GiveUberItems(player, Lemon_Dye, 7, true, null);
-                GiveUberItems(player, Tangerine_Dye, 7, true, null);
-                GiveUberItems(player, Prickly_Dye, 7, true, null);
+
                 Bukkit.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.GOLD + "Tangerine Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "Lemon Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.DARK_AQUA + "Sapphire Dye");
                 break;
             default:
-                GiveUberItems(player, Strawberry_Dye, 7, true, null);
-                GiveUberItems(player, Lemon_Dye, 7, true, null);
-                GiveUberItems(player, Sapphire_Dye, 7, true, null);
                 Bukkit.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + " bought Colorful boxers and received:");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.LIGHT_PURPLE + "Strawberry Dye");
                 Bukkit.broadcastMessage(ChatColor.GRAY + "- " + ChatColor.YELLOW + "Lemon Dye");

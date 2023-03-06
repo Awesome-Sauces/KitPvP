@@ -211,7 +211,7 @@ public class PitCommands implements CommandExecutor {
             }
 
             try {
-                player.setItemInHand(EnchantMechanic.enchantWithRandom(player.getItemInHand()));
+                player.setItemInHand(EnchantMechanic.enchantWithRandom(player, player.getItemInHand()));
             } catch (ScriptException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

@@ -5,8 +5,11 @@ import me.alpha.kitpvp.CustomEvents.ArmorEvents.ArmorEquipEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
+import me.alpha.kitpvp.utils.IntegerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.script.ScriptEngine;
@@ -34,6 +37,8 @@ public abstract class MysticEnchant {
     public abstract void DeathEvent(ReduxDeathEvent event);
     public abstract void BowEvent(ReduxBowEvent event);
     public abstract void ArmorEvent(ArmorEquipEvent event);
+    public abstract void ShootEvent(EntityShootBowEvent event);
+    public abstract void ArrowHitEvent(ProjectileHitEvent event);
 
     public MysticEnchant (){
         /*
@@ -96,6 +101,8 @@ public abstract class MysticEnchant {
 
         tempLore = tempLore.replaceAll("[\\[\\]]*", "");
 
+        tempLore = romanNumeral(tempLore);
+
         String result = "";
         String construct = "";
         int lineIndex = 0;
@@ -120,6 +127,62 @@ public abstract class MysticEnchant {
         if(construct.length()>0) result+=construct;
 
         return colorCode(getTitle(level) + "\n" + result + "\n&7");
+    }
+
+    public static String romanNumeral(String str) {
+
+        String tempString = "";
+
+        List<Character> characters = new ArrayList<>();
+
+        characters.add('r');
+        characters.add('o');
+        characters.add('m');
+        characters.add('a');
+        characters.add('n');
+        characters.add('(');
+        characters.add(')');
+
+        characters.add('0');
+        characters.add('1');
+        characters.add('2');
+        characters.add('3');
+        characters.add('4');
+        characters.add('5');
+        characters.add('6');
+        characters.add('7');
+        characters.add('8');
+        characters.add('9');
+
+        for(int i = 0; i < str.length(); i++){
+            char Char = str.charAt(i);
+
+            if(Char == ')'){
+                if(tempString.contains("roman")){
+                    tempString+=Char;
+
+                    Matcher m = Pattern.compile("\\((.*?)\\)").matcher(tempString);
+
+                    while (m.find()) {
+
+                        String found = "roman\\("+m.group(1)+"\\)";
+
+                        if(m.group(1).length()>0) str = str.replaceAll(found, IntegerHelper.integerToRoman(Integer.parseInt(m.group(1))).toString());
+                    }
+
+                    tempString="";
+
+                    continue;
+                }
+            }
+
+            if(characters.contains(Char)){
+                tempString+=Char;
+            }
+
+        }
+
+        return str;
     }
 
     public void setLore(String lore) {

@@ -1,12 +1,18 @@
-package me.alpha.kitpvp.PitRemake.MysticWell.New;
+package me.alpha.kitpvp.PitRemake.MysticWell.New.SwordEnchants;
 
 import me.alpha.kitpvp.CustomEvents.ArmorEvents.ArmorEquipEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxBowEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDamageEvent;
 import me.alpha.kitpvp.CustomEvents.ReduxDeathEvent;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.EnchantGeneral;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.MysticEnchant;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.MysticType;
+import me.alpha.kitpvp.PitRemake.MysticWell.New.RegisterEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 
-public class BillionaireEnchant extends MysticEnchant{
+public class BillionaireEnchant extends MysticEnchant {
 
     public BillionaireEnchant () {
         this.setRefID("billionaire");
@@ -34,6 +40,16 @@ public class BillionaireEnchant extends MysticEnchant{
 
     @Override
     public void ArmorEvent(ArmorEquipEvent event) {
+
+    }
+
+    @Override
+    public void ShootEvent(EntityShootBowEvent event) {
+
+    }
+
+    @Override
+    public void ArrowHitEvent(ProjectileHitEvent event) {
 
     }
 }
